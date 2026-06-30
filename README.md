@@ -12,6 +12,9 @@
 > 📌 **처음 설정하시나요?** → [docs/SETUP.md](docs/SETUP.md) 에 사용자가 해야 할
 > 단계(GitHub Pages 활성화·시크릿 등록·애드센스·검색엔진 등록·블로거 연동·도메인)가
 > 순서대로 정리돼 있습니다.
+>
+> 🦴 **전체 구조 보기** → [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (데이터 흐름·디렉터리·채널·자동화)
+> · 뼈대 상태 점검: `npm run check` (설정·콘텐츠·산출물·SEO/GEO·채널 준비도 리포트)
 
 ```
 config/

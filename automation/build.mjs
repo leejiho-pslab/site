@@ -285,6 +285,22 @@ function buildStaticPages() {
     </article>` +
     footer();
   write("privacy/index.html", privacy);
+
+  // 커스텀 404 (GitHub Pages 가 미존재 경로에 자동 사용)
+  const chips = site.categories
+    .map((c) => `<a class="chip" href="${url(`/category/${c.slug}/`)}">${esc(c.name)}</a>`)
+    .join("");
+  const notFound =
+    head({ title: "페이지를 찾을 수 없습니다 (404)", description: "요청하신 페이지를 찾을 수 없습니다.", canonical: absUrl("/404.html") }) +
+    header() +
+    `<article class="post" style="text-align:center">
+      <h1 style="font-size:64px;margin:20px 0 0">404</h1>
+      <p>요청하신 페이지를 찾을 수 없습니다.</p>
+      <p><a href="${url("/")}">홈으로 돌아가기</a></p>
+      <div class="chips" style="justify-content:center;margin-top:24px">${chips}</div>
+    </article>` +
+    footer();
+  write("404.html", notFound);
 }
 
 // ---------------- SEO 산출물 ----------------
