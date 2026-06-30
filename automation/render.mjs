@@ -96,6 +96,8 @@ gtag('js',new Date());gtag('config','${esc(ga)}');</script>`;
     out += `\n<meta name="google-site-verification" content="${esc(site.analytics.googleSiteVerification)}">`;
   if (site.analytics.naverWebmaster)
     out += `\n<meta name="naver-site-verification" content="${esc(site.analytics.naverWebmaster)}">`;
+  if (site.analytics.bingVerification)
+    out += `\n<meta name="msvalidate.01" content="${esc(site.analytics.bingVerification)}">`;
   return out;
 }
 

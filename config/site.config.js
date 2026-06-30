@@ -71,6 +71,7 @@ export const site = {
     ga4: process.env.GA4_ID || "G-Q8SKG9HNXY", // GA4 측정 ID (공개값). 환경변수로 덮어쓰기 가능
     naverWebmaster: process.env.NAVER_SITE_VERIFICATION || "",
     googleSiteVerification: process.env.GOOGLE_SITE_VERIFICATION || "7bAqxRVLGiokcF0CW0NZuIERUL5ztZxXbDwrOulgC5w",
+    bingVerification: process.env.BING_VERIFICATION || "", // Bing msvalidate.01 값
   },
 
   // ---- 브랜드 엔티티 (Organization 스키마 / GEO) ----
