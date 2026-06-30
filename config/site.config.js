@@ -68,7 +68,7 @@ export const site = {
 
   // ---- 분석/검증 ----
   analytics: {
-    ga4: process.env.GA4_ID || "", // 예: G-XXXXXXXXXX
+    ga4: process.env.GA4_ID || "G-Q8SKG9HNXY", // GA4 측정 ID (공개값). 환경변수로 덮어쓰기 가능
     naverWebmaster: process.env.NAVER_SITE_VERIFICATION || "",
     googleSiteVerification: process.env.GOOGLE_SITE_VERIFICATION || "",
   },
