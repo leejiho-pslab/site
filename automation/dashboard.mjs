@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { site } from "../config/site.config.js";
-import { PUBLIC_DIR, ROOT, ensureDir, loadPosts, readJson, todayKST } from "./lib.mjs";
+import { PUBLIC_DIR, ROOT, ensureDir, loadPosts, readJson, todayKST, nowKST } from "./lib.mjs";
 import { runAudit } from "./audit.mjs";
 import { pickTopics } from "./topic-picker.mjs";
 import { listTopicsForDashboard, editorialNotes } from "./requests.mjs";
@@ -75,10 +75,18 @@ function collect() {
   }));
   const perRun = site.publishing.postsPerRun || 1;
   // 발행 예정: 운영자 요청 먼저, 그다음 시즌
-  const plan = [...userPending, ...seasonalPreview].slice(0, 10).map((t, i) => ({
-    ...t,
-    when: i < perRun ? "다음 발행" : "예정",
-  }));
+  // 발행 스케줄: 매일 cron(08:00 KST), 1회 perRun편 → 예정일 산정
+  const base = nowKST();
+  const plan = [...userPending, ...seasonalPreview].slice(0, 10).map((t, i) => {
+    const dayOffset = Math.floor(i / perRun) + 1; // 1 = 다음 발행일
+    const dt = new Date(base.getTime() + dayOffset * 86400000);
+    return {
+      ...t,
+      when: i < perRun ? "다음 발행" : "예정",
+      date: dt.toISOString().slice(0, 10),
+      keywords: t.keywords || [],
+    };
+  });
 
   const gh = site.github || {};
   const editUrl = `https://github.com/${gh.repo}/edit/${gh.branch}/config/requests.json`;
@@ -89,7 +97,7 @@ function collect() {
   const hasVal = (v) => !!(v && !String(v).includes("XXXX"));
   const mapPost = (p) => ({
     title: p.title, date: p.date, category: p.category, path: p.path,
-    blogger: !!p.published?.blogger,
+    slug: p.slug, blogger: !!p.published?.blogger,
   });
   const sitePosts = posts.filter((p) => p.channels?.site !== false);
   const bloggerPosts = posts.filter((p) => p.channels?.blogger);
@@ -208,14 +216,26 @@ function bars(obj, nameFn) {
     ).join("");
 }
 
-// 글 목록 테이블 행
+// 글 목록 테이블 행 (원고 다운로드 포함)
 function postRows(posts, showBlogger) {
-  if (!posts.length) return `<tr><td colspan="${showBlogger ? 4 : 3}" class="mini">발행 글 없음</td></tr>`;
+  const cols = 3 + (showBlogger ? 1 : 0) + 1;
+  if (!posts.length) return `<tr><td colspan="${cols}" class="mini">발행 글 없음</td></tr>`;
   return posts.map((r) =>
     `<tr><td><a href="${esc(site.url + r.path)}" target="_blank">${esc(r.title)}</a></td>
       <td>${esc(catName(r.category))}</td><td>${esc(r.date)}</td>
-      ${showBlogger ? `<td><span class="badge ${r.blogger ? "b-done" : "b-todo"}">${r.blogger ? "발행" : "대기"}</span></td>` : ""}</tr>`
+      ${showBlogger ? `<td><span class="badge ${r.blogger ? "b-done" : "b-todo"}">${r.blogger ? "발행" : "대기"}</span></td>` : ""}
+      <td><a href="drafts/${esc(r.slug)}.md" download>원고 ⬇</a></td></tr>`
   ).join("");
+}
+// 발행 스케줄(예정) 표 — 예정일 + 기획 브리프
+function scheduleTable(plan) {
+  if (!plan.length) return `<div class="mini">예정된 주제가 없습니다.</div>`;
+  return `<table><thead><tr><th>예정일</th><th>제목</th><th>카테고리</th><th>핵심 키워드</th><th>구분</th></tr></thead><tbody>` +
+    plan.map((t) =>
+      `<tr><td>${esc(t.date)}</td><td>${esc(t.title)}</td><td>${esc(catName(t.category))}</td>
+        <td class="d">${esc((t.keywords || []).join(", "))}</td>
+        <td><span class="badge ${t.source === "운영자 요청" ? "b-manual" : "b-auto"}">${esc(t.source)}</span></td></tr>`
+    ).join("") + `</tbody></table>`;
 }
 // 설정/상태 목록
 function setRows(arr) {
@@ -228,6 +248,15 @@ function setRows(arr) {
 function render(d) {
   const p = d.progress;
   const ch = d.channels;
+  // 발행 스케줄 섹션(다운로드 포함) — 채널 공통
+  const planDownloads = `<div class="linkrow">
+    <a href="plan.md" download>📥 기획안 (.md)</a>
+    <a href="plan.csv" download>📥 스케줄 (.csv)</a></div>`;
+  const scheduleSection = (extra = "") => `
+<section><h2>🗓 발행 스케줄 (예정)</h2>
+  <div class="sub">매일 08:00(KST) 자동 발행 기준 예상 일정입니다. 운영자 요청이 시즌 주제보다 먼저 처리됩니다.</div>
+  <div class="card">${scheduleTable(d.plan)}</div>
+  ${planDownloads}${extra}</section>`;
   const catCards = d.categories.map((c) => {
     const pct = c.catTotal ? Math.round((c.catDone / c.catTotal) * 100) : 100;
     const rows = c.items.map((it) => {
@@ -320,6 +349,8 @@ function render(d) {
     <a href="${esc(ch.site.url)}/rss.xml" target="_blank">RSS</a>
   </div></section>
 
+${scheduleSection()}
+
 <section><h2>⚙️ 수익화·분석 설정</h2>
   <div class="card">${setRows(ch.site.settings)}</div>
   <div class="note">미설정 항목은 GitHub <b>Settings → Secrets and variables → Actions → Variables</b> 에 등록하면 자동 반영됩니다. 자세한 절차는 <a href="${esc(d.setupUrl)}" target="_blank">SETUP 가이드</a> 참고.</div></section>
@@ -332,7 +363,7 @@ function render(d) {
   ${catCards}</section>
 
 <section><h2>📰 사이트 발행 글 (${ch.site.count})</h2>
-  <div class="card"><table><thead><tr><th>제목</th><th>카테고리</th><th>게시일</th></tr></thead><tbody>
+  <div class="card"><table><thead><tr><th>제목</th><th>카테고리</th><th>게시일</th><th>원고</th></tr></thead><tbody>
   ${postRows(ch.site.posts, false)}</tbody></table></div></section>`;
 
   // ===== 탭3: 구글 블로거 =====
@@ -346,11 +377,13 @@ function render(d) {
   </div>
   ${ch.blogger.configured ? "" : `<div class="note">아직 연동되지 않았습니다. 아래 4개 Secret 을 등록하고 워크플로우 입력 <code>publish_blogger=true</code>(또는 변수 <code>PUBLISH_BLOGGER=true</code>) 로 두면 자동 발행됩니다. 발급 절차: <a href="${esc(d.setupUrl)}" target="_blank">SETUP STEP 7</a>.</div>`}</section>
 
+${scheduleSection()}
+
 <section><h2>🔑 연동 설정 (Secrets)</h2>
   <div class="card">${setRows(ch.blogger.secrets.map((s) => ({ k: s.k, ok: s.ok, v: s.ok ? "등록됨" : "미등록" })))}</div></section>
 
 <section><h2>📰 블로거 발행 대상 글 (${ch.blogger.posts.length})</h2>
-  <div class="card"><table><thead><tr><th>제목</th><th>카테고리</th><th>게시일</th><th>블로거</th></tr></thead><tbody>
+  <div class="card"><table><thead><tr><th>제목</th><th>카테고리</th><th>게시일</th><th>블로거</th><th>원고</th></tr></thead><tbody>
   ${postRows(ch.blogger.posts, true)}</tbody></table></div></section>`;
 
   // ===== 탭4: 네이버 블로그 =====
@@ -366,6 +399,22 @@ function render(d) {
     2) <b>비공식 자동화</b>(Selenium 등): 네이버 이용약관 위반·계정 차단 위험이 있어 미적용.<br>
     추후 네이버 공식 채널/연동 정책이 열리면 이 채널을 활성화할 수 있도록 구조가 준비돼 있습니다.
   </div></section>
+
+<section><h2>📥 기획안 · 원고 다운로드 (네이버 수동 발행용)</h2>
+  <div class="sub">네이버는 직접 발행해야 하므로, 아래 파일을 받아 네이버 에디터에 붙여넣으세요.</div>
+  <div class="linkrow">
+    <a href="naver-content-pack.md" download>📦 통합 기획안+전체 원고 (.md)</a>
+    <a href="plan.md" download>📥 기획안 (.md)</a>
+    <a href="plan.csv" download>📥 스케줄 (.csv)</a>
+  </div>
+  <div class="note">💡 <b>통합 팩</b>에는 발행 스케줄과 현재까지 작성된 모든 글의 원고가 한 파일에 담겨 있어, 복사·붙여넣기만으로 네이버에 발행할 수 있습니다.</div>
+</section>
+
+${scheduleSection()}
+
+<section><h2>📝 원고 다운로드 (글별)</h2>
+  <div class="card"><table><thead><tr><th>제목</th><th>카테고리</th><th>게시일</th><th>원고</th></tr></thead><tbody>
+  ${postRows(ch.site.posts, false)}</tbody></table></div></section>
 
 <section><h2>🔗 네이버 노출 보조 (적용됨)</h2>
   <div class="card">
@@ -412,12 +461,58 @@ document.addEventListener('DOMContentLoaded',function(){
 </div></body></html>`;
 }
 
+// 발행 스케줄/기획안 → 다운로드용 파일 생성
+function writePlanFiles(dir, plan, generatedAt) {
+  const rows = plan.map((t, i) =>
+    `| ${i + 1} | ${t.date} | ${t.title} | ${catName(t.category)} | ${(t.keywords || []).join(", ")} | ${t.source} |`
+  );
+  const md = `# 발행 기획안 · 스케줄 — ${site.name}\n\n생성일: ${generatedAt} · 매일 08:00(KST) 자동 발행 기준 예상 일정\n\n` +
+    `| # | 예정일 | 제목 | 카테고리 | 핵심 키워드 | 구분 |\n|---|---|---|---|---|---|\n${rows.join("\n")}\n`;
+  fs.writeFileSync(path.join(dir, "plan.md"), md, "utf8");
+
+  const esc = (s) => `"${String(s).replace(/"/g, '""')}"`;
+  const csv = "﻿" + ["순번,예정일,제목,카테고리,핵심키워드,구분"]
+    .concat(plan.map((t, i) =>
+      [i + 1, t.date, t.title, catName(t.category), (t.keywords || []).join(" "), t.source].map(esc).join(",")
+    )).join("\n") + "\n";
+  fs.writeFileSync(path.join(dir, "plan.csv"), csv, "utf8");
+}
+
+// 발행된 글의 원고(.md) — 수동 발행/검토/네이버용 복사
+function writeDrafts(dir, posts) {
+  const draftsDir = path.join(dir, "drafts");
+  ensureDir(draftsDir);
+  for (const p of posts) {
+    const head = `# ${p.title}\n\n> ${p.description || ""}\n\n- 카테고리: ${catName(p.category)}\n- 게시일: ${p.date}\n- 키워드: ${(p.keywords || []).join(", ")}\n\n---\n\n`;
+    fs.writeFileSync(path.join(draftsDir, `${p.slug}.md`), head + (p.body || "").trim() + "\n", "utf8");
+  }
+}
+
+// 네이버용 통합 기획안 팩(스케줄 + 전체 원고를 한 파일로)
+function writeNaverPack(dir, plan, posts) {
+  let out = `# ${site.name} — 네이버 블로그용 기획안 & 원고 모음\n\n생성일: ${todayKST()}\n네이버는 자동 발행 API가 없어, 아래 원고를 복사해 네이버 에디터에 붙여넣어 발행하세요.\n\n`;
+  out += `## 1) 발행 예정 스케줄\n\n| 예정일 | 제목 | 카테고리 | 구분 |\n|---|---|---|---|\n` +
+    plan.map((t) => `| ${t.date} | ${t.title} | ${catName(t.category)} | ${t.source} |`).join("\n") + "\n\n";
+  out += `## 2) 발행 완료 원고 (복사용)\n\n`;
+  for (const p of posts) {
+    out += `\n\n---\n\n### ${p.title}\n\n- 카테고리: ${catName(p.category)} · 게시일: ${p.date}\n- 키워드: ${(p.keywords || []).join(", ")}\n\n${(p.body || "").trim()}\n`;
+  }
+  fs.writeFileSync(path.join(dir, "naver-content-pack.md"), out, "utf8");
+}
+
 export function buildDashboard() {
   const data = collect();
   const dir = path.join(PUBLIC_DIR, "dashboard");
   ensureDir(dir);
   fs.writeFileSync(path.join(dir, "index.html"), render(data), "utf8");
   fs.writeFileSync(path.join(dir, "data.json"), JSON.stringify(data, null, 2), "utf8");
+
+  // 다운로드 산출물 (기획안·스케줄·원고)
+  const posts = loadPosts();
+  writePlanFiles(dir, data.plan, data.generatedAt);
+  writeDrafts(dir, posts);
+  writeNaverPack(dir, data.plan, posts);
+
   console.log(
     `[dashboard] 생성: /dashboard/ — 진척도 ${data.progress.pct}% ` +
     `(자동 ${data.progress.autoPass}/${data.progress.autoTotal}), 발행 ${data.publishing.totalPosts}편`
