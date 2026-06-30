@@ -61,16 +61,6 @@ jobs:
 
       - run: npm ci || npm install
 
-      # 대표(커버) 이미지 생성을 위한 Chromium + 한글 폰트 (실패해도 발행 계속)
-      - name: 이미지 렌더링 환경 설치 (선택)
-        id: imgenv
-        continue-on-error: true
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser || sudo apt-get install -y chromium
-          npm install --no-save pretendard
-          echo "CHROME_BIN=$(command -v chromium-browser || command -v chromium)" >> "$GITHUB_ENV"
-
       - name: 콘텐츠 생성 + 빌드 + (옵션) 블로거 발행
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -111,11 +101,8 @@ jobs:
             echo "커밋할 신규 글 없음"
           fi
 
-      # enablement: true 로 GitHub Pages 를 워크플로우가 자동 활성화
-      # (Settings > Pages 를 수동으로 켜지 않아도 첫 배포 시 자동 설정됨)
+      # 사전에 Settings > Pages > Source = "GitHub Actions" 로 활성화돼 있어야 함
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: public
