@@ -1,0 +1,108 @@
+name: 자동 발행 (생성 → 빌드 → 배포 → 블로거)
+
+# 100% 자동 발행 파이프라인.
+# - 매일 정해진 시각(KST 08:00 = UTC 23:00)에 시즌성 글 생성 후 배포
+# - 수동 실행(workflow_dispatch)도 지원
+# - 코드 푸시 시에도 빌드/배포(글 생성 없이)
+#
+# ⚠️ 사전 설정
+#  1) 저장소 Settings > Pages > Source 를 "GitHub Actions" 로 설정
+#  2) Settings > Secrets and variables > Actions 에 다음 시크릿 등록
+#     - ANTHROPIC_API_KEY        (필수: 글 생성)
+#     - ADSENSE_CLIENT 등 광고 ID (선택: variables 로 등록 권장)
+#     - BLOGGER_BLOG_ID, BLOGGER_CLIENT_ID/SECRET/REFRESH_TOKEN (선택: 블로거 발행)
+#  3) cron 스케줄은 기본 브랜치에 있을 때만 동작함
+
+on:
+  schedule:
+    - cron: "0 23 * * *" # 매일 08:00 KST
+  workflow_dispatch:
+    inputs:
+      posts:
+        description: "이번 실행에서 생성할 글 수"
+        default: "1"
+      generate:
+        description: "글 생성 여부 (false 면 빌드/배포만)"
+        default: "true"
+      publish_blogger:
+        description: "구글 블로거 발행 여부"
+        default: "false"
+  push:
+    branches: ["**"]
+    paths:
+      - "automation/**"
+      - "config/**"
+      - "src/**"
+      - "content/**"
+      - ".github/workflows/**"
+
+permissions:
+  contents: write # 생성된 글을 저장소에 커밋
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages-publish"
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci || npm install
+
+      - name: 콘텐츠 생성 + 빌드 + (옵션) 블로거 발행
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CONTENT_MODEL: ${{ vars.CONTENT_MODEL }}
+          # 사이트/광고/분석 (Repository variables 권장)
+          SITE_URL: ${{ vars.SITE_URL }}
+          SITE_BASE_PATH: ${{ vars.SITE_BASE_PATH }}
+          SITE_CNAME: ${{ vars.SITE_CNAME }}
+          ADSENSE_CLIENT: ${{ vars.ADSENSE_CLIENT }}
+          ADSENSE_SLOT_TOP: ${{ vars.ADSENSE_SLOT_TOP }}
+          ADSENSE_SLOT_INARTICLE: ${{ vars.ADSENSE_SLOT_INARTICLE }}
+          ADSENSE_SLOT_BOTTOM: ${{ vars.ADSENSE_SLOT_BOTTOM }}
+          TABOOLA_PUBLISHER: ${{ vars.TABOOLA_PUBLISHER }}
+          GA4_ID: ${{ vars.GA4_ID }}
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+          NAVER_SITE_VERIFICATION: ${{ vars.NAVER_SITE_VERIFICATION }}
+          # 채널
+          POSTS_PER_RUN: ${{ github.event.inputs.posts || vars.POSTS_PER_RUN || '1' }}
+          GENERATE: ${{ github.event_name == 'push' && 'false' || (github.event.inputs.generate || 'true') }}
+          PUBLISH_BLOGGER: ${{ github.event.inputs.publish_blogger || vars.PUBLISH_BLOGGER || 'false' }}
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
+          BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
+          BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN }}
+        run: node automation/run-all.mjs
+
+      - name: 생성된 글 저장소에 커밋
+        if: env.GENERATE != 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/posts || true
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: 자동 발행 글 추가 ($(date -u +%Y-%m-%d))"
+            git push
+          else
+            echo "커밋할 신규 글 없음"
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - id: deploy
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,108 @@
+# 오늘의 꿀팁 — 생활정보 SEO 수익화 사이트 (100% 자동 발행)
+
+생활정보/꿀팁 니치의 **SEO 최적화 콘텐츠를 자동 생성·발행**하고, 배너 광고
+(애드센스·타뷸라 등)로 수익화하는 정적 사이트 + 자동화 파이프라인입니다.
+
+- **채널**: 자체 사이트(GitHub Pages) + 구글 블로거(Blogger API)
+- **콘텐츠**: 월별 **시즌성/시의성** 주제를 Claude API로 자동 생성
+- **수익화**: AdSense(상단/본문중간/하단), Taboola(추천위젯), 네이버 디스플레이(선택)
+- **자동화**: GitHub Actions 크론으로 생성→빌드→배포→발행까지 무인 운영
+- **네이버 블로그**: 공식 글쓰기 API 부재로 현재 제외 (추후 별도 논의)
+
+```
+config/
+  site.config.js              # 사이트/광고/채널/SEO 전역 설정
+  topics/seasonal-topics.json # 월별 시즌성 주제 풀 (1~12월)
+automation/
+  topic-picker.mjs            # 날짜 기반 시즌 주제 선택
+  generate.mjs                # Claude API 글 생성 → content/posts/*.md
+  build.mjs                   # 마크다운 → public/ 정적 사이트 + SEO 산출물
+  publish-blogger.mjs         # 구글 블로거 발행
+  trend.mjs                   # (선택) 네이버 DataLab 트렌드로 주제 우선순위 보정
+  run-all.mjs                 # 전체 파이프라인 오케스트레이터
+  render.mjs / lib.mjs        # 렌더링/유틸
+src/styles/main.css           # 사이트 스타일
+content/posts/*.md            # 생성된 글 (frontmatter + 본문)
+public/                       # 빌드 결과물 (배포 대상, git 미추적)
+.github/workflows/publish.yml # 자동 발행 워크플로우
+```
+
+## 빠른 시작 (로컬)
+
+```bash
+npm install
+cp .env.example .env        # 값 채우기 (최소 ANTHROPIC_API_KEY)
+
+npm run topic               # 오늘 뽑힐 시즌 주제 미리보기
+npm run generate            # 글 1편 자동 생성 (ANTHROPIC_API_KEY 필요)
+npm run build               # 정적 사이트 빌드 → public/
+npm run serve               # http://localhost:8080 미리보기
+```
+
+`ANTHROPIC_API_KEY` 없이도 `npm run build`는 동작합니다(샘플 글로 빌드 확인 가능).
+
+## 배포: GitHub Pages 설정
+
+1. 저장소 **Settings → Pages → Source** 를 **"GitHub Actions"** 로 설정
+2. **Settings → Secrets and variables → Actions** 에 값 등록
+   - **Secrets** (민감값): `ANTHROPIC_API_KEY`, (블로거 사용 시) `BLOGGER_*`
+   - **Variables** (공개 가능값): `SITE_URL`, `SITE_BASE_PATH`, `ADSENSE_CLIENT`,
+     `ADSENSE_SLOT_*`, `TABOOLA_PUBLISHER`, `GA4_ID`, `GOOGLE_SITE_VERIFICATION` 등
+3. `publish.yml` 이 **기본 브랜치**에 있어야 크론(매일 08:00 KST)이 동작합니다.
+4. 수동 실행: **Actions → 자동 발행 → Run workflow** (생성 글 수/발행 여부 선택)
+
+> 프로젝트 페이지(`<user>.github.io/site`)는 `SITE_BASE_PATH=/site`.
+> 커스텀 도메인 사용 시 `SITE_CNAME` 설정 + `SITE_BASE_PATH=` (빈 값).
+
+## 수익화 설정
+
+| 네트워크 | 설정 항목 | 위치 |
+| --- | --- | --- |
+| **Google AdSense** | `ADSENSE_CLIENT`, `ADSENSE_SLOT_*` | 상단/본문중간/하단 자동 삽입 |
+| **Taboola** | `TABOOLA_PUBLISHER`, `TABOOLA_PLACEMENT` | 글 하단 추천 위젯 |
+| **네이버 등** | `NAVER_AD_SCRIPT` | 발급 스크립트 raw 삽입 |
+
+- ID가 비어있거나 `XXXX` placeholder면 해당 광고는 렌더링되지 않습니다(빈 슬롯 없음).
+- 본문 중간 광고는 두 번째 소제목(H2) 앞에 자동 삽입됩니다.
+- AdSense 자동광고(`autoAds`)도 기본 활성화되어 있습니다.
+
+## 구글 블로거 연동 (선택)
+
+블로거는 사용자 OAuth2(refresh token)가 필요합니다.
+
+1. Google Cloud Console에서 프로젝트 생성 → **Blogger API v3** 사용 설정
+2. OAuth 클라이언트(데스크톱 앱) 생성 → `client_id`, `client_secret` 확보
+3. `https://www.googleapis.com/auth/blogger` 스코프로 동의 후 **refresh token** 발급
+   (OAuth Playground 또는 일회성 스크립트 사용)
+4. 블로거 관리페이지 URL의 `blogID=` 값이 `BLOGGER_BLOG_ID`
+5. Secrets에 `BLOGGER_CLIENT_ID/SECRET/REFRESH_TOKEN/BLOG_ID` 등록 후
+   워크플로우 입력 `publish_blogger=true` (또는 변수 `PUBLISH_BLOGGER=true`)
+
+발행된 글은 frontmatter `published.blogger: true`로 표시되어 중복 발행을 막습니다.
+
+## 콘텐츠 주제 관리
+
+- `config/topics/seasonal-topics.json` 에 1~12월 주제 풀이 정의돼 있습니다.
+- `topic-picker.mjs` 가 **현재 월 → 다음 달 → 이전 달** 순으로 미발행 주제를 선택합니다.
+- 이미 발행한 제목은 자동 제외(중복 방지).
+- **실시간 트렌드 반영**: `automation/trend.mjs` 가 네이버 DataLab(REST)로 시의성
+  키워드를 끌어와 주제 우선순위를 보정할 수 있습니다(아래 참고).
+
+## 시의성 강화: 네이버 DataLab 트렌드 (선택)
+
+월별 고정 주제 외에 **지금 검색량이 오르는 키워드**를 반영하려면
+네이버 DataLab/검색 오픈API 연동을 사용하세요.
+
+- 발급: 네이버 개발자센터에서 애플리케이션 등록 → `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`
+- `automation/trend.mjs` 가 키 존재 시 트렌드 점수를 계산, 없으면 자동 무시(no-op)
+- 참고: 이 저장소를 운영하는 Claude 세션에서는 NaverSearch MCP 도구
+  (`datalab_search` 등)로 트렌드를 즉석 점검할 수도 있습니다(운영자용).
+
+## 운영 메모 / 주의
+
+- 생성 글은 **사실 확인이 필요한 수치를 단정하지 않도록** 프롬프트가 설계돼 있으나,
+  민감한 제도/요금 정보는 발행 전 검수를 권장합니다.
+- AdSense 정책상 **충분한 분량·독창적 콘텐츠·개인정보처리방침**이 필요하며,
+  본 템플릿은 about/privacy 페이지와 표준 고지를 기본 포함합니다.
+- 무인 자동발행은 품질 관리가 핵심입니다. 초기에는 `POSTS_PER_RUN=1`로 시작하여
+  색인/수익 추이를 보며 늘리는 것을 권장합니다.

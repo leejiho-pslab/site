@@ -1,0 +1,306 @@
+// =============================================================
+//  정적 사이트 빌드
+//  content/posts/*.md  ->  public/ (GitHub Pages 배포 대상)
+//  생성물: 글 페이지, 인덱스, 카테고리, about/privacy,
+//          sitemap.xml, robots.txt, rss.xml, .nojekyll, CNAME
+// =============================================================
+import fs from "node:fs";
+import path from "node:path";
+import { marked } from "marked";
+import { site } from "../config/site.config.js";
+import {
+  ROOT, PUBLIC_DIR, ensureDir, loadPosts, excerpt,
+} from "./lib.mjs";
+import {
+  head, header, footer, url, absUrl,
+  adsenseUnit, taboolaWidget, naverAd,
+  articleJsonLd, breadcrumbJsonLd, faqJsonLd, esc,
+} from "./render.mjs";
+
+marked.setOptions({ mangle: false, headerIds: false, breaks: false });
+
+function write(rel, html) {
+  const out = path.join(PUBLIC_DIR, rel);
+  ensureDir(path.dirname(out));
+  fs.writeFileSync(out, html, "utf8");
+}
+
+function catName(slug) {
+  const c = site.categories.find((x) => x.slug === slug);
+  return c ? c.name : slug;
+}
+
+/** 본문 마크다운을 HTML 로 바꾸고, H2 사이에 본문 중간 광고를 1회 삽입 */
+function renderBody(markdown) {
+  const html = marked.parse(markdown);
+  // 두 번째 <h2> 직전에 인아티클 광고 삽입 (본문이 충분히 길 때)
+  const adUnit = adsenseUnit("inArticle");
+  if (!adUnit) return html;
+  const parts = html.split("<h2");
+  if (parts.length >= 3) {
+    // parts[0] + <h2..#1.. + 광고 + <h2..#2..
+    return parts[0] + "<h2" + parts[1] + adUnit + "<h2" + parts.slice(2).join("<h2");
+  }
+  return html + adUnit;
+}
+
+function buildToc(markdown) {
+  const heads = [...markdown.matchAll(/^##\s+(.+)$/gm)].map((m) => m[1].trim());
+  if (heads.length < 3) return "";
+  const items = heads.map((h, i) => `<li><a href="#h${i}">${esc(h)}</a></li>`).join("");
+  return `<nav class="toc"><strong>목차</strong><ol>${items}</ol></nav>`;
+}
+
+/** H2 에 id 를 부여해 목차 앵커와 연결 */
+function addHeadingIds(html) {
+  let i = -1;
+  return html.replace(/<h2>/g, () => {
+    i += 1;
+    return `<h2 id="h${i}">`;
+  });
+}
+
+// ---------------- 개별 글 ----------------
+function buildPost(post, allPosts) {
+  const canonical = absUrl(post.path);
+  const toc = buildToc(post.body);
+  const bodyHtml = addHeadingIds(renderBody(post.body));
+
+  const related = allPosts
+    .filter((p) => p.path !== post.path && p.category === post.category)
+    .slice(0, 5);
+  const relatedHtml = related.length
+    ? `<section class="related"><h2>함께 보면 좋은 글</h2><ul>${related
+        .map((p) => `<li><a href="${url(p.path)}">${esc(p.title)}</a></li>`)
+        .join("")}</ul></section>`
+    : "";
+
+  const faqHtml =
+    post.faqs && post.faqs.length
+      ? `<section class="related"><h2>자주 묻는 질문</h2>${post.faqs
+          .map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`)
+          .join("")}</section>`
+      : "";
+
+  const jsonld = [
+    articleJsonLd(post),
+    breadcrumbJsonLd([
+      { name: "홈", path: "/" },
+      { name: catName(post.category), path: `/category/${post.category}/` },
+      { name: post.title, path: post.path },
+    ]),
+    faqJsonLd(post.faqs),
+  ]
+    .filter(Boolean)
+    .join("</script>\n<script type=\"application/ld+json\">");
+
+  const html =
+    head({
+      title: post.title,
+      description: post.description,
+      canonical,
+      type: "article",
+      jsonld,
+    }) +
+    header() +
+    `<article class="post">
+      <span class="card cat" style="border:0;padding:0">
+        <a href="${url(`/category/${post.category}/`)}" class="cat">${esc(catName(post.category))}</a>
+      </span>
+      <h1>${esc(post.title)}</h1>
+      <div class="meta">${esc(post.date)} · ${esc(site.author)}</div>
+      ${adsenseUnit("top")}
+      ${toc}
+      ${bodyHtml}
+      ${adsenseUnit("bottom")}
+      ${faqHtml}
+      ${taboolaWidget()}
+      ${naverAd()}
+      ${relatedHtml}
+    </article>` +
+    footer();
+
+  write(path.join(post.path, "index.html"), html);
+}
+
+// ---------------- 목록(카드) ----------------
+function postCard(p) {
+  return `<li class="card">
+    <a href="${url(`/category/${p.category}/`)}" class="cat">${esc(catName(p.category))}</a>
+    <h2><a href="${url(p.path)}">${esc(p.title)}</a></h2>
+    <p class="excerpt">${esc(p.description || excerpt(p.body))}</p>
+    <div class="meta">${esc(p.date)}</div>
+  </li>`;
+}
+
+function buildIndex(posts) {
+  const chips = site.categories
+    .map((c) => `<a class="chip" href="${url(`/category/${c.slug}/`)}">${esc(c.name)}</a>`)
+    .join("");
+  const list = posts.length
+    ? `<ul class="post-list">${posts.map(postCard).join("")}</ul>`
+    : `<p>아직 발행된 글이 없습니다. 곧 새로운 생활정보로 찾아뵙겠습니다.</p>`;
+  const html =
+    head({
+      title: site.name,
+      description: site.description,
+      canonical: absUrl("/"),
+    }) +
+    header() +
+    `<h1 style="font-size:24px">${esc(site.tagline)}</h1>
+     <div class="chips">${chips}</div>
+     ${adsenseUnit("top")}
+     ${list}` +
+    footer();
+  write("index.html", html);
+}
+
+function buildCategories(posts) {
+  for (const c of site.categories) {
+    const items = posts.filter((p) => p.category === c.slug);
+    const list = items.length
+      ? `<ul class="post-list">${items.map(postCard).join("")}</ul>`
+      : `<p>이 카테고리에는 아직 글이 없습니다.</p>`;
+    const html =
+      head({
+        title: `${c.name} 정보 모음`,
+        description: `${c.name} - ${c.desc}`,
+        canonical: absUrl(`/category/${c.slug}/`),
+      }) +
+      header() +
+      `<h1 style="font-size:24px">${esc(c.name)}</h1>
+       <p style="color:var(--muted)">${esc(c.desc)}</p>
+       ${adsenseUnit("top")}
+       ${list}` +
+      footer();
+    write(path.join("category", c.slug, "index.html"), html);
+  }
+}
+
+// ---------------- 정적 페이지 ----------------
+function buildStaticPages() {
+  const about =
+    head({ title: "사이트 소개", description: `${site.name} 소개`, canonical: absUrl("/about/") }) +
+    header() +
+    `<article class="post"><h1>사이트 소개</h1>
+      <p>${esc(site.name)}는 ${esc(site.description)}</p>
+      <p>공공요금·환급·지원금·생활 절약 등 실생활에 바로 쓰는 정보를 쉽고 정확하게 전달하는 것을 목표로 합니다.</p>
+      <h2>운영 원칙</h2>
+      <ul>
+        <li>정확한 정보 제공을 위해 공식 출처 확인을 권장합니다.</li>
+        <li>제도·요금 정보는 변경될 수 있어 최신 공식 안내를 함께 안내합니다.</li>
+        <li>독자에게 도움이 되는 콘텐츠를 최우선으로 합니다.</li>
+      </ul>
+    </article>` +
+    footer();
+  write("about/index.html", about);
+
+  const privacy =
+    head({ title: "개인정보처리방침", description: "개인정보처리방침", canonical: absUrl("/privacy/") }) +
+    header() +
+    `<article class="post"><h1>개인정보처리방침</h1>
+      <p>본 사이트는 이용자의 개인정보를 직접 수집하지 않습니다. 다만 광고 및 분석 서비스 이용을 위해
+         쿠키가 사용될 수 있습니다.</p>
+      <h2>광고 및 쿠키</h2>
+      <p>본 사이트는 Google AdSense 등 제3자 광고를 게재하며, 광고 제공업체는 쿠키를 사용해
+         이용자의 관심사에 기반한 광고를 제공할 수 있습니다. 이용자는 브라우저 설정을 통해 쿠키를
+         거부할 수 있습니다.</p>
+      <h2>광고 게재</h2>
+      <p>Google을 비롯한 제3자 광고 사업자는 쿠키를 사용하여 이용자의 이전 방문 기록에 기반한 광고를
+         게재합니다. 이용자는 <a href="https://www.google.com/settings/ads" rel="nofollow">광고 설정</a>에서
+         맞춤 광고를 해제할 수 있습니다.</p>
+      <h2>분석 도구</h2>
+      <p>본 사이트는 방문 통계 분석을 위해 Google Analytics를 사용할 수 있습니다.</p>
+      <h2>문의</h2>
+      <p>개인정보 관련 문의는 사이트 운영자에게 연락해 주시기 바랍니다.</p>
+    </article>` +
+    footer();
+  write("privacy/index.html", privacy);
+}
+
+// ---------------- SEO 산출물 ----------------
+function buildSitemap(posts) {
+  const urls = [
+    { loc: absUrl("/"), pri: "1.0" },
+    { loc: absUrl("/about/"), pri: "0.3" },
+    { loc: absUrl("/privacy/"), pri: "0.3" },
+    ...site.categories.map((c) => ({ loc: absUrl(`/category/${c.slug}/`), pri: "0.6" })),
+    ...posts.map((p) => ({ loc: absUrl(p.path), pri: "0.8", lastmod: p.updated || p.date })),
+  ];
+  const body = urls
+    .map(
+      (u) =>
+        `<url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ""}<priority>${u.pri}</priority></url>`
+    )
+    .join("\n");
+  write(
+    "sitemap.xml",
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`
+  );
+}
+
+function buildRobots() {
+  write(
+    "robots.txt",
+    `User-agent: *\nAllow: /\n\nSitemap: ${absUrl("/sitemap.xml")}\n`
+  );
+}
+
+function buildRss(posts) {
+  const items = posts
+    .slice(0, 20)
+    .map(
+      (p) => `  <item>
+    <title>${esc(p.title)}</title>
+    <link>${absUrl(p.path)}</link>
+    <guid>${absUrl(p.path)}</guid>
+    <pubDate>${new Date(p.date).toUTCString()}</pubDate>
+    <description>${esc(p.description || excerpt(p.body))}</description>
+  </item>`
+    )
+    .join("\n");
+  write(
+    "rss.xml",
+    `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+  <title>${esc(site.name)}</title>
+  <link>${absUrl("/")}</link>
+  <description>${esc(site.description)}</description>
+  <language>ko</language>
+${items}
+</channel></rss>\n`
+  );
+}
+
+function copyAssets() {
+  ensureDir(path.join(PUBLIC_DIR, "assets"));
+  fs.copyFileSync(
+    path.join(ROOT, "src", "styles", "main.css"),
+    path.join(PUBLIC_DIR, "assets", "main.css")
+  );
+  // GitHub Pages 가 Jekyll 처리를 건너뛰도록
+  fs.writeFileSync(path.join(PUBLIC_DIR, ".nojekyll"), "");
+  // 커스텀 도메인 설정 시 CNAME 생성
+  if (process.env.SITE_CNAME) {
+    fs.writeFileSync(path.join(PUBLIC_DIR, "CNAME"), process.env.SITE_CNAME.trim() + "\n");
+  }
+}
+
+function build() {
+  if (fs.existsSync(PUBLIC_DIR)) fs.rmSync(PUBLIC_DIR, { recursive: true, force: true });
+  ensureDir(PUBLIC_DIR);
+
+  const posts = loadPosts();
+  for (const p of posts) buildPost(p, posts);
+  buildIndex(posts);
+  buildCategories(posts);
+  buildStaticPages();
+  buildSitemap(posts);
+  buildRobots();
+  buildRss(posts);
+  copyAssets();
+
+  console.log(`[build] 완료: 글 ${posts.length}편 + 인덱스/카테고리/SEO 산출물 -> public/`);
+}
+
+build();
