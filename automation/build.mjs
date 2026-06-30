@@ -31,6 +31,13 @@ function catName(slug) {
   return c ? c.name : slug;
 }
 
+// 실제 존재하는 커버 이미지 상대경로 반환(없으면 "")
+function coverFor(post) {
+  if (!post.image) return "";
+  const srcFile = path.join(ROOT, "src", post.image.replace(/^\//, ""));
+  return fs.existsSync(srcFile) ? post.image : "";
+}
+
 /** 본문 마크다운을 HTML 로 바꾸고, H2 사이에 본문 중간 광고를 1회 삽입 */
 function renderBody(markdown) {
   const html = marked.parse(markdown);
@@ -67,6 +74,12 @@ function buildPost(post, allPosts) {
   const toc = buildToc(post.body);
   const bodyHtml = addHeadingIds(renderBody(post.body));
 
+  // 대표(커버) 이미지: src/assets 에 실제 파일이 있을 때만 사용 (깨진 이미지 방지)
+  const coverRel = coverFor(post);
+  const heroImg = coverRel
+    ? `<img class="hero" src="${url(coverRel)}" alt="${esc(post.imageAlt || post.title)}" width="1200" height="630" loading="eager">`
+    : "";
+
   const related = allPosts
     .filter((p) => p.path !== post.path && p.category === post.category)
     .slice(0, 5);
@@ -84,7 +97,7 @@ function buildPost(post, allPosts) {
       : "";
 
   const jsonld = [
-    articleJsonLd(post),
+    articleJsonLd({ ...post, image: coverRel ? absUrl(coverRel) : undefined }),
     breadcrumbJsonLd([
       { name: "홈", path: "/" },
       { name: catName(post.category), path: `/category/${post.category}/` },
@@ -101,6 +114,7 @@ function buildPost(post, allPosts) {
       description: post.description,
       canonical,
       type: "article",
+      image: coverRel ? absUrl(coverRel) : undefined,
       jsonld,
     }) +
     header() +
@@ -112,6 +126,7 @@ function buildPost(post, allPosts) {
       <div class="meta">게시일 ${esc(post.date)}${
         post.updated && post.updated !== post.date ? ` · 최종 검토 ${esc(post.updated)}` : ""
       } · <a href="${url("/author/")}" rel="author">${esc(site.authorProfile?.name || site.author)}</a></div>
+      ${heroImg}
       ${post.summary ? `<blockquote class="summary"><strong>핵심 요약</strong><br>${esc(post.summary)}</blockquote>` : ""}
       ${adsenseUnit("top")}
       ${toc}
@@ -129,7 +144,12 @@ function buildPost(post, allPosts) {
 
 // ---------------- 목록(카드) ----------------
 function postCard(p) {
+  const cover = coverFor(p);
+  const thumb = cover
+    ? `<a href="${url(p.path)}" class="thumb"><img src="${url(cover)}" alt="${esc(p.imageAlt || p.title)}" loading="lazy" width="1200" height="630"></a>`
+    : "";
   return `<li class="card">
+    ${thumb}
     <a href="${url(`/category/${p.category}/`)}" class="cat">${esc(catName(p.category))}</a>
     <h2><a href="${url(p.path)}">${esc(p.title)}</a></h2>
     <p class="excerpt">${esc(p.description || excerpt(p.body))}</p>
@@ -333,9 +353,9 @@ ${recent}
   );
 }
 
-// IndexNow 키 파일 (Bing/Yandex 등 즉시 인덱싱). 키는 환경변수 또는 고정.
+// IndexNow 키 파일 (Bing/Yandex 등 즉시 인덱싱). config.indexNowKey 또는 환경변수.
 function buildIndexNow() {
-  const key = process.env.INDEXNOW_KEY;
+  const key = site.indexNowKey;
   if (!key) return;
   write(`${key}.txt`, key + "\n");
 }
@@ -367,11 +387,17 @@ ${items}
 }
 
 function copyAssets() {
-  ensureDir(path.join(PUBLIC_DIR, "assets"));
+  const destAssets = path.join(PUBLIC_DIR, "assets");
+  ensureDir(destAssets);
   fs.copyFileSync(
     path.join(ROOT, "src", "styles", "main.css"),
-    path.join(PUBLIC_DIR, "assets", "main.css")
+    path.join(destAssets, "main.css")
   );
+  // src/assets/** (로고/OG/파비콘/커버) 전체 복사
+  const srcAssets = path.join(ROOT, "src", "assets");
+  if (fs.existsSync(srcAssets)) {
+    fs.cpSync(srcAssets, destAssets, { recursive: true });
+  }
   // GitHub Pages 가 Jekyll 처리를 건너뛰도록
   fs.writeFileSync(path.join(PUBLIC_DIR, ".nojekyll"), "");
   // 커스텀 도메인 설정 시 CNAME 생성

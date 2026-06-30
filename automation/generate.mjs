@@ -114,6 +114,8 @@ export async function generateOne(topic) {
     tags: a.tags || [],
     slug,
     path: relPath,
+    image: `/assets/covers/${slug}.png`,
+    imageAlt: `${a.title} - ${site.name} 대표 이미지`,
     faqs: a.faqs || [],
     source_topic: topic.title,
     channels: { site: true, blogger: site.channels.blogger.enabled },
@@ -125,6 +127,14 @@ export async function generateOne(topic) {
   const filePath = path.join(POSTS_DIR, fileName);
   fs.writeFileSync(filePath, out, "utf8");
   console.log(`[generate] 저장됨: content/posts/${fileName}`);
+
+  // 대표 커버 이미지 생성 (Chrome 사용 가능 시). 실패해도 발행은 계속.
+  try {
+    const { genCover } = await import("./images.mjs");
+    genCover({ slug, category: topic.category, title: a.title });
+  } catch (e) {
+    console.warn(`[generate] 커버 이미지 생략(Chrome 미가용 가능): ${e.message}`);
+  }
   return filePath;
 }
 

@@ -104,6 +104,23 @@ npm run serve               # http://localhost:8080 미리보기
 - `config/geo-checklist.json`의 각 항목 `status`를 `todo`→`done`(또는 `na`)으로 수정하면
   대시보드 진척도에 반영됩니다.
 
+## 브랜드/대표 이미지 (자동 생성)
+
+로고·기본 OG·파비콘과 글별 대표(커버) 이미지를 headless Chrome로 생성합니다
+(한글은 Pretendard 폰트, 결과 PNG는 `src/assets/`에 커밋).
+
+```bash
+npm run images          # 로고 + 기본 OG + 파비콘 + 모든 글 커버 생성
+node automation/images.mjs brand    # 브랜드 에셋만
+node automation/images.mjs covers   # 글 커버만
+```
+
+- 각 글은 `frontmatter.image`/`imageAlt`로 대표 이미지를 가지며, 빌드 시
+  실제 파일이 있으면 **히어로 이미지 + og:image + 목록 썸네일 + Article 스키마 image**로 사용됩니다(없으면 기본 OG로 폴백, 깨진 이미지 없음).
+- `generate.mjs`는 새 글 생성 시 커버를 자동 생성하려 시도합니다(Chrome 미가용 환경에서는 건너뜀).
+- CI(GitHub Actions)에서 커버까지 자동 생성하려면 워크플로우에 Chrome 설치 스텝을 추가하고
+  `CHROME_BIN`을 지정하세요. (미설정 시 글은 기본 OG로 정상 발행됩니다.)
+
 ## 운영 대시보드 (발행 + SEO/GEO 모니터링)
 
 빌드 시 `public/dashboard/index.html`이 자동 생성됩니다(`noindex`).

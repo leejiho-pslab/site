@@ -122,6 +122,9 @@ export function head({ title, description, canonical, image, type = "website", j
 <meta property="og:locale" content="${site.locale}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="icon" type="image/svg+xml" href="${url("/assets/favicon.svg")}">
+<link rel="icon" type="image/png" href="${url("/assets/favicon.png")}">
+<link rel="apple-touch-icon" href="${url("/assets/favicon.png")}">
 <link rel="alternate" type="application/rss+xml" title="${esc(site.name)}" href="${absUrl("/rss.xml")}">
 <link rel="stylesheet" href="${url("/assets/main.css")}">
 ${analytics()}

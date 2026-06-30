@@ -9,9 +9,9 @@ import { absUrl, url as siteUrl } from "./render.mjs";
 import { site } from "../config/site.config.js";
 
 export async function pingIndexNow(urls) {
-  const key = process.env.INDEXNOW_KEY;
+  const key = site.indexNowKey;
   if (!key) {
-    console.log("[indexnow] INDEXNOW_KEY 없음 — 건너뜀.");
+    console.log("[indexnow] 키 없음 — 건너뜀.");
     return;
   }
   if (!urls || !urls.length) return;

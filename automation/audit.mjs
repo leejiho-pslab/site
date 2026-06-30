@@ -92,14 +92,15 @@ export function runAudit() {
   r = ep((p) => /\*\*[^*]+\*\*/.test(p.body));
   checks.bold_emphasis = { pass: r.pass, detail: r.detail };
 
-  // 이미지가 있으면 모두 alt 필요, 없으면 N/A(경고)
-  const withImg = posts.filter((p) => /!\[/.test(p.body));
-  const imgOk = withImg.every((p) =>
-    [...p.body.matchAll(/!\[([^\]]*)\]/g)].every((m) => m[1].trim().length > 0)
-  );
+  // 렌더된 글 HTML 의 모든 <img> 가 비어있지 않은 alt 를 갖는지 + 이미지 존재 여부
+  const pagesWithImg = htmls.filter((h) => /<img\b/i.test(h.html));
+  const imgTags = htmls.flatMap((h) => h.html.match(/<img\b[^>]*>/gi) || []);
+  const imgAltOk = imgTags.length > 0 && imgTags.every((t) => /\balt\s*=\s*"[^"]+"/i.test(t));
   checks.img_alt = {
-    pass: withImg.length === 0 ? false : imgOk,
-    detail: withImg.length === 0 ? "현재 본문 이미지 없음(이미지 추가 시 ALT 필수)" : `${withImg.length}개 글 이미지 ALT 확인`,
+    pass: imgAltOk,
+    detail: imgTags.length === 0
+      ? "글 이미지 없음(대표 이미지 생성 필요: npm run images)"
+      : `${imgTags.length}개 이미지 모두 ALT 보유 (${pagesWithImg.length}개 글)`,
   };
 
   r = ep((p) => (p.description || "").length > 10);
@@ -121,8 +122,12 @@ export function runAudit() {
   r = ep((p) => /\|.*\|/.test(p.body) || /!\[/.test(p.body));
   checks.visual_format = { pass: r.pass, detail: r.detail + " (표/이미지)" };
 
-  r = ep((p) => /(19|20)\d{2}/.test(p.body) && (/기준/.test(p.body) || externalLinkCount(p.body) > 0));
-  checks.source_cited = { pass: r.pass, detail: r.detail + " (연도+기준/출처)" };
+  // 팩트체킹 가능성: 외부 출처 링크 + (발행연도 또는 출처 표현)
+  r = ep((p) =>
+    externalLinkCount(p.body) >= 1 &&
+    (/(19|20)\d{2}/.test(p.body) || /(기준|출처|고시|따르면|공식)/.test(p.body))
+  );
+  checks.source_cited = { pass: r.pass, detail: r.detail + " (외부출처+연도/출처표현)" };
 
   r = ep((p) => externalLinkCount(p.body) >= 2);
   checks.external_links = { pass: r.pass, detail: r.detail + " (외부링크 2+)" };
@@ -145,9 +150,9 @@ export function runAudit() {
   set("faq_schema", /"@type":"FAQPage"/.test(firstPostHtml), "FAQPage 스키마");
 
   // IndexNow: 키 존재 + 키 파일 생성
-  const inKey = process.env.INDEXNOW_KEY;
+  const inKey = site.indexNowKey;
   const inFile = inKey ? read(`${inKey}.txt`) : null;
-  set("indexnow", !!(inKey && inFile), inKey ? "IndexNow 키 설정됨" : "INDEXNOW_KEY 미설정");
+  set("indexnow", !!(inKey && inFile), inKey ? "IndexNow 키 파일 생성됨" : "키 미설정");
 
   return checks;
 }

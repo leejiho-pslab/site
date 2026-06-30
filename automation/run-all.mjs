@@ -42,8 +42,8 @@ function run(scriptRelPath, label) {
     }
   }
 
-  // 4) IndexNow 인덱싱 요청 (키 있을 때만)
-  if (process.env.INDEXNOW_KEY) {
+  // 4) IndexNow 인덱싱 요청 (키 있을 때만, 기본 키 내장)
+  if (site.indexNowKey) {
     run("automation/indexnow.mjs", "4) IndexNow 인덱싱 요청");
   }
 

@@ -16,6 +16,8 @@ tags:
   - 누진제
 slug: summer-electricity-bill-saving
 path: /posts/summer-electricity-bill-saving/
+image: /assets/covers/summer-electricity-bill-saving.png
+imageAlt: 여름철 전기요금 절약과 에어컨 사용법을 정리한 오늘의 꿀팁 대표 이미지
 faqs:
   - q: 에어컨을 껐다 켰다 하는 게 더 절약되나요?
     a: 인버터 에어컨이라면 잠깐 외출이 아닌 이상 켜두는 편이 유리합니다. 설정 온도에 도달하면 자동으로 소비전력을 낮추기 때문입니다. 다만 2시간 이상 외출한다면 끄는 것이 좋습니다.

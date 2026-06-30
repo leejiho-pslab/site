@@ -10,6 +10,7 @@
     "build": "node automation/build.mjs",
     "dashboard": "node automation/dashboard.mjs",
     "audit": "node automation/audit.mjs",
+    "images": "node automation/images.mjs all",
     "indexnow": "node automation/indexnow.mjs",
     "publish:blogger": "node automation/publish-blogger.mjs",
     "auto": "node automation/run-all.mjs",
