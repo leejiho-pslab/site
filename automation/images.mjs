@@ -169,11 +169,49 @@ export function genCover(post) {
   return out;
 }
 
+// 본문 마크다운에서 H2(##) 소제목 추출
+export function extractHeadings(markdown) {
+  return [...(markdown || "").matchAll(/^##\s+(.+)$/gm)].map((m) => m[1].trim());
+}
+
+// 소제목별 카드 이미지 (본문 내용과 연결되는 이미지 확보용)
+export function genSectionCard(post, heading, idx) {
+  const [c1, c2] = CAT_COLORS[post.category] || CAT_COLORS.money;
+  const grad = `linear-gradient(135deg,${c2} 0%,${c1} 100%)`;
+  const h = String(heading).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const html = `<!doctype html><html><head><meta charset="utf-8"><style>${FF}
+  html,body{margin:0}
+  .bg{position:fixed;inset:0;background:${grad}}
+  .box{position:relative;z-index:1;width:1200px;height:630px;color:#fff;
+    display:flex;flex-direction:column;justify-content:center;padding:80px;box-sizing:border-box}
+  .chip{align-self:flex-start;background:rgba(255,255,255,.22);padding:10px 24px;border-radius:999px;font-size:28px;font-weight:700;margin-bottom:24px}
+  .t{font-weight:900;font-size:70px;line-height:1.25;letter-spacing:-2px;
+     display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .b{position:absolute;bottom:54px;left:80px;font-size:28px;opacity:.9;font-weight:700}
+  </style></head><body><div class="bg"></div><div class="box">
+  <div class="chip">POINT ${idx + 1}</div><div class="t">${h}</div>
+  <div class="b">💡 ${site.name}</div></div></body></html>`;
+  const out = path.join(COVERS, `${post.slug}-s${idx}.png`);
+  shoot(html, 1200, 630, out);
+  return out;
+}
+
+// 한 글의 모든 소제목 카드 생성
+export function genSectionCards(post, headings) {
+  const hs = headings || extractHeadings(post.body);
+  hs.forEach((h, i) => genSectionCard(post, h, i));
+  return hs.length;
+}
+
 function genBrand() { genLogo(); genOgDefault(); genFavicon(); }
 function genCovers() {
   const posts = loadPosts();
-  for (const p of posts) genCover(p);
-  console.log(`[images] 커버 ${posts.length}개 생성 완료`);
+  for (const p of posts) {
+    genCover(p);
+    const n = genSectionCards(p);
+    console.log(`[images] ${p.slug}: 대표 + 소제목 ${n}장`);
+  }
+  console.log(`[images] 커버/섹션 이미지 생성 완료 (${posts.length}글)`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

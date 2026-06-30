@@ -34,12 +34,12 @@ const ARTICLE_TOOL = {
       summary: {
         type: "string",
         description:
-          "도입부 핵심 요약(TL;DR). 글의 핵심 가치와 결론을 압축한 280~320자. Featured Snippet 노출을 노린 한 단락.",
+          "도입부 핵심 요약(TL;DR). 글의 핵심 가치와 결론을 '최상단에' 압축한 280~320자 한 단락. 독자가 이 한 단락만 읽어도 결론을 알 수 있게.",
       },
       body_markdown: {
         type: "string",
         description:
-          "본문(마크다운). 규칙: (1) 첫 문단에 타겟 롱테일 키워드를 자연스럽게 포함. (2) H2(##)·H3(###) 소제목으로 5~7개 섹션. (3) 핵심 수치·결론은 **굵게** 강조. (4) 비교/요건/금액은 마크다운 표로. (5) 신뢰할 수 있는 외부 출처(정부·공공기관 등) 링크를 본문에 최소 2개 [텍스트](https URL) 형식으로 포함. (6) 수치 인용 시 '○○년 ○○ 기준'처럼 출처·시점 명시. (7) '방법'(How to) 단계는 번호 목록으로. (8) 과장·허위 금지, 공식 누리집 확인 권고. 최소 1800자.",
+          "본문(마크다운). 규칙: (1) 첫 문단에 타겟 롱테일 키워드 포함 + 핵심 결론을 먼저 제시(핵심 최상단). (2) ## 소제목 '4개 이상'(5~7개 권장)으로 구성, 각 소제목 첫 문장은 그 섹션 핵심 요약. (3) 핵심 수치·결론 **굵게**. (4) 비교/요건/금액은 표로, 절차는 번호 목록. (5) 정보 출처를 '항상' 명시: 공식 기관명 + [텍스트](https URL) 링크를 본문에 최소 2개, 수치는 '○○년 ○○ 기준'. (6) 사람이 직접 겪은 듯한 자연스러운 어투(예: '저는 ~해봤는데', '막상 해보니')로 서술하되 정확성은 유지, 기계적 나열·과장 금지. (7) 공식 누리집 확인 권고. 최소 1800자. (이미지는 시스템이 소제목마다 자동 삽입하므로 본문에 이미지 마크다운은 넣지 말 것.)",
       },
       faqs: {
         type: "array",
@@ -58,6 +58,9 @@ const ARTICLE_TOOL = {
 
 function buildPrompt(topic, notes) {
   const cat = site.categories.find((c) => c.slug === topic.category);
+  const baseline = (site.editorialBaseline || [])
+    .map((r, i) => `  ${i + 1}. ${r}`)
+    .join("\n");
   const directives = [];
   if (notes) directives.push(`[운영자 공통 편집 지침] ${notes}`);
   if (topic.note) directives.push(`[이 글에 대한 운영자 지시] ${topic.note}`);
@@ -71,6 +74,12 @@ function buildPrompt(topic, notes) {
 [카테고리] ${cat ? cat.name : topic.category} — ${cat ? cat.desc : ""}
 [핵심 키워드] ${(topic.keywords || []).join(", ")}
 [대상 독자] 실생활 정보를 빠르게 얻고 싶은 일반 한국인
+
+[항상 지켜야 할 고정 작성 기준 — 최우선]
+${baseline}
+※ 이미지는 발행 시스템이 대표 이미지와 각 ## 소제목마다 자동 삽입합니다.
+   따라서 본문은 충실한 ## 소제목 4개 이상으로 구성하고, 각 소제목 첫 문장에
+   그 섹션을 한 줄로 요약하는 핵심 문장을 두세요(이미지 캡션·요약으로 활용됩니다).
 ${directiveBlock}
 작성 지침(SEO + GEO 최적화):
 1. 제목은 클릭을 유도하되 과장/낚시 금지. 핵심 롱테일 키워드를 앞쪽에 배치.
@@ -135,12 +144,15 @@ export async function generateOne(topic) {
   fs.writeFileSync(filePath, out, "utf8");
   console.log(`[generate] 저장됨: content/posts/${fileName}`);
 
-  // 대표 커버 이미지 생성 (Chrome 사용 가능 시). 실패해도 발행은 계속.
+  // 대표 + 소제목 카드 이미지 생성 (Chrome 사용 가능 시). 실패해도 발행은 계속.
   try {
-    const { genCover } = await import("./images.mjs");
-    genCover({ slug, category: topic.category, title: a.title });
+    const img = await import("./images.mjs");
+    const post = { slug, category: topic.category, title: a.title, body: a.body_markdown };
+    img.genCover(post);
+    const n = img.genSectionCards(post);
+    console.log(`[generate] 이미지 생성: 대표 + 소제목 ${n}장`);
   } catch (e) {
-    console.warn(`[generate] 커버 이미지 생략(Chrome 미가용 가능): ${e.message}`);
+    console.warn(`[generate] 이미지 생략(Chrome 미가용 가능): ${e.message}`);
   }
   return filePath;
 }

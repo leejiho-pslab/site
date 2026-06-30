@@ -146,7 +146,7 @@ function collect() {
       autoPass, autoTotal, manualDone, manualTotal,
     },
     plan,
-    requests: { notes: myNotes, topics: myTopics, pendingCount: userPending.length },
+    requests: { notes: myNotes, topics: myTopics, pendingCount: userPending.length, baseline: site.editorialBaseline || [] },
     perRun,
     categories,
     publishing: {
@@ -317,7 +317,11 @@ function render(d) {
   <div class="sub"><code>config/requests.json</code> 에서 관리 ·
     <a href="${esc(d.editUrl)}" target="_blank">✏️ 깃허브에서 바로 편집</a> → 저장하면 다음 발행부터 반영됩니다.</div>
   <div class="card">
-    <div class="label">공통 편집 지침 (모든 글에 적용)</div>
+    <div class="label">📌 고정 작성 기준 (모든 글 항상 적용 · 코드 내장)</div>
+    <ol style="margin:6px 0 18px;padding-left:20px">
+      ${(d.requests.baseline || []).map((r) => `<li style="margin:4px 0">${esc(r)}</li>`).join("")}
+    </ol>
+    <div class="label">공통 편집 지침 (운영자 수정 가능)</div>
     <div style="margin:6px 0 16px">${d.requests.notes ? esc(d.requests.notes) : "<span class=mini>아직 없음 — requests.json 의 notes 에 적어주세요. 예: '존댓말, 정부 공식 출처 필수, 표 적극 활용'</span>"}</div>
     <div class="label">요청 주제 (${d.requests.pendingCount}건 대기)</div>
     <table style="margin-top:6px"><thead><tr><th>제목</th><th>카테고리</th><th>상태</th><th>메모</th></tr></thead><tbody>

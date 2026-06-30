@@ -64,6 +64,7 @@ main { padding: 24px 0 48px; }
 
 /* ---- 글 본문 ---- */
 article.post .hero { width: 100%; height: auto; border-radius: var(--radius); margin: 6px 0 18px; aspect-ratio: 1200/630; object-fit: cover; }
+article.post .section { width: 100%; height: auto; border-radius: var(--radius); margin: 14px 0 6px; aspect-ratio: 1200/630; object-fit: cover; }
 article.post h1 { font-size: 28px; line-height: 1.35; margin: 8px 0 6px; }
 article.post .meta { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
 article.post h2 { font-size: 22px; margin: 34px 0 12px; padding-top: 6px; border-top: 2px solid var(--line); }

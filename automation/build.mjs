@@ -68,11 +68,22 @@ function addHeadingIds(html) {
   });
 }
 
+/** 각 H2 소제목 뒤에 소제목 카드 이미지를 삽입(파일이 있을 때만). 본문-연결 이미지 확보. */
+function insertSectionImages(html, post) {
+  return html.replace(/<h2 id="h(\d+)">([\s\S]*?)<\/h2>/g, (m, k, text) => {
+    const rel = `/assets/covers/${post.slug}-s${k}.png`;
+    const srcFile = path.join(ROOT, "src", rel.replace(/^\//, ""));
+    if (!fs.existsSync(srcFile)) return m;
+    const alt = text.replace(/<[^>]+>/g, "").trim();
+    return `${m}<img class="section" src="${url(rel)}" alt="${esc(alt)} - ${esc(post.title)}" loading="lazy" width="1200" height="630">`;
+  });
+}
+
 // ---------------- 개별 글 ----------------
 function buildPost(post, allPosts) {
   const canonical = absUrl(post.path);
   const toc = buildToc(post.body);
-  const bodyHtml = addHeadingIds(renderBody(post.body));
+  const bodyHtml = insertSectionImages(addHeadingIds(renderBody(post.body)), post);
 
   // 대표(커버) 이미지: src/assets 에 실제 파일이 있을 때만 사용 (깨진 이미지 방지)
   const coverRel = coverFor(post);

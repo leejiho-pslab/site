@@ -61,6 +61,20 @@ jobs:
 
       - run: npm ci || npm install
 
+      # 포스팅 이미지(대표+소제목 카드) 생성을 위한 Chrome (실패해도 발행 계속)
+      - name: 이미지용 Chrome 설치 (선택)
+        id: setupchrome
+        continue-on-error: true
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+      - name: 한글 폰트 + CHROME_BIN (선택)
+        if: steps.setupchrome.outcome == 'success'
+        continue-on-error: true
+        run: |
+          npm install --no-save pretendard
+          echo "CHROME_BIN=${{ steps.setupchrome.outputs.chrome-path }}" >> "$GITHUB_ENV"
+
       - name: 콘텐츠 생성 + 빌드 + (옵션) 블로거 발행
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
