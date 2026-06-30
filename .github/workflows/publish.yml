@@ -77,6 +77,7 @@ jobs:
           GA4_ID: ${{ vars.GA4_ID }}
           GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
           NAVER_SITE_VERIFICATION: ${{ vars.NAVER_SITE_VERIFICATION }}
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
           # 채널
           POSTS_PER_RUN: ${{ github.event.inputs.posts || vars.POSTS_PER_RUN || '1' }}
           GENERATE: ${{ github.event_name == 'push' && 'false' || (github.event.inputs.generate || 'true') }}

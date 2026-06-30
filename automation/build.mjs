@@ -9,12 +9,13 @@ import path from "node:path";
 import { marked } from "marked";
 import { site } from "../config/site.config.js";
 import {
-  ROOT, PUBLIC_DIR, ensureDir, loadPosts, excerpt,
+  ROOT, PUBLIC_DIR, ensureDir, loadPosts, excerpt, todayKST,
 } from "./lib.mjs";
+import { buildDashboard } from "./dashboard.mjs";
 import {
   head, header, footer, url, absUrl,
   adsenseUnit, taboolaWidget, naverAd,
-  articleJsonLd, breadcrumbJsonLd, faqJsonLd, esc,
+  articleJsonLd, breadcrumbJsonLd, faqJsonLd, organizationJsonLd, esc,
 } from "./render.mjs";
 
 marked.setOptions({ mangle: false, headerIds: false, breaks: false });
@@ -108,7 +109,10 @@ function buildPost(post, allPosts) {
         <a href="${url(`/category/${post.category}/`)}" class="cat">${esc(catName(post.category))}</a>
       </span>
       <h1>${esc(post.title)}</h1>
-      <div class="meta">${esc(post.date)} · ${esc(site.author)}</div>
+      <div class="meta">게시일 ${esc(post.date)}${
+        post.updated && post.updated !== post.date ? ` · 최종 검토 ${esc(post.updated)}` : ""
+      } · <a href="${url("/author/")}" rel="author">${esc(site.authorProfile?.name || site.author)}</a></div>
+      ${post.summary ? `<blockquote class="summary"><strong>핵심 요약</strong><br>${esc(post.summary)}</blockquote>` : ""}
       ${adsenseUnit("top")}
       ${toc}
       ${bodyHtml}
@@ -145,12 +149,15 @@ function buildIndex(posts) {
       title: site.name,
       description: site.description,
       canonical: absUrl("/"),
+      jsonld: organizationJsonLd(),
     }) +
     header() +
-    `<h1 style="font-size:24px">${esc(site.tagline)}</h1>
-     <div class="chips">${chips}</div>
-     ${adsenseUnit("top")}
-     ${list}` +
+    `<section>
+       <h1 style="font-size:24px">${esc(site.tagline)}</h1>
+       <div class="chips">${chips}</div>
+       ${adsenseUnit("top")}
+       ${list}
+     </section>` +
     footer();
   write("index.html", html);
 }
@@ -195,6 +202,37 @@ function buildStaticPages() {
     footer();
   write("about/index.html", about);
 
+  const ap = site.authorProfile || {};
+  const authorPage =
+    head({
+      title: `${ap.name} - 작성자 소개`,
+      description: ap.bio,
+      canonical: absUrl("/author/"),
+      jsonld: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: ap.name,
+        jobTitle: ap.jobTitle,
+        description: ap.bio,
+        url: absUrl("/author/"),
+        worksFor: { "@type": "Organization", name: site.name },
+        sameAs: ap.sameAs && ap.sameAs.length ? ap.sameAs : undefined,
+      }),
+    }) +
+    header() +
+    `<article class="post"><h1>${esc(ap.name)}</h1>
+      <p class="meta">${esc(ap.jobTitle || "")}</p>
+      <p>${esc(ap.bio || "")}</p>
+      <h2>편집 원칙</h2>
+      <ul>
+        <li>공식 기관(정부·지자체·공공기관) 자료를 우선 확인합니다.</li>
+        <li>제도·요금 등 변동 정보는 기준 시점과 출처를 함께 안내합니다.</li>
+        <li>독자가 바로 활용할 수 있도록 실용성과 정확성을 우선합니다.</li>
+      </ul>
+    </article>` +
+    footer();
+  write("author/index.html", authorPage);
+
   const privacy =
     head({ title: "개인정보처리방침", description: "개인정보처리방침", canonical: absUrl("/privacy/") }) +
     header() +
@@ -220,17 +258,26 @@ function buildStaticPages() {
 
 // ---------------- SEO 산출물 ----------------
 function buildSitemap(posts) {
+  // 모든 URL 에 lastmod 부여 (체크리스트: sitemap <lastmod> 포함)
+  const latest = posts.length ? posts[0].updated || posts[0].date : todayKST();
+  const catLast = (slug) => {
+    const inCat = posts.filter((p) => p.category === slug);
+    return inCat.length ? inCat[0].updated || inCat[0].date : latest;
+  };
   const urls = [
-    { loc: absUrl("/"), pri: "1.0" },
-    { loc: absUrl("/about/"), pri: "0.3" },
-    { loc: absUrl("/privacy/"), pri: "0.3" },
-    ...site.categories.map((c) => ({ loc: absUrl(`/category/${c.slug}/`), pri: "0.6" })),
+    { loc: absUrl("/"), pri: "1.0", lastmod: latest },
+    { loc: absUrl("/about/"), pri: "0.3", lastmod: latest },
+    { loc: absUrl("/author/"), pri: "0.3", lastmod: latest },
+    { loc: absUrl("/privacy/"), pri: "0.3", lastmod: latest },
+    ...site.categories.map((c) => ({
+      loc: absUrl(`/category/${c.slug}/`), pri: "0.6", lastmod: catLast(c.slug),
+    })),
     ...posts.map((p) => ({ loc: absUrl(p.path), pri: "0.8", lastmod: p.updated || p.date })),
   ];
   const body = urls
     .map(
       (u) =>
-        `<url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ""}<priority>${u.pri}</priority></url>`
+        `<url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod><priority>${u.pri}</priority></url>`
     )
     .join("\n");
   write(
@@ -239,11 +286,58 @@ function buildSitemap(posts) {
   );
 }
 
+// AI/LLM 크롤러를 명시적으로 허용 (체크리스트: robots 가 에이전트/LLM 허용)
+const AI_BOTS = [
+  "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-Web",
+  "anthropic-ai", "PerplexityBot", "Perplexity-User", "Google-Extended",
+  "Applebot-Extended", "Bingbot", "CCBot", "Amazonbot", "Bytespider",
+];
 function buildRobots() {
+  const aiBlocks = AI_BOTS.map((b) => `User-agent: ${b}\nAllow: /`).join("\n\n");
   write(
     "robots.txt",
-    `User-agent: *\nAllow: /\n\nSitemap: ${absUrl("/sitemap.xml")}\n`
+    `# 모든 검색/AI 크롤러 허용\nUser-agent: *\nAllow: /\n\n${aiBlocks}\n\nSitemap: ${absUrl(
+      "/sitemap.xml"
+    )}\n`
   );
+}
+
+// llms.txt — LLM 친화 사이트 요약 (GEO 표준). 사이트 핵심/주요 링크 안내.
+function buildLlmsTxt(posts) {
+  const cats = site.categories
+    .map((c) => `- [${c.name}](${absUrl(`/category/${c.slug}/`)}): ${c.desc}`)
+    .join("\n");
+  const recent = posts
+    .slice(0, 15)
+    .map((p) => `- [${p.title}](${absUrl(p.path)}): ${p.description || ""}`)
+    .join("\n");
+  write(
+    "llms.txt",
+    `# ${site.name}
+
+> ${site.description}
+
+${site.name}는 ${site.niche} 분야의 정보를 공식 자료 기반으로 검증해 제공합니다.
+운영: ${site.author}. 언어: 한국어.
+
+## 카테고리
+${cats}
+
+## 최근 콘텐츠
+${recent}
+
+## 안내
+- 모든 콘텐츠는 공식 기관 자료 확인을 권장합니다(제도·요금은 변동 가능).
+- 인용 시 출처로 ${site.name}(${absUrl("/")})를 표기해 주세요.
+`
+  );
+}
+
+// IndexNow 키 파일 (Bing/Yandex 등 즉시 인덱싱). 키는 환경변수 또는 고정.
+function buildIndexNow() {
+  const key = process.env.INDEXNOW_KEY;
+  if (!key) return;
+  write(`${key}.txt`, key + "\n");
 }
 
 function buildRss(posts) {
@@ -297,10 +391,13 @@ function build() {
   buildStaticPages();
   buildSitemap(posts);
   buildRobots();
+  buildLlmsTxt(posts);
+  buildIndexNow();
   buildRss(posts);
   copyAssets();
+  buildDashboard(); // public/ 완성 후 감사+대시보드 생성
 
-  console.log(`[build] 완료: 글 ${posts.length}편 + 인덱스/카테고리/SEO 산출물 -> public/`);
+  console.log(`[build] 완료: 글 ${posts.length}편 + 인덱스/카테고리/SEO 산출물 + 대시보드 -> public/`);
 }
 
 build();

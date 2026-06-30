@@ -42,5 +42,10 @@ function run(scriptRelPath, label) {
     }
   }
 
+  // 4) IndexNow 인덱싱 요청 (키 있을 때만)
+  if (process.env.INDEXNOW_KEY) {
+    run("automation/indexnow.mjs", "4) IndexNow 인덱싱 요청");
+  }
+
   console.log("\n[run-all] 파이프라인 완료.");
 })();

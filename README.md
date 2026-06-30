@@ -11,19 +11,25 @@
 
 ```
 config/
-  site.config.js              # 사이트/광고/채널/SEO 전역 설정
+  site.config.js              # 사이트/광고/채널/SEO/브랜드/작성자 전역 설정
   topics/seasonal-topics.json # 월별 시즌성 주제 풀 (1~12월)
+  geo-checklist.json          # SEO+GEO 체크리스트 (자동/수동 항목)
 automation/
   topic-picker.mjs            # 날짜 기반 시즌 주제 선택
   generate.mjs                # Claude API 글 생성 → content/posts/*.md
-  build.mjs                   # 마크다운 → public/ 정적 사이트 + SEO 산출물
+  build.mjs                   # 마크다운 → public/ 정적 사이트 + SEO 산출물 + 대시보드
   publish-blogger.mjs         # 구글 블로거 발행
   trend.mjs                   # (선택) 네이버 DataLab 트렌드로 주제 우선순위 보정
+  indexnow.mjs                # IndexNow 즉시 인덱싱 핑
+  audit.mjs                   # 빌드 결과물 실시간 SEO/GEO 자동 검사
+  dashboard.mjs               # 발행/SEO·GEO 모니터링 대시보드 생성
   run-all.mjs                 # 전체 파이프라인 오케스트레이터
-  render.mjs / lib.mjs        # 렌더링/유틸
+  render.mjs / lib.mjs        # 렌더링(스키마/광고)/유틸
 src/styles/main.css           # 사이트 스타일
 content/posts/*.md            # 생성된 글 (frontmatter + 본문)
 public/                       # 빌드 결과물 (배포 대상, git 미추적)
+  dashboard/                  # 운영 대시보드 (noindex)
+  llms.txt / sitemap.xml / robots.txt / rss.xml
 .github/workflows/publish.yml # 자동 발행 워크플로우
 ```
 
@@ -79,6 +85,42 @@ npm run serve               # http://localhost:8080 미리보기
    워크플로우 입력 `publish_blogger=true` (또는 변수 `PUBLISH_BLOGGER=true`)
 
 발행된 글은 frontmatter `published.blogger: true`로 표시되어 중복 발행을 막습니다.
+
+## SEO · GEO 최적화 (체크리스트 기반)
+
+업로드된 **SEO + GEO(생성형 엔진 최적화) 체크리스트**를 `config/geo-checklist.json`
+으로 구조화하고, 코드로 구현 가능한 항목은 사이트에 반영했습니다.
+
+**자동 반영(코드)** — 빌드 시 적용되고 `audit.mjs`가 실시간 검증:
+- 크롤링/인덱싱: sitemap(`<lastmod>` 포함)·robots.txt(AI/LLM 크롤러 명시 허용)·HTML 우선
+- 구조화 데이터: Organization·WebSite·Article·BreadcrumbList·FAQPage·Person(author) JSON-LD
+- 시맨틱 HTML5(header/nav/main/article/section), H1→H2 계층, 모바일 반응형, HTTPS
+- 콘텐츠: 첫 문단 키워드·TL;DR 요약박스·굵게 강조·표·외부출처 2+·내부 CTA·게시/검토일
+- GEO: `llms.txt`(LLM 친화 요약), IndexNow 즉시 인덱싱(키 설정 시)
+
+**수동 항목(오프사이트)** — 대시보드에서 진행 상태 관리:
+- GSC/Bing 등록·사이트맵 제출, Core Web Vitals 측정, 브랜드 엔티티(SNS/위키),
+  리뷰·UGC·백링크·브랜드 멘션, AI 검색 가시성 추적 등
+- `config/geo-checklist.json`의 각 항목 `status`를 `todo`→`done`(또는 `na`)으로 수정하면
+  대시보드 진척도에 반영됩니다.
+
+## 운영 대시보드 (발행 + SEO/GEO 모니터링)
+
+빌드 시 `public/dashboard/index.html`이 자동 생성됩니다(`noindex`).
+
+```bash
+npm run build      # 대시보드 포함 생성
+npm run dashboard  # 대시보드만 재생성 (빌드 후)
+npm run audit      # 자동 검사 결과를 콘솔로 확인
+npm run serve      # http://localhost:8080/dashboard/ 에서 확인
+```
+
+대시보드 표시 내용:
+- **발행 현황**: 총 글 수, 채널별(사이트/블로거), 카테고리별·월별 추이, 최근 발행 목록
+- **SEO·GEO 진척도**: 전체 %, 자동 검사 통과 수, 수동 항목 완료 수, 카테고리별 상세
+
+> 대시보드는 noindex이지만 URL을 알면 접근 가능합니다. 완전 비공개가 필요하면
+> 배포에서 제외하거나(빌드 후 `public/dashboard` 삭제) 접근 제어를 적용하세요.
 
 ## 콘텐츠 주제 관리
 

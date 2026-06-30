@@ -157,6 +157,7 @@ export function footer() {
     <nav class="nav">${nav}</nav>
     <div class="nav" style="margin-top:6px">
       <a href="${url("/about/")}">소개</a>
+      <a href="${url("/author/")}">작성자</a>
       <a href="${url("/privacy/")}">개인정보처리방침</a>
       <a href="${url("/sitemap.xml")}">사이트맵</a>
     </div>
@@ -174,6 +175,7 @@ export function footer() {
 // ---------------- JSON-LD ----------------
 
 export function articleJsonLd(post) {
+  const ap = site.authorProfile || {};
   return JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Article",
@@ -181,7 +183,14 @@ export function articleJsonLd(post) {
     description: post.description,
     datePublished: post.date,
     dateModified: post.updated || post.date,
-    author: { "@type": "Organization", name: site.author },
+    // author 를 Person 으로 명시하고 작성자 프로필 페이지에 연결 (E-E-A-T)
+    author: {
+      "@type": "Person",
+      name: ap.name || site.author,
+      url: ap.url ? absUrl(ap.url) : undefined,
+      jobTitle: ap.jobTitle || undefined,
+      sameAs: ap.sameAs && ap.sameAs.length ? ap.sameAs : undefined,
+    },
     publisher: {
       "@type": "Organization",
       name: site.name,
@@ -190,6 +199,39 @@ export function articleJsonLd(post) {
     mainEntityOfPage: { "@type": "WebPage", "@id": absUrl(post.path) },
     image: post.image ? [post.image] : undefined,
   });
+}
+
+/** Organization + WebSite 스키마 (홈페이지용, GEO 브랜드 엔티티) */
+export function organizationJsonLd() {
+  const b = site.brand || {};
+  const org = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.name,
+    url: absUrl("/"),
+    description: site.description,
+    logo: absUrl("/assets/logo.png"),
+    foundingDate: b.foundingDate || undefined,
+    sameAs: b.sameAs && b.sameAs.length ? b.sameAs : undefined,
+  };
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: absUrl("/"),
+    inLanguage: site.lang,
+    publisher: { "@type": "Organization", name: site.name },
+  };
+  if (b.searchUrlTemplate) {
+    website.potentialAction = {
+      "@type": "SearchAction",
+      target: { "@type": "EntryPoint", urlTemplate: b.searchUrlTemplate },
+      "query-input": "required name=search_term_string",
+    };
+  }
+  return [JSON.stringify(org), JSON.stringify(website)].join(
+    '</script>\n<script type="application/ld+json">'
+  );
 }
 
 export function breadcrumbJsonLd(items) {

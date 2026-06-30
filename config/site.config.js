@@ -73,6 +73,28 @@ export const site = {
     googleSiteVerification: process.env.GOOGLE_SITE_VERIFICATION || "",
   },
 
+  // ---- 브랜드 엔티티 (Organization 스키마 / GEO) ----
+  brand: {
+    foundingDate: "2026",
+    // 공식 소셜/외부 프로필 (개설 후 실제 URL 로 교체). Organization sameAs 로 출력.
+    sameAs: [
+      // "https://www.youtube.com/@오늘의꿀팁",
+      // "https://www.instagram.com/오늘의꿀팁",
+      // "https://www.threads.net/@오늘의꿀팁",
+    ].filter(Boolean),
+    // 검색창 SearchAction (사이트 내 검색 페이지가 있을 때만 의미)
+    searchUrlTemplate: "",
+  },
+
+  // ---- 작성자 프로필 (author 스키마 / E-E-A-T) ----
+  authorProfile: {
+    name: "오늘의 꿀팁 편집부",
+    url: "/author/", // 작성자 소개 페이지
+    jobTitle: "생활정보 에디터",
+    bio: "생활정보·공공요금·지원금 분야의 정보를 공식 자료 기반으로 검증해 쉽게 전달합니다.",
+    sameAs: [].filter(Boolean),
+  },
+
   // ---- 채널 ----
   channels: {
     site: { enabled: true }, // GitHub Pages 자체 사이트
