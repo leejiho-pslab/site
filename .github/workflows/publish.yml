@@ -61,6 +61,16 @@ jobs:
 
       - run: npm ci || npm install
 
+      # 대표(커버) 이미지 생성을 위한 Chromium + 한글 폰트 (실패해도 발행 계속)
+      - name: 이미지 렌더링 환경 설치 (선택)
+        id: imgenv
+        continue-on-error: true
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser || sudo apt-get install -y chromium
+          npm install --no-save pretendard
+          echo "CHROME_BIN=$(command -v chromium-browser || command -v chromium)" >> "$GITHUB_ENV"
+
       - name: 콘텐츠 생성 + 빌드 + (옵션) 블로거 발행
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -93,7 +103,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add content/posts || true
+          git add content/posts src/assets/covers || true
           if ! git diff --cached --quiet; then
             git commit -m "chore: 자동 발행 글 추가 ($(date -u +%Y-%m-%d))"
             git push
