@@ -93,7 +93,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add content/posts src/assets/covers || true
+          git add content/posts src/assets/covers config/requests.json || true
           if ! git diff --cached --quiet; then
             git commit -m "chore: 자동 발행 글 추가 ($(date -u +%Y-%m-%d))"
             git push

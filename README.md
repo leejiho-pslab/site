@@ -143,6 +143,30 @@ npm run serve      # http://localhost:8080/dashboard/ 에서 확인
 > 대시보드는 noindex이지만 URL을 알면 접근 가능합니다. 완전 비공개가 필요하면
 > 배포에서 제외하거나(빌드 후 `public/dashboard` 삭제) 접근 제어를 적용하세요.
 
+## 내 주제·의견 직접 넣기 (운영자 입력)
+
+직접 발행하고 싶은 주제나 편집 방향을 `config/requests.json` 에 적으면, 자동 발행이
+**시즌 주제보다 먼저** 이 요청을 처리합니다. 깃허브 웹에서 바로 편집해 저장하면 됩니다.
+
+```jsonc
+{
+  "notes": "존댓말로, 정부 공식 출처를 꼭 포함, 표를 적극 활용",   // 모든 글 공통 편집 지침
+  "topics": [
+    {
+      "title": "2026 청년 월세 특별지원 신청 방법과 자격",
+      "category": "support",                 // money/support/life/season/howto
+      "keywords": ["청년월세지원", "신청방법"],
+      "note": "신청 자격·필요 서류 위주로",   // 이 글에만 적용되는 지시
+      "status": "pending"                     // pending=발행대기, done=발행됨, skip=무시
+    }
+  ]
+}
+```
+
+- 발행이 끝나면 해당 주제의 `status` 가 자동으로 `done` 으로 바뀝니다.
+- **대시보드의 "발행 예정(플랜 검토)" 와 "내 의견·요청"** 섹션에서 현황을 확인할 수 있고,
+  대시보드의 *✏️ 깃허브에서 바로 편집* 링크로 이 파일을 열 수 있습니다.
+
 ## 콘텐츠 주제 관리
 
 - `config/topics/seasonal-topics.json` 에 1~12월 주제 풀이 정의돼 있습니다.

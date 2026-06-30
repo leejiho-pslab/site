@@ -107,6 +107,12 @@ export const site = {
     naver: { enabled: false }, // 공식 글쓰기 API 부재로 현재 제외
   },
 
+  // ---- GitHub 정보 (대시보드 편집 링크용) ----
+  github: {
+    repo: process.env.GITHUB_REPOSITORY || "leejiho-pslab/site",
+    branch: process.env.GITHUB_REF_NAME || "claude/seo-monetization-site-0g52e1",
+  },
+
   // ---- IndexNow (즉시 인덱싱 키) ----
   // 공개돼도 되는 식별자(키 파일 자체가 공개됨). 환경변수로 덮어쓸 수 있음.
   indexNowKey: process.env.INDEXNOW_KEY || "k7m2p9x4q1w8e3r6t5y0u7i2o9a4s1d8",

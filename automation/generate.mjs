@@ -14,6 +14,7 @@ import matter from "gray-matter";
 import { site } from "../config/site.config.js";
 import { pickTopics } from "./topic-picker.mjs";
 import { rankByTrend } from "./trend.mjs";
+import { pendingTopics, editorialNotes, markRequestDone } from "./requests.mjs";
 import { POSTS_DIR, ensureDir, slugify, todayKST } from "./lib.mjs";
 
 const MODEL = process.env.CONTENT_MODEL || "claude-sonnet-4-6";
@@ -55,8 +56,14 @@ const ARTICLE_TOOL = {
   },
 };
 
-function buildPrompt(topic) {
+function buildPrompt(topic, notes) {
   const cat = site.categories.find((c) => c.slug === topic.category);
+  const directives = [];
+  if (notes) directives.push(`[운영자 공통 편집 지침] ${notes}`);
+  if (topic.note) directives.push(`[이 글에 대한 운영자 지시] ${topic.note}`);
+  const directiveBlock = directives.length
+    ? `\n${directives.join("\n")}\n(위 운영자 지침을 최우선으로 반영하세요.)\n`
+    : "";
   return `당신은 한국의 생활정보 블로그 "${site.name}"의 전문 에디터입니다.
 아래 주제로 검색엔진 상위노출(SEO)에 최적화된 한국어 블로그 글을 작성하세요.
 
@@ -64,7 +71,7 @@ function buildPrompt(topic) {
 [카테고리] ${cat ? cat.name : topic.category} — ${cat ? cat.desc : ""}
 [핵심 키워드] ${(topic.keywords || []).join(", ")}
 [대상 독자] 실생활 정보를 빠르게 얻고 싶은 일반 한국인
-
+${directiveBlock}
 작성 지침(SEO + GEO 최적화):
 1. 제목은 클릭을 유도하되 과장/낚시 금지. 핵심 롱테일 키워드를 앞쪽에 배치.
 2. summary(TL;DR): 글의 핵심 결론을 280~320자로 압축(도입부에 표시됨).
@@ -91,7 +98,7 @@ export async function generateOne(topic) {
     max_tokens: 8000,
     tools: [ARTICLE_TOOL],
     tool_choice: { type: "tool", name: "save_article" },
-    messages: [{ role: "user", content: buildPrompt(topic) }],
+    messages: [{ role: "user", content: buildPrompt(topic, editorialNotes()) }],
   });
 
   const toolUse = msg.content.find((b) => b.type === "tool_use");
@@ -139,17 +146,29 @@ export async function generateOne(topic) {
 }
 
 export async function generateBatch(count = site.publishing.postsPerRun) {
-  // 시즌 후보를 넉넉히 뽑은 뒤(트렌드 정렬 여지) 상위 count개만 생성
-  let topics = pickTopics(Math.max(count * 3, count));
+  // 1) 운영자(사용자) 요청 주제를 최우선으로 처리
+  const userTopics = pendingTopics().slice(0, count);
+  let topics = [...userTopics];
+
+  // 2) 부족분은 시즌성 주제(트렌드 정렬)로 채움
+  const need = count - topics.length;
+  if (need > 0) {
+    const seasonal = pickTopics(Math.max(need * 3, need));
+    if (seasonal.length) {
+      topics = topics.concat((await rankByTrend(seasonal)).slice(0, need));
+    }
+  }
+
   if (!topics.length) {
     console.log("[generate] 생성할 주제가 없습니다.");
     return [];
   }
-  topics = (await rankByTrend(topics)).slice(0, count);
+
   const files = [];
   for (const t of topics) {
-    console.log(`[generate] 주제: ${t.title}`);
+    console.log(`[generate] 주제: ${t.title}${t.fromUser ? " (운영자 요청)" : ""}`);
     files.push(await generateOne(t));
+    if (t.fromUser) markRequestDone(t.title); // 요청 처리 완료 기록
   }
   return files;
 }

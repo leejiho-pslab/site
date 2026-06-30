@@ -10,6 +10,8 @@ import path from "node:path";
 import { site } from "../config/site.config.js";
 import { PUBLIC_DIR, ROOT, ensureDir, loadPosts, readJson, todayKST } from "./lib.mjs";
 import { runAudit } from "./audit.mjs";
+import { pickTopics } from "./topic-picker.mjs";
+import { listTopicsForDashboard, editorialNotes } from "./requests.mjs";
 
 function esc(s = "") {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -61,12 +63,36 @@ function collect() {
     if (p.published?.blogger) bloggerPublished++;
   }
 
+  // 내 의견·요청 + 발행 예정(플랜)
+  const myNotes = editorialNotes();
+  const myTopics = listTopicsForDashboard();
+  const userPending = myTopics
+    .filter((t) => t.status === "pending")
+    .map((t) => ({ title: t.title, category: t.category, source: "운영자 요청", note: t.note }));
+  // 시즌성 미리보기(아직 발행 안 된 주제 순서)
+  const seasonalPreview = pickTopics(8).map((t) => ({
+    title: t.title, category: t.category, keywords: t.keywords || [], source: "시즌 자동",
+  }));
+  const perRun = site.publishing.postsPerRun || 1;
+  // 발행 예정: 운영자 요청 먼저, 그다음 시즌
+  const plan = [...userPending, ...seasonalPreview].slice(0, 10).map((t, i) => ({
+    ...t,
+    when: i < perRun ? "다음 발행" : "예정",
+  }));
+
+  const gh = site.github || {};
+  const editUrl = `https://github.com/${gh.repo}/edit/${gh.branch}/config/requests.json`;
+
   return {
     generatedAt: todayKST(),
+    editUrl,
     progress: {
       total, done, pct: total ? Math.round((done / total) * 100) : 0,
       autoPass, autoTotal, manualDone, manualTotal,
     },
+    plan,
+    requests: { notes: myNotes, topics: myTopics, pendingCount: userPending.length },
+    perRun,
     categories,
     publishing: {
       totalPosts: posts.length,
@@ -161,6 +187,32 @@ function render(d) {
     <div class="chl"><span>사이트 ${d.publishing.sitePublished}</span>
       <span>블로거 ${d.publishing.bloggerEnabled ? d.publishing.bloggerPublished : "비활성"}</span></div></div>
 </div>
+
+<section><h2>🗓 발행 예정 (플랜 검토)</h2>
+  <div class="sub">다음에 자동 발행될 순서입니다. 운영자 요청이 시즌 주제보다 먼저 처리됩니다. 1회 실행당 ${d.perRun}편 발행.</div>
+  <div class="card"><table><thead><tr><th>#</th><th>제목</th><th>카테고리</th><th>구분</th><th>시점</th></tr></thead><tbody>
+  ${d.plan.length ? d.plan.map((t, i) => `<tr>
+      <td>${i + 1}</td><td>${esc(t.title)}</td><td>${esc(catName(t.category))}</td>
+      <td><span class="badge ${t.source === "운영자 요청" ? "b-manual" : "b-auto"}">${esc(t.source)}</span></td>
+      <td><span class="badge ${t.when === "다음 발행" ? "b-done" : "b-na"}">${esc(t.when)}</span></td></tr>`).join("")
+    : `<tr><td colspan="5" class="mini">예정된 주제가 없습니다.</td></tr>`}
+  </tbody></table></div></section>
+
+<section><h2>📝 내 의견 · 요청 (편집 지시)</h2>
+  <div class="sub">아래 내용은 <code>config/requests.json</code> 파일에서 관리됩니다.
+    <a href="${esc(d.editUrl)}" target="_blank">✏️ 깃허브에서 바로 편집</a> → 저장(Commit)하면 다음 발행부터 반영됩니다.</div>
+  <div class="card">
+    <div class="label">공통 편집 지침 (모든 글에 적용)</div>
+    <div style="margin:6px 0 16px">${d.requests.notes ? esc(d.requests.notes) : "<span class=mini>아직 없음 — requests.json 의 notes 에 적어주세요. 예: '존댓말, 정부 공식 출처 필수, 표 적극 활용'</span>"}</div>
+    <div class="label">요청 주제 (${d.requests.pendingCount}건 대기)</div>
+    <table style="margin-top:6px"><thead><tr><th>제목</th><th>카테고리</th><th>상태</th><th>메모</th></tr></thead><tbody>
+    ${d.requests.topics.length ? d.requests.topics.map((t) => `<tr>
+        <td>${esc(t.title)}</td><td>${esc(catName(t.category))}</td>
+        <td><span class="badge ${t.status === "done" ? "b-done" : t.status === "pending" ? "b-manual" : "b-na"}">${t.status === "done" ? "발행됨" : t.status === "pending" ? "대기" : esc(t.status)}</span></td>
+        <td class="d">${esc(t.note || "")}</td></tr>`).join("")
+      : `<tr><td colspan="4" class="mini">등록된 요청이 없습니다. 깃허브에서 requests.json 을 편집해 주제를 추가하세요.</td></tr>`}
+    </tbody></table>
+  </div></section>
 
 <section><h2>🗂 카테고리별 발행</h2>
   <div class="card">${Object.keys(d.publishing.byCat).length ? bars(d.publishing.byCat, catName) : "<div class=mini>아직 발행된 글이 없습니다.</div>"}</div></section>
