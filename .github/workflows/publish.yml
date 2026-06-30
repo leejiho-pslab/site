@@ -15,7 +15,8 @@ name: 자동 발행 (생성 → 빌드 → 배포 → 블로거)
 
 on:
   schedule:
-    - cron: "0 23 * * *" # 매일 08:00 KST
+    - cron: "0 0 * * *" # 매일 09:00 KST (00:00 UTC)
+    - cron: "0 9 * * *" # 매일 18:00 KST (09:00 UTC)
   workflow_dispatch:
     inputs:
       posts:

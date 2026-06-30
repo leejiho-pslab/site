@@ -75,15 +75,20 @@ function collect() {
   }));
   const perRun = site.publishing.postsPerRun || 1;
   // 발행 예정: 운영자 요청 먼저, 그다음 시즌
-  // 발행 스케줄: 매일 cron(08:00 KST), 1회 perRun편 → 예정일 산정
+  // 발행 스케줄: 매일 runsPerDay회 cron, 1회 perRun편 → 예정일 산정
+  const runsPerDay = site.publishing.runsPerDay || 1;
+  const postsPerDay = perRun * runsPerDay;
+  const times = site.publishing.publishTimes || [];
   const base = nowKST();
-  const plan = [...userPending, ...seasonalPreview].slice(0, 10).map((t, i) => {
-    const dayOffset = Math.floor(i / perRun) + 1; // 1 = 다음 발행일
-    const dt = new Date(base.getTime() + dayOffset * 86400000);
+  const plan = [...userPending, ...seasonalPreview].slice(0, 12).map((t, i) => {
+    const dayOffset = Math.floor(i / postsPerDay); // 0 = 오늘 남은 회차 기준
+    const slotInDay = i % postsPerDay;
+    const dt = new Date(base.getTime() + (dayOffset + 1) * 86400000);
+    const time = times[slotInDay % (times.length || 1)] || "";
     return {
       ...t,
       when: i < perRun ? "다음 발행" : "예정",
-      date: dt.toISOString().slice(0, 10),
+      date: dt.toISOString().slice(0, 10) + (time ? ` ${time}` : ""),
       keywords: t.keywords || [],
     };
   });
@@ -254,7 +259,7 @@ function render(d) {
     <a href="plan.csv" download>📥 스케줄 (.csv)</a></div>`;
   const scheduleSection = (extra = "") => `
 <section><h2>🗓 발행 스케줄 (예정)</h2>
-  <div class="sub">매일 08:00(KST) 자동 발행 기준 예상 일정입니다. 운영자 요청이 시즌 주제보다 먼저 처리됩니다.</div>
+  <div class="sub">매일 09:00·18:00(KST) 자동 발행 기준 예상 일정입니다(하루 2편). 운영자 요청이 시즌 주제보다 먼저 처리됩니다.</div>
   <div class="card">${scheduleTable(d.plan)}</div>
   ${planDownloads}${extra}</section>`;
   const catCards = d.categories.map((c) => {
@@ -304,7 +309,7 @@ function render(d) {
   </div></section>
 
 <section><h2>🗓 발행 예정 (플랜 검토)</h2>
-  <div class="sub">다음에 자동 발행될 순서입니다. 운영자 요청이 시즌 주제보다 먼저 처리됩니다. 1회 실행당 ${d.perRun}편 발행.</div>
+  <div class="sub">다음에 자동 발행될 순서입니다. 운영자 요청이 시즌 주제보다 먼저 처리됩니다. 매일 09:00·18:00(KST) 각 ${d.perRun}편(하루 ${d.perRun * (site.publishing.runsPerDay || 1)}편).</div>
   <div class="card"><table><thead><tr><th>#</th><th>제목</th><th>카테고리</th><th>구분</th><th>시점</th></tr></thead><tbody>
   ${d.plan.length ? d.plan.map((t, i) => `<tr>
       <td>${i + 1}</td><td>${esc(t.title)}</td><td>${esc(catName(t.category))}</td>
@@ -470,7 +475,7 @@ function writePlanFiles(dir, plan, generatedAt) {
   const rows = plan.map((t, i) =>
     `| ${i + 1} | ${t.date} | ${t.title} | ${catName(t.category)} | ${(t.keywords || []).join(", ")} | ${t.source} |`
   );
-  const md = `# 발행 기획안 · 스케줄 — ${site.name}\n\n생성일: ${generatedAt} · 매일 08:00(KST) 자동 발행 기준 예상 일정\n\n` +
+  const md = `# 발행 기획안 · 스케줄 — ${site.name}\n\n생성일: ${generatedAt} · 매일 09:00·18:00(KST) 자동 발행 기준 예상 일정(하루 2편)\n\n` +
     `| # | 예정일 | 제목 | 카테고리 | 핵심 키워드 | 구분 |\n|---|---|---|---|---|---|\n${rows.join("\n")}\n`;
   fs.writeFileSync(path.join(dir, "plan.md"), md, "utf8");
 
