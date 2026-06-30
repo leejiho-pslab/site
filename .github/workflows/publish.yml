@@ -111,7 +111,11 @@ jobs:
             echo "커밋할 신규 글 없음"
           fi
 
+      # enablement: true 로 GitHub Pages 를 워크플로우가 자동 활성화
+      # (Settings > Pages 를 수동으로 켜지 않아도 첫 배포 시 자동 설정됨)
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: public
