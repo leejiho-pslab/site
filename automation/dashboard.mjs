@@ -82,10 +82,57 @@ function collect() {
 
   const gh = site.github || {};
   const editUrl = `https://github.com/${gh.repo}/edit/${gh.branch}/config/requests.json`;
+  const setupUrl = `https://github.com/${gh.repo}/blob/${gh.branch}/docs/SETUP.md`;
+
+  // ---- 채널별 데이터 ----
+  const env = process.env;
+  const hasVal = (v) => !!(v && !String(v).includes("XXXX"));
+  const mapPost = (p) => ({
+    title: p.title, date: p.date, category: p.category, path: p.path,
+    blogger: !!p.published?.blogger,
+  });
+  const sitePosts = posts.filter((p) => p.channels?.site !== false);
+  const bloggerPosts = posts.filter((p) => p.channels?.blogger);
+  const bloggerPub = bloggerPosts.filter((p) => p.published?.blogger).length;
+  const bloggerSecrets = [
+    { k: "BLOGGER_BLOG_ID", ok: !!env.BLOGGER_BLOG_ID },
+    { k: "BLOGGER_CLIENT_ID", ok: !!env.BLOGGER_CLIENT_ID },
+    { k: "BLOGGER_CLIENT_SECRET", ok: !!env.BLOGGER_CLIENT_SECRET },
+    { k: "BLOGGER_REFRESH_TOKEN", ok: !!env.BLOGGER_REFRESH_TOKEN },
+  ];
+  const bloggerConfigured = bloggerSecrets.every((s) => s.ok);
+  const siteSettings = [
+    { k: "배포 (GitHub Pages)", ok: true, v: site.url },
+    { k: "Google AdSense", ok: hasVal(site.ads.adsense.client), v: hasVal(site.ads.adsense.client) ? site.ads.adsense.client : "미설정" },
+    { k: "Taboola", ok: !!site.ads.taboola.publisher, v: site.ads.taboola.publisher || "미설정" },
+    { k: "Google Analytics 4", ok: !!site.analytics.ga4, v: site.analytics.ga4 || "미설정" },
+    { k: "Search Console 인증", ok: !!site.analytics.googleSiteVerification, v: site.analytics.googleSiteVerification ? "설정됨" : "미설정" },
+    { k: "IndexNow", ok: !!site.indexNowKey, v: site.indexNowKey ? "활성화" : "미설정" },
+  ];
+  const channels = {
+    site: {
+      label: "자체 사이트", icon: "🌐", enabled: true, count: sitePosts.length,
+      url: site.url, settings: siteSettings, posts: sitePosts.map(mapPost),
+    },
+    blogger: {
+      label: "구글 블로거", icon: "📝", enabled: site.channels.blogger.enabled,
+      configured: bloggerConfigured, published: bloggerPub,
+      pending: bloggerPosts.length - bloggerPub, secrets: bloggerSecrets,
+      posts: bloggerPosts.map(mapPost), setupUrl,
+    },
+    naver: {
+      label: "네이버 블로그", icon: "🟢",
+      enabled: !!(site.channels.naver && site.channels.naver.enabled), count: 0,
+    },
+  };
+  const activeChannels = [channels.site.enabled, channels.blogger.enabled, channels.naver.enabled].filter(Boolean).length;
 
   return {
     generatedAt: todayKST(),
     editUrl,
+    setupUrl,
+    channels,
+    activeChannels,
     progress: {
       total, done, pct: total ? Math.round((done / total) * 100) : 0,
       autoPass, autoTotal, manualDone, manualTotal,
@@ -136,6 +183,19 @@ summary::-webkit-details-marker{display:none}
 a{color:var(--ac)}
 .chl{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .chl span{font-size:12px;background:#0b1220;border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin:18px 0 8px;position:sticky;top:0;background:var(--bg);z-index:5}
+.tabs button{background:transparent;border:0;color:var(--mut);font-size:15px;font-weight:700;padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;font-family:inherit}
+.tabs button:hover{color:var(--fg)}
+.tabs button.active{color:#fff;border-bottom-color:var(--ac)}
+.panel{display:none}.panel.active{display:block}
+.set{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);align-items:center}
+.set:last-child{border:0}.set .v{color:var(--mut);font-size:13px;word-break:break-all}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:9px;vertical-align:middle}
+.dot.on{background:var(--ok)}.dot.off{background:var(--no)}
+.linkrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:14px}
+.linkrow a{background:#0b1220;border:1px solid var(--line);border-radius:8px;padding:7px 12px;text-decoration:none}
+.chcard{cursor:pointer;transition:border-color .15s}.chcard:hover{border-color:var(--ac)}
+.note{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);border-radius:10px;padding:12px 14px;font-size:14px;margin-top:12px}
 `;
 
 function bars(obj, nameFn) {
@@ -148,8 +208,26 @@ function bars(obj, nameFn) {
     ).join("");
 }
 
+// 글 목록 테이블 행
+function postRows(posts, showBlogger) {
+  if (!posts.length) return `<tr><td colspan="${showBlogger ? 4 : 3}" class="mini">발행 글 없음</td></tr>`;
+  return posts.map((r) =>
+    `<tr><td><a href="${esc(site.url + r.path)}" target="_blank">${esc(r.title)}</a></td>
+      <td>${esc(catName(r.category))}</td><td>${esc(r.date)}</td>
+      ${showBlogger ? `<td><span class="badge ${r.blogger ? "b-done" : "b-todo"}">${r.blogger ? "발행" : "대기"}</span></td>` : ""}</tr>`
+  ).join("");
+}
+// 설정/상태 목록
+function setRows(arr) {
+  return arr.map((s) =>
+    `<div class="set"><div><span class="dot ${s.ok ? "on" : "off"}"></span>${esc(s.k)}</div>
+      <div class="v">${esc(s.v || (s.ok ? "설정됨" : "미설정"))}</div></div>`
+  ).join("");
+}
+
 function render(d) {
   const p = d.progress;
+  const ch = d.channels;
   const catCards = d.categories.map((c) => {
     const pct = c.catTotal ? Math.round((c.catDone / c.catTotal) * 100) : 100;
     const rows = c.items.map((it) => {
@@ -165,28 +243,36 @@ function render(d) {
       <span class="mini">${c.catDone}/${c.catTotal} (${pct}%)</span></summary>${rows}</details>`;
   }).join("");
 
-  return `<!doctype html><html lang="ko"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>${esc(site.name)} · 발행/SEO·GEO 대시보드</title>
-<style>${STYLE}</style></head><body><div class="wrap">
-<h1>📊 운영 대시보드</h1>
-<div class="sub">${esc(site.name)} — 발행 현황 및 SEO·GEO 체크리스트 진척도 · 생성 ${d.generatedAt} (비공개 페이지)</div>
-
+  // ===== 탭1: 전체 =====
+  const overview = `
 <div class="grid cols">
-  <div class="card"><div class="label">전체 진척도</div>
+  <div class="card"><div class="label">SEO·GEO 진척도</div>
     <div class="kpi">${p.pct}%<small> ${p.done}/${p.total}</small></div>
     <div class="bar"><span style="width:${p.pct}%"></span></div></div>
   <div class="card"><div class="label">자동 검사 통과</div>
-    <div class="kpi">${p.autoPass}<small>/${p.autoTotal} 자동항목</small></div>
+    <div class="kpi">${p.autoPass}<small>/${p.autoTotal}</small></div>
     <div class="bar"><span style="width:${p.autoTotal ? Math.round(p.autoPass/p.autoTotal*100):0}%"></span></div></div>
-  <div class="card"><div class="label">수동 항목 완료</div>
-    <div class="kpi">${p.manualDone}<small>/${p.manualTotal} 수동항목</small></div></div>
   <div class="card"><div class="label">총 발행 글</div>
-    <div class="kpi">${d.publishing.totalPosts}<small> 편</small></div>
-    <div class="chl"><span>사이트 ${d.publishing.sitePublished}</span>
-      <span>블로거 ${d.publishing.bloggerEnabled ? d.publishing.bloggerPublished : "비활성"}</span></div></div>
+    <div class="kpi">${d.publishing.totalPosts}<small> 편</small></div></div>
+  <div class="card"><div class="label">활성 채널</div>
+    <div class="kpi">${d.activeChannels}<small> / 3</small></div></div>
 </div>
+
+<section><h2>📡 채널별 현황</h2>
+  <div class="grid cols">
+    <div class="card chcard" onclick="showTab('t-site',document.querySelector('[data-tab=t-site]'))">
+      <div class="label">${ch.site.icon} ${ch.site.label}</div>
+      <div class="kpi" style="font-size:24px">${ch.site.count}<small> 편 발행</small></div>
+      <div class="chl"><span>상태: 운영중</span></div></div>
+    <div class="card chcard" onclick="showTab('t-blogger',document.querySelector('[data-tab=t-blogger]'))">
+      <div class="label">${ch.blogger.icon} ${ch.blogger.label}</div>
+      <div class="kpi" style="font-size:24px">${ch.blogger.published}<small> 발행 / ${ch.blogger.pending} 대기</small></div>
+      <div class="chl"><span>${ch.blogger.configured ? "연동됨" : "연동 필요"}</span></div></div>
+    <div class="card chcard muted-card" onclick="showTab('t-naver',document.querySelector('[data-tab=t-naver]'))">
+      <div class="label">${ch.naver.icon} ${ch.naver.label}</div>
+      <div class="kpi" style="font-size:24px">—</div>
+      <div class="chl"><span>현재 제외</span></div></div>
+  </div></section>
 
 <section><h2>🗓 발행 예정 (플랜 검토)</h2>
   <div class="sub">다음에 자동 발행될 순서입니다. 운영자 요청이 시즌 주제보다 먼저 처리됩니다. 1회 실행당 ${d.perRun}편 발행.</div>
@@ -199,8 +285,8 @@ function render(d) {
   </tbody></table></div></section>
 
 <section><h2>📝 내 의견 · 요청 (편집 지시)</h2>
-  <div class="sub">아래 내용은 <code>config/requests.json</code> 파일에서 관리됩니다.
-    <a href="${esc(d.editUrl)}" target="_blank">✏️ 깃허브에서 바로 편집</a> → 저장(Commit)하면 다음 발행부터 반영됩니다.</div>
+  <div class="sub"><code>config/requests.json</code> 에서 관리 ·
+    <a href="${esc(d.editUrl)}" target="_blank">✏️ 깃허브에서 바로 편집</a> → 저장하면 다음 발행부터 반영됩니다.</div>
   <div class="card">
     <div class="label">공통 편집 지침 (모든 글에 적용)</div>
     <div style="margin:6px 0 16px">${d.requests.notes ? esc(d.requests.notes) : "<span class=mini>아직 없음 — requests.json 의 notes 에 적어주세요. 예: '존댓말, 정부 공식 출처 필수, 표 적극 활용'</span>"}</div>
@@ -210,28 +296,119 @@ function render(d) {
         <td>${esc(t.title)}</td><td>${esc(catName(t.category))}</td>
         <td><span class="badge ${t.status === "done" ? "b-done" : t.status === "pending" ? "b-manual" : "b-na"}">${t.status === "done" ? "발행됨" : t.status === "pending" ? "대기" : esc(t.status)}</span></td>
         <td class="d">${esc(t.note || "")}</td></tr>`).join("")
-      : `<tr><td colspan="4" class="mini">등록된 요청이 없습니다. 깃허브에서 requests.json 을 편집해 주제를 추가하세요.</td></tr>`}
+      : `<tr><td colspan="4" class="mini">등록된 요청이 없습니다.</td></tr>`}
     </tbody></table>
   </div></section>
+
+<section><h2>📅 월별 발행 추이</h2>
+  <div class="card">${Object.keys(d.publishing.byMonth).length ? bars(d.publishing.byMonth) : "<div class=mini>데이터 없음</div>"}</div></section>`;
+
+  // ===== 탭2: 자체 사이트 =====
+  const siteTab = `
+<section><h2>🌐 자체 사이트 상태</h2>
+  <div class="grid cols">
+    <div class="card"><div class="label">발행 글</div><div class="kpi">${ch.site.count}<small> 편</small></div></div>
+    <div class="card"><div class="label">배포</div><div class="kpi" style="font-size:22px">GitHub Pages</div>
+      <div class="chl"><span>운영중</span></div></div>
+    <div class="card"><div class="label">SEO·GEO 자동검사</div><div class="kpi">${p.autoPass}<small>/${p.autoTotal}</small></div></div>
+  </div>
+  <div class="linkrow">
+    <a href="${esc(ch.site.url)}/" target="_blank">사이트 열기</a>
+    <a href="${esc(ch.site.url)}/sitemap.xml" target="_blank">sitemap.xml</a>
+    <a href="${esc(ch.site.url)}/robots.txt" target="_blank">robots.txt</a>
+    <a href="${esc(ch.site.url)}/llms.txt" target="_blank">llms.txt</a>
+    <a href="${esc(ch.site.url)}/rss.xml" target="_blank">RSS</a>
+  </div></section>
+
+<section><h2>⚙️ 수익화·분석 설정</h2>
+  <div class="card">${setRows(ch.site.settings)}</div>
+  <div class="note">미설정 항목은 GitHub <b>Settings → Secrets and variables → Actions → Variables</b> 에 등록하면 자동 반영됩니다. 자세한 절차는 <a href="${esc(d.setupUrl)}" target="_blank">SETUP 가이드</a> 참고.</div></section>
 
 <section><h2>🗂 카테고리별 발행</h2>
   <div class="card">${Object.keys(d.publishing.byCat).length ? bars(d.publishing.byCat, catName) : "<div class=mini>아직 발행된 글이 없습니다.</div>"}</div></section>
 
-<section><h2>📅 월별 발행 추이</h2>
-  <div class="card">${Object.keys(d.publishing.byMonth).length ? bars(d.publishing.byMonth) : "<div class=mini>데이터 없음</div>"}</div></section>
-
-<section><h2>📰 최근 발행 글</h2>
-  <div class="card"><table><thead><tr><th>제목</th><th>카테고리</th><th>게시일</th><th>블로거</th></tr></thead><tbody>
-  ${d.publishing.recent.map((r) => `<tr><td><a href="${esc(site.url + r.path)}">${esc(r.title)}</a></td>
-    <td>${esc(catName(r.category))}</td><td>${esc(r.date)}</td>
-    <td><span class="badge ${r.blogger ? "b-done" : "b-todo"}">${r.blogger ? "발행" : "대기"}</span></td></tr>`).join("")
-    || `<tr><td colspan="4" class="mini">발행 글 없음</td></tr>`}
-  </tbody></table></div></section>
-
 <section><h2>✅ SEO · GEO 체크리스트</h2>
-  <div class="sub">자동 항목은 빌드 결과물을 실시간 검사한 결과입니다. 수동 항목은 config/geo-checklist.json 의 status 를 수정해 관리하세요.</div>
+  <div class="sub">자동 항목은 빌드 결과물을 실시간 검사한 결과(현재 ${p.autoPass}/${p.autoTotal}). 수동 항목은 <code>config/geo-checklist.json</code> 의 status 로 관리합니다.</div>
   ${catCards}</section>
 
+<section><h2>📰 사이트 발행 글 (${ch.site.count})</h2>
+  <div class="card"><table><thead><tr><th>제목</th><th>카테고리</th><th>게시일</th></tr></thead><tbody>
+  ${postRows(ch.site.posts, false)}</tbody></table></div></section>`;
+
+  // ===== 탭3: 구글 블로거 =====
+  const bloggerTab = `
+<section><h2>📝 구글 블로거 상태</h2>
+  <div class="grid cols">
+    <div class="card"><div class="label">연동 상태</div>
+      <div class="kpi" style="font-size:22px">${ch.blogger.configured ? "연동됨" : "연동 필요"}</div></div>
+    <div class="card"><div class="label">발행됨</div><div class="kpi">${ch.blogger.published}<small> 편</small></div></div>
+    <div class="card"><div class="label">발행 대기</div><div class="kpi">${ch.blogger.pending}<small> 편</small></div></div>
+  </div>
+  ${ch.blogger.configured ? "" : `<div class="note">아직 연동되지 않았습니다. 아래 4개 Secret 을 등록하고 워크플로우 입력 <code>publish_blogger=true</code>(또는 변수 <code>PUBLISH_BLOGGER=true</code>) 로 두면 자동 발행됩니다. 발급 절차: <a href="${esc(d.setupUrl)}" target="_blank">SETUP STEP 7</a>.</div>`}</section>
+
+<section><h2>🔑 연동 설정 (Secrets)</h2>
+  <div class="card">${setRows(ch.blogger.secrets.map((s) => ({ k: s.k, ok: s.ok, v: s.ok ? "등록됨" : "미등록" })))}</div></section>
+
+<section><h2>📰 블로거 발행 대상 글 (${ch.blogger.posts.length})</h2>
+  <div class="card"><table><thead><tr><th>제목</th><th>카테고리</th><th>게시일</th><th>블로거</th></tr></thead><tbody>
+  ${postRows(ch.blogger.posts, true)}</tbody></table></div></section>`;
+
+  // ===== 탭4: 네이버 블로그 =====
+  const naverTab = `
+<section><h2>🟢 네이버 블로그</h2>
+  <div class="card">
+    <div class="set"><div><span class="dot off"></span>자동 발행 상태</div><div class="v">현재 제외</div></div>
+    <div class="set"><div>사유</div><div class="v">네이버는 개인 블로그 글쓰기 공식 API가 없음</div></div>
+  </div>
+  <div class="note">
+    <b>대안 옵션</b><br>
+    1) <b>반자동</b>: 사이트/블로거용으로 생성된 글을 복사해 네이버 에디터에 붙여넣기(현재 권장).<br>
+    2) <b>비공식 자동화</b>(Selenium 등): 네이버 이용약관 위반·계정 차단 위험이 있어 미적용.<br>
+    추후 네이버 공식 채널/연동 정책이 열리면 이 채널을 활성화할 수 있도록 구조가 준비돼 있습니다.
+  </div></section>
+
+<section><h2>🔗 네이버 노출 보조 (적용됨)</h2>
+  <div class="card">
+    <div class="set"><div><span class="dot ${site.analytics.naverWebmaster ? "on" : "off"}"></span>네이버 서치어드바이저 소유확인</div>
+      <div class="v">${site.analytics.naverWebmaster ? "설정됨" : "미설정 (NAVER_SITE_VERIFICATION)"}</div></div>
+    <div class="set"><div><span class="dot on"></span>RSS 피드 제공</div><div class="v">/rss.xml</div></div>
+  </div>
+  <div class="note">자체 사이트 글을 네이버 검색에 노출시키려면 <a href="https://searchadvisor.naver.com" target="_blank">네이버 서치어드바이저</a>에 사이트를 등록하고 사이트맵을 제출하세요.</div></section>`;
+
+  return `<!doctype html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>${esc(site.name)} · 운영 대시보드</title>
+<style>${STYLE}</style></head><body><div class="wrap">
+<h1>📊 운영 대시보드</h1>
+<div class="sub">${esc(site.name)} — 채널별 발행·관리 모니터링 · 생성 ${d.generatedAt} (비공개 페이지)</div>
+
+<div class="tabs">
+  <button data-tab="all" onclick="showTab('all',this)">📊 전체</button>
+  <button data-tab="site" onclick="showTab('site',this)">🌐 자체 사이트</button>
+  <button data-tab="blogger" onclick="showTab('blogger',this)">📝 구글 블로거</button>
+  <button data-tab="naver" onclick="showTab('naver',this)">🟢 네이버 블로그</button>
+</div>
+
+<div id="t-all" class="panel">${overview}</div>
+<div id="t-site" class="panel">${siteTab}</div>
+<div id="t-blogger" class="panel">${bloggerTab}</div>
+<div id="t-naver" class="panel">${naverTab}</div>
+
+<script>
+function showTab(key, btn){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.tabs button').forEach(function(b){b.classList.remove('active')});
+  var el=document.getElementById('t-'+key); if(el) el.classList.add('active');
+  if(!btn) btn=document.querySelector('.tabs button[data-tab="'+key+'"]');
+  if(btn) btn.classList.add('active');
+  if(history.replaceState) history.replaceState(null,'','#'+key);
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var h=(location.hash||'').replace('#','');
+  showTab(document.querySelector('.tabs button[data-tab="'+h+'"]') ? h : 'all');
+});
+</script>
 </div></body></html>`;
 }
 
