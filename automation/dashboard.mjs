@@ -328,7 +328,7 @@ function render(d) {
     <a href="plan.csv" download>📥 스케줄 (.csv)</a></div>`;
   const scheduleSection = (extra = "") => `
 <section><h2>🗓 발행 스케줄 (예정)</h2>
-  <div class="sub">매일 09:00·18:00(KST) 자동 발행 기준 예상 일정입니다(하루 2편). 운영자 요청이 시즌 주제보다 먼저 처리됩니다.</div>
+  <div class="sub">매일 09:00·15:00·21:00(KST) 자동 발행 기준 예상 일정입니다(하루 3편). 운영자 요청이 시즌 주제보다 먼저 처리됩니다.</div>
   <div class="card">${scheduleTable(d.plan)}</div>
   ${planDownloads}${extra}</section>`;
   const catCards = d.categories.map((c) => {
@@ -393,12 +393,12 @@ function render(d) {
 <section><h2>💵 애드센스 승인 준비도 <span class="mini">(${d.adsenseDone}/${d.adsense.length})</span></h2>
   <div class="sub">정공법 승인 기준입니다. 미끼(그림자) 사이트 없이 <b>이 사이트 그대로</b> 신청하세요. ● 빨강 항목을 채우면 승인율이 올라갑니다.</div>
   <div class="card">${setRows(d.adsense)}
-    <div class="note">가장 중요한 건 <b>콘텐츠 축적(20편+)</b> 과 <b>원본성</b>입니다. 하루 2편 자동 발행으로 채워지며, 20편 도달 후 신청을 권장합니다.
+    <div class="note">가장 중요한 건 <b>콘텐츠 축적(20편+)</b> 과 <b>원본성</b>입니다. 하루 3편 자동 발행으로 채워지며, 20편 도달 후 신청을 권장합니다.
       절차: <a href="${esc(d.setupUrl)}" target="_blank">SETUP STEP 5</a>.</div>
   </div></section>
 
 <section><h2>🗓 발행 예정 (플랜 검토)</h2>
-  <div class="sub">다음에 자동 발행될 순서입니다. 운영자 요청이 시즌 주제보다 먼저 처리됩니다. 매일 09:00·18:00(KST) 각 ${d.perRun}편(하루 ${d.perRun * (site.publishing.runsPerDay || 1)}편).</div>
+  <div class="sub">다음에 자동 발행될 순서입니다. 운영자 요청이 시즌 주제보다 먼저 처리됩니다. 매일 09:00·15:00·21:00(KST) 각 ${d.perRun}편(하루 ${d.perRun * (site.publishing.runsPerDay || 1)}편).</div>
   <div class="card"><table><thead><tr><th>#</th><th>제목</th><th>카테고리</th><th>구분</th><th>시점</th></tr></thead><tbody>
   ${d.plan.length ? d.plan.map((t, i) => `<tr>
       <td>${i + 1}</td><td>${esc(t.title)}</td><td>${esc(catName(t.category))}</td>
@@ -593,7 +593,7 @@ function writePlanFiles(dir, plan, generatedAt) {
   const rows = plan.map((t, i) =>
     `| ${i + 1} | ${t.date} | ${t.title} | ${catName(t.category)} | ${(t.keywords || []).join(", ")} | ${t.source} |`
   );
-  const md = `# 발행 기획안 · 스케줄 — ${site.name}\n\n생성일: ${generatedAt} · 매일 09:00·18:00(KST) 자동 발행 기준 예상 일정(하루 2편)\n\n` +
+  const md = `# 발행 기획안 · 스케줄 — ${site.name}\n\n생성일: ${generatedAt} · 매일 09:00·15:00·21:00(KST) 자동 발행 기준 예상 일정(하루 3편)\n\n` +
     `| # | 예정일 | 제목 | 카테고리 | 핵심 키워드 | 구분 |\n|---|---|---|---|---|---|\n${rows.join("\n")}\n`;
   fs.writeFileSync(path.join(dir, "plan.md"), md, "utf8");
 

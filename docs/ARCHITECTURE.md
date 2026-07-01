@@ -30,7 +30,7 @@
 ```
 
 전체를 `automation/run-all.mjs` 가 오케스트레이션하고,
-`.github/workflows/publish.yml` 이 매일 09:00·18:00(KST) 크론으로 2회 실행합니다(하루 2편).
+`.github/workflows/publish.yml` 이 매일 09:00·15:00·21:00(KST) 크론으로 3회 실행합니다(하루 3편).
 
 ## 2. 디렉터리 구조
 

@@ -133,8 +133,8 @@ export const site = {
     // 1회 실행 시 생성/발행할 글 수
     postsPerRun: Number(process.env.POSTS_PER_RUN || 1),
     // 하루 자동 발행 횟수 / 시각(KST) — 워크플로우 cron 과 일치시켜 표시용으로 사용
-    runsPerDay: 2,
-    publishTimes: ["09:00", "18:00"],
+    runsPerDay: 3,
+    publishTimes: ["09:00", "15:00", "21:00"],
     // 글 1편 목표 글자수 (한국어 기준)
     targetChars: 2200,
     // 글당 최소 이미지 수 (대표 + 소제목 카드)

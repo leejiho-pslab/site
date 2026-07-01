@@ -61,7 +61,7 @@ npm run serve               # http://localhost:8080 미리보기
    - **Secrets** (민감값): `ANTHROPIC_API_KEY`, (블로거 사용 시) `BLOGGER_*`
    - **Variables** (공개 가능값): `SITE_URL`, `SITE_BASE_PATH`, `ADSENSE_CLIENT`,
      `ADSENSE_SLOT_*`, `TABOOLA_PUBLISHER`, `GA4_ID`, `GOOGLE_SITE_VERIFICATION` 등
-3. `publish.yml` 이 **기본 브랜치**에 있어야 크론(매일 09:00·18:00 KST)이 동작합니다.
+3. `publish.yml` 이 **기본 브랜치**에 있어야 크론(매일 09:00·15:00·21:00 KST)이 동작합니다.
 4. 수동 실행: **Actions → 자동 발행 → Run workflow** (생성 글 수/발행 여부 선택)
 
 > 프로젝트 페이지(`<user>.github.io/site`)는 `SITE_BASE_PATH=/site`.
