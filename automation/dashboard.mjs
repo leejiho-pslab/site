@@ -185,6 +185,24 @@ function collect() {
   const setupDone = Object.values(setup).flat().filter((s) => s.ok).length;
   const setupTotal = Object.values(setup).flat().length;
 
+  // ---- 애드센스 승인 준비도 ----
+  const TARGET_POSTS = 20;
+  const everyCatHasPost = site.categories.every((c) => posts.some((p) => p.category === c.slug));
+  const enoughLen = posts.length > 0 && posts.every((p) => (p.body || "").length >= 1200);
+  const allHaveImg = posts.length > 0 && posts.every((p) => !!p.image);
+  const adsense = [
+    { k: "필수 페이지(소개·문의·개인정보·이용약관)", ok: true, v: "완비" },
+    { k: `콘텐츠 ${TARGET_POSTS}편 이상`, ok: posts.length >= TARGET_POSTS, v: `${posts.length}/${TARGET_POSTS}편` },
+    { k: "모든 카테고리 글 보유", ok: everyCatHasPost, v: everyCatHasPost ? "충족" : "빈 카테고리 있음" },
+    { k: "글당 충분한 분량(1500자 내외)", ok: enoughLen, v: enoughLen ? "충족" : "일부 짧음" },
+    { k: "글당 고유 이미지", ok: allHaveImg, v: allHaveImg ? "충족" : "일부 없음" },
+    { k: "개인정보·쿠키(광고) 고지", ok: true, v: "완비" },
+    { k: "AdSense 코드 삽입", ok: hasVal(site.ads.adsense.client), v: hasVal(site.ads.adsense.client) ? "삽입됨" : "ADSENSE_CLIENT 설정 시" },
+    { k: "ads.txt", ok: hasVal(site.ads.adsense.client), v: hasVal(site.ads.adsense.client) ? "생성됨" : "AdSense 설정 시" },
+    { k: "커스텀 도메인(권장)", ok: !!env.SITE_CNAME, v: env.SITE_CNAME || "권장(github.io도 가능)" },
+  ];
+  const adsenseDone = adsense.filter((s) => s.ok).length;
+
   return {
     generatedAt: todayKST(),
     editUrl,
@@ -194,6 +212,8 @@ function collect() {
     setup,
     setupDone,
     setupTotal,
+    adsense,
+    adsenseDone,
     postsPerDayInfo: perRun * runsPerDay,
     progress: {
       total, done, pct: total ? Math.round((done / total) * 100) : 0,
@@ -368,6 +388,13 @@ function render(d) {
     <div class="card"><div class="label">📡 채널</div>${setRows(d.setup.channels)}</div>
     <div class="card"><div class="label">💰 수익화</div>${setRows(d.setup.money)}</div>
     <div class="card"><div class="label">🧩 사이트 기능</div>${setRows(d.setup.features)}</div>
+  </div></section>
+
+<section><h2>💵 애드센스 승인 준비도 <span class="mini">(${d.adsenseDone}/${d.adsense.length})</span></h2>
+  <div class="sub">정공법 승인 기준입니다. 미끼(그림자) 사이트 없이 <b>이 사이트 그대로</b> 신청하세요. ● 빨강 항목을 채우면 승인율이 올라갑니다.</div>
+  <div class="card">${setRows(d.adsense)}
+    <div class="note">가장 중요한 건 <b>콘텐츠 축적(20편+)</b> 과 <b>원본성</b>입니다. 하루 2편 자동 발행으로 채워지며, 20편 도달 후 신청을 권장합니다.
+      절차: <a href="${esc(d.setupUrl)}" target="_blank">SETUP STEP 5</a>.</div>
   </div></section>
 
 <section><h2>🗓 발행 예정 (플랜 검토)</h2>

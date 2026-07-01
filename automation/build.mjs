@@ -376,26 +376,69 @@ function buildStaticPages() {
   write("author/index.html", authorPage);
 
   const privacy =
-    head({ title: "개인정보처리방침", description: "개인정보처리방침", canonical: absUrl("/privacy/") }) +
+    head({ title: "개인정보처리방침", description: `${site.name} 개인정보처리방침`, canonical: absUrl("/privacy/") }) +
     header() +
     `<article class="post"><h1>개인정보처리방침</h1>
-      <p>본 사이트는 이용자의 개인정보를 직접 수집하지 않습니다. 다만 광고 및 분석 서비스 이용을 위해
-         쿠키가 사용될 수 있습니다.</p>
-      <h2>광고 및 쿠키</h2>
-      <p>본 사이트는 Google AdSense 등 제3자 광고를 게재하며, 광고 제공업체는 쿠키를 사용해
-         이용자의 관심사에 기반한 광고를 제공할 수 있습니다. 이용자는 브라우저 설정을 통해 쿠키를
-         거부할 수 있습니다.</p>
-      <h2>광고 게재</h2>
-      <p>Google을 비롯한 제3자 광고 사업자는 쿠키를 사용하여 이용자의 이전 방문 기록에 기반한 광고를
-         게재합니다. 이용자는 <a href="https://www.google.com/settings/ads" rel="nofollow">광고 설정</a>에서
-         맞춤 광고를 해제할 수 있습니다.</p>
-      <h2>분석 도구</h2>
-      <p>본 사이트는 방문 통계 분석을 위해 Google Analytics를 사용할 수 있습니다.</p>
-      <h2>문의</h2>
-      <p>개인정보 관련 문의는 사이트 운영자에게 연락해 주시기 바랍니다.</p>
+      <p>${esc(site.name)}(이하 "사이트")는 이용자의 개인정보를 소중히 다루며, 회원가입·직접적인 개인정보
+         수집 절차를 두지 않습니다. 다만 광고 및 트래픽 분석을 위해 아래와 같이 쿠키가 사용될 수 있습니다.</p>
+
+      <h2>1. 수집하는 정보</h2>
+      <p>사이트는 이름·연락처 등 개인식별정보를 직접 수집하지 않습니다. 방문 분석·광고 게재 과정에서
+         브라우저 종류, 방문 페이지, 대략적 위치 등 비식별 정보가 쿠키를 통해 수집될 수 있습니다.</p>
+
+      <h2>2. 쿠키(Cookie) 사용</h2>
+      <p>쿠키는 이용자 브라우저에 저장되는 작은 텍스트 파일입니다. 이용자는 브라우저 설정에서 쿠키 저장을
+         거부하거나 삭제할 수 있으며, 이 경우 일부 기능 이용에 제한이 있을 수 있습니다.</p>
+
+      <h2>3. 제3자 광고 및 DART 쿠키 (Google AdSense)</h2>
+      <ul>
+        <li>본 사이트는 Google 등 제3자 광고 사업자의 광고를 게재합니다.</li>
+        <li>Google을 포함한 제3자 광고 사업자는 <strong>쿠키(DART 쿠키 등)</strong>를 사용하여 이용자의
+            이전 방문 기록을 바탕으로 맞춤형 광고를 제공합니다.</li>
+        <li>이용자는 <a href="https://policies.google.com/technologies/ads" rel="nofollow" target="_blank">Google 광고 정책</a> 및
+            <a href="https://www.google.com/settings/ads" rel="nofollow" target="_blank">Google 광고 설정</a>에서
+            맞춤형 광고를 해제할 수 있습니다.</li>
+        <li>제3자 공급업체의 쿠키 사용은 <a href="https://www.aboutads.info" rel="nofollow" target="_blank">aboutads.info</a>에서
+            일괄 해제할 수 있습니다.</li>
+      </ul>
+
+      <h2>4. 분석 도구</h2>
+      <p>본 사이트는 방문 통계 분석을 위해 Google Analytics(GA4)를 사용합니다. 수집된 데이터는 통계 목적의
+         비식별 정보이며, 개인을 특정하지 않습니다.</p>
+
+      <h2>5. 아동의 개인정보</h2>
+      <p>본 사이트는 만 14세 미만 아동을 대상으로 하지 않으며, 아동의 개인정보를 고의로 수집하지 않습니다.</p>
+
+      <h2>6. 방침 변경 및 문의</h2>
+      <p>본 방침은 관련 법령 및 서비스 변경에 따라 개정될 수 있으며, 변경 시 본 페이지를 통해 고지합니다.
+         개인정보 관련 문의는 <a href="${url("/contact/")}">문의 페이지</a>를 이용해 주세요.</p>
     </article>` +
     footer();
   write("privacy/index.html", privacy);
+
+  // 이용약관 · 면책조항 (애드센스 심사 신뢰도)
+  const terms =
+    head({ title: "이용약관 및 면책조항", description: `${site.name} 이용약관 및 면책조항`, canonical: absUrl("/terms/") }) +
+    header() +
+    `<article class="post"><h1>이용약관 및 면책조항</h1>
+      <h2>1. 목적</h2>
+      <p>본 약관은 ${esc(site.name)}(이하 "사이트")가 제공하는 콘텐츠 이용에 관한 조건을 규정합니다.</p>
+      <h2>2. 콘텐츠의 성격 및 면책</h2>
+      <ul>
+        <li>사이트의 모든 정보는 <strong>일반적인 참고용</strong>이며, 법률·세무·의료·금융 등 전문적 조언을 대체하지 않습니다.</li>
+        <li>제도·요금·지원금·신청 기준 등은 수시로 변경될 수 있으므로, 실제 이용 전 반드시 <strong>해당 기관의 공식 안내</strong>를 확인하시기 바랍니다.</li>
+        <li>사이트는 정보의 정확성·완전성을 위해 노력하지만, 이를 보증하지 않으며 정보 이용으로 발생한 손해에 대해 책임지지 않습니다.</li>
+      </ul>
+      <h2>3. 저작권</h2>
+      <p>사이트에 게시된 콘텐츠의 저작권은 ${esc(site.name)}에 있으며, 무단 복제·배포를 금합니다. 인용 시 출처를 표기해 주세요.</p>
+      <h2>4. 광고</h2>
+      <p>사이트는 제3자 광고를 게재하며, 이를 통해 운영 수익을 얻을 수 있습니다. 광고 관련 쿠키 정책은
+         <a href="${url("/privacy/")}">개인정보처리방침</a>을 참고하세요.</p>
+      <h2>5. 문의</h2>
+      <p>약관 관련 문의는 <a href="${url("/contact/")}">문의 페이지</a>를 이용해 주세요.</p>
+    </article>` +
+    footer();
+  write("terms/index.html", terms);
 
   // 문의(contact) 페이지 — 애드센스 심사 시 권장
   const contact =
@@ -444,6 +487,7 @@ function buildSitemap(posts, tags = []) {
     { loc: absUrl("/author/"), pri: "0.3", lastmod: latest },
     { loc: absUrl("/contact/"), pri: "0.3", lastmod: latest },
     { loc: absUrl("/privacy/"), pri: "0.3", lastmod: latest },
+    { loc: absUrl("/terms/"), pri: "0.3", lastmod: latest },
     { loc: absUrl("/search/"), pri: "0.4", lastmod: latest },
     ...site.categories.map((c) => ({
       loc: absUrl(`/category/${c.slug}/`), pri: "0.6", lastmod: catLast(c.slug),
