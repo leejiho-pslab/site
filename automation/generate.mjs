@@ -134,8 +134,12 @@ export async function generateOne(topic) {
     imageAlt: `${a.title} - ${site.name} 대표 이미지`,
     faqs: a.faqs || [],
     source_topic: topic.title,
-    channels: { site: true, blogger: site.channels.blogger.enabled },
-    published: { blogger: false }, // 발행 추적 (publish-blogger.mjs 가 갱신)
+    channels: {
+      site: true,
+      blogger: site.channels.blogger.enabled,
+      wordpress: site.channels.wordpress.enabled,
+    },
+    published: { blogger: false, wordpress: false }, // 발행 추적 (각 publish-*.mjs 가 갱신)
   };
 
   ensureDir(POSTS_DIR);

@@ -42,9 +42,17 @@ function run(scriptRelPath, label) {
     }
   }
 
-  // 4) IndexNow 인덱싱 요청 (키 있을 때만, 기본 키 내장)
+  // 4) 워드프레스 발행 (설정 시)
+  if (
+    (process.env.PUBLISH_WORDPRESS === "true" || site.channels.wordpress.enabled) &&
+    process.env.WORDPRESS_URL
+  ) {
+    run("automation/publish-wordpress.mjs", "4) 워드프레스 발행");
+  }
+
+  // 5) IndexNow 인덱싱 요청 (키 있을 때만, 기본 키 내장)
   if (site.indexNowKey) {
-    run("automation/indexnow.mjs", "4) IndexNow 인덱싱 요청");
+    run("automation/indexnow.mjs", "5) IndexNow 인덱싱 요청");
   }
 
   console.log("\n[run-all] 파이프라인 완료.");

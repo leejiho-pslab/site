@@ -163,6 +163,7 @@ export function footer() {
     <div class="nav" style="margin-top:6px">
       <a href="${url("/about/")}">소개</a>
       <a href="${url("/author/")}">작성자</a>
+      <a href="${url("/contact/")}">문의</a>
       <a href="${url("/privacy/")}">개인정보처리방침</a>
       <a href="${url("/sitemap.xml")}">사이트맵</a>
     </div>

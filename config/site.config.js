@@ -22,6 +22,8 @@ export const site = {
   locale: "ko_KR",
   author: "오늘의 꿀팁 편집부",
   timezone: "Asia/Seoul",
+  // 문의 이메일 (문의 페이지에 노출). 개인정보라 기본 비공개 — 공개할 이메일을 CONTACT_EMAIL 로 설정
+  contactEmail: process.env.CONTACT_EMAIL || "",
 
   // ---- 니치/카테고리 (생활정보·꿀팁) ----
   niche: "생활정보/꿀팁",
@@ -106,6 +108,14 @@ export const site = {
       defaultLabels: ["생활정보", "꿀팁"],
     },
     naver: { enabled: false }, // 공식 글쓰기 API 부재로 현재 제외
+    wordpress: {
+      // WORDPRESS_URL/USER/APP_PASSWORD 설정 시 자동으로 활성화됨
+      enabled: !!(process.env.WORDPRESS_URL && process.env.WORDPRESS_APP_PASSWORD),
+      url: process.env.WORDPRESS_URL || "", // 예: https://myblog.com (또는 워드프레스닷컴 주소)
+      user: process.env.WORDPRESS_USER || "",
+      // 상태: publish(즉시 공개) | draft(초안). 초기엔 draft 로 검수 후 공개 권장 가능
+      status: process.env.WORDPRESS_STATUS || "publish",
+    },
   },
 
   // ---- GitHub 정보 (대시보드 편집 링크용) ----

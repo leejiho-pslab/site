@@ -107,6 +107,14 @@ function collect() {
   const sitePosts = posts.filter((p) => p.channels?.site !== false);
   const bloggerPosts = posts.filter((p) => p.channels?.blogger);
   const bloggerPub = bloggerPosts.filter((p) => p.published?.blogger).length;
+  const wpPosts = posts.filter((p) => p.channels?.wordpress);
+  const wpPub = wpPosts.filter((p) => p.published?.wordpress).length;
+  const wpSecrets = [
+    { k: "WORDPRESS_URL", ok: !!env.WORDPRESS_URL },
+    { k: "WORDPRESS_USER", ok: !!env.WORDPRESS_USER },
+    { k: "WORDPRESS_APP_PASSWORD", ok: !!env.WORDPRESS_APP_PASSWORD },
+  ];
+  const wpConfigured = wpSecrets.every((s) => s.ok);
   const bloggerSecrets = [
     { k: "BLOGGER_BLOG_ID", ok: !!env.BLOGGER_BLOG_ID },
     { k: "BLOGGER_CLIENT_ID", ok: !!env.BLOGGER_CLIENT_ID },
@@ -137,8 +145,13 @@ function collect() {
       label: "네이버 블로그", icon: "🟢",
       enabled: !!(site.channels.naver && site.channels.naver.enabled), count: 0,
     },
+    wordpress: {
+      label: "워드프레스", icon: "🔵", enabled: site.channels.wordpress.enabled,
+      configured: wpConfigured, published: wpPub, pending: wpPosts.length - wpPub,
+      secrets: wpSecrets, posts: wpPosts.map(mapPost), setupUrl,
+    },
   };
-  const activeChannels = [channels.site.enabled, channels.blogger.enabled, channels.naver.enabled].filter(Boolean).length;
+  const activeChannels = [channels.site.enabled, channels.blogger.enabled, channels.naver.enabled, channels.wordpress.enabled].filter(Boolean).length;
 
   return {
     generatedAt: todayKST(),
@@ -289,20 +302,24 @@ function render(d) {
   <div class="card"><div class="label">총 발행 글</div>
     <div class="kpi">${d.publishing.totalPosts}<small> 편</small></div></div>
   <div class="card"><div class="label">활성 채널</div>
-    <div class="kpi">${d.activeChannels}<small> / 3</small></div></div>
+    <div class="kpi">${d.activeChannels}<small> / 4</small></div></div>
 </div>
 
 <section><h2>📡 채널별 현황</h2>
   <div class="grid cols">
-    <div class="card chcard" onclick="showTab('t-site',document.querySelector('[data-tab=t-site]'))">
+    <div class="card chcard" onclick="showTab('site')">
       <div class="label">${ch.site.icon} ${ch.site.label}</div>
       <div class="kpi" style="font-size:24px">${ch.site.count}<small> 편 발행</small></div>
       <div class="chl"><span>상태: 운영중</span></div></div>
-    <div class="card chcard" onclick="showTab('t-blogger',document.querySelector('[data-tab=t-blogger]'))">
+    <div class="card chcard" onclick="showTab('blogger')">
       <div class="label">${ch.blogger.icon} ${ch.blogger.label}</div>
       <div class="kpi" style="font-size:24px">${ch.blogger.published}<small> 발행 / ${ch.blogger.pending} 대기</small></div>
       <div class="chl"><span>${ch.blogger.configured ? "연동됨" : "연동 필요"}</span></div></div>
-    <div class="card chcard muted-card" onclick="showTab('t-naver',document.querySelector('[data-tab=t-naver]'))">
+    <div class="card chcard" onclick="showTab('wordpress')">
+      <div class="label">${ch.wordpress.icon} ${ch.wordpress.label}</div>
+      <div class="kpi" style="font-size:24px">${ch.wordpress.published}<small> 발행 / ${ch.wordpress.pending} 대기</small></div>
+      <div class="chl"><span>${ch.wordpress.configured ? "연동됨" : "연동 필요"}</span></div></div>
+    <div class="card chcard muted-card" onclick="showTab('naver')">
       <div class="label">${ch.naver.icon} ${ch.naver.label}</div>
       <div class="kpi" style="font-size:24px">—</div>
       <div class="chl"><span>현재 제외</span></div></div>
@@ -395,6 +412,33 @@ ${scheduleSection()}
   <div class="card"><table><thead><tr><th>제목</th><th>카테고리</th><th>게시일</th><th>블로거</th><th>원고</th></tr></thead><tbody>
   ${postRows(ch.blogger.posts, true)}</tbody></table></div></section>`;
 
+  // ===== 탭: 워드프레스 =====
+  const wpTab = `
+<section><h2>🔵 워드프레스 상태</h2>
+  <div class="grid cols">
+    <div class="card"><div class="label">연동 상태</div>
+      <div class="kpi" style="font-size:22px">${ch.wordpress.configured ? "연동됨" : "연동 필요"}</div></div>
+    <div class="card"><div class="label">발행됨</div><div class="kpi">${ch.wordpress.published}<small> 편</small></div></div>
+    <div class="card"><div class="label">발행 대기</div><div class="kpi">${ch.wordpress.pending}<small> 편</small></div></div>
+  </div>
+  ${ch.wordpress.configured ? "" : `<div class="note">아직 연동되지 않았습니다. 아래 항목(변수/시크릿)을 등록하면 자동 발행됩니다: <code>WORDPRESS_URL</code>·<code>WORDPRESS_USER</code>(Variables), <code>WORDPRESS_APP_PASSWORD</code>(Secret). 워드프레스 → 사용자 → 프로필 → <b>애플리케이션 비밀번호</b>에서 발급. 절차: <a href="${esc(d.setupUrl)}" target="_blank">SETUP 가이드</a>.</div>`}</section>
+
+${scheduleSection()}
+
+<section><h2>🔑 연동 설정</h2>
+  <div class="card">${setRows(ch.wordpress.secrets.map((s) => ({ k: s.k, ok: s.ok, v: s.ok ? "등록됨" : "미등록" })))}</div>
+  <div class="note">💡 워드프레스는 <b>호스팅</b>이 필요합니다(워드프레스닷컴 비즈니스 이상 또는 자체 호스팅). REST API + 애플리케이션 비밀번호만 있으면 자체 사이트와 동일 글이 자동 발행됩니다.</div></section>
+
+<section><h2>📰 워드프레스 발행 대상 글 (${ch.wordpress.posts.length})</h2>
+  <div class="card"><table><thead><tr><th>제목</th><th>카테고리</th><th>게시일</th><th>WP</th><th>원고</th></tr></thead><tbody>
+  ${ch.wordpress.posts.length ? ch.wordpress.posts.map((r) =>
+    `<tr><td><a href="${esc(site.url + r.path)}" target="_blank">${esc(r.title)}</a></td>
+      <td>${esc(catName(r.category))}</td><td>${esc(r.date)}</td>
+      <td><span class="badge b-todo">대기</span></td>
+      <td><a href="drafts/${esc(r.slug)}.md" download>원고 ⬇</a></td></tr>`).join("")
+    : `<tr><td colspan="5" class="mini">연동 후 발행 대상 글이 여기에 표시됩니다. (신규 생성 글부터 WP 채널로 지정됨)</td></tr>`}
+  </tbody></table></div></section>`;
+
   // ===== 탭4: 네이버 블로그 =====
   const naverTab = `
 <section><h2>🟢 네이버 블로그</h2>
@@ -445,12 +489,14 @@ ${scheduleSection()}
   <button data-tab="all" onclick="showTab('all',this)">📊 전체</button>
   <button data-tab="site" onclick="showTab('site',this)">🌐 자체 사이트</button>
   <button data-tab="blogger" onclick="showTab('blogger',this)">📝 구글 블로거</button>
+  <button data-tab="wordpress" onclick="showTab('wordpress',this)">🔵 워드프레스</button>
   <button data-tab="naver" onclick="showTab('naver',this)">🟢 네이버 블로그</button>
 </div>
 
 <div id="t-all" class="panel">${overview}</div>
 <div id="t-site" class="panel">${siteTab}</div>
 <div id="t-blogger" class="panel">${bloggerTab}</div>
+<div id="t-wordpress" class="panel">${wpTab}</div>
 <div id="t-naver" class="panel">${naverTab}</div>
 
 <script>

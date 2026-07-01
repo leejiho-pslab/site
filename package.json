@@ -14,6 +14,7 @@
     "images": "node automation/images.mjs all",
     "indexnow": "node automation/indexnow.mjs",
     "publish:blogger": "node automation/publish-blogger.mjs",
+    "publish:wordpress": "node automation/publish-wordpress.mjs",
     "auto": "node automation/run-all.mjs",
     "serve": "node automation/serve.mjs",
     "clean": "rm -rf public"

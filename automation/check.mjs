@@ -61,7 +61,7 @@ const artifacts = [
   ["llms.txt", "llms.txt"], ["rss.xml", "RSS"], ["404.html", "404"],
   ["dashboard/index.html", "대시보드"], ["dashboard/plan.md", "기획안"],
   ["dashboard/naver-content-pack.md", "네이버팩"], ["about/index.html", "소개"],
-  ["author/index.html", "작성자"], ["privacy/index.html", "개인정보"],
+  ["author/index.html", "작성자"], ["contact/index.html", "문의"], ["privacy/index.html", "개인정보"],
   [`${site.indexNowKey}.txt`, "IndexNow 키"],
 ];
 for (const [f, label] of artifacts) exists(f) ? ok(`산출물: ${label}`) : er(`산출물 누락: ${label} (${f})`);
@@ -86,6 +86,8 @@ ok("채널: 자체 사이트 — 운영중");
 const bsec = ["BLOGGER_BLOG_ID", "BLOGGER_CLIENT_ID", "BLOGGER_CLIENT_SECRET", "BLOGGER_REFRESH_TOKEN"];
 const bReady = bsec.every((k) => process.env[k]);
 bReady ? ok("채널: 구글 블로거 — 연동됨") : wn("채널: 구글 블로거 — 연동 대기(Secrets 4종 필요)");
+const wpReady = !!(process.env.WORDPRESS_URL && process.env.WORDPRESS_USER && process.env.WORDPRESS_APP_PASSWORD);
+wpReady ? ok("채널: 워드프레스 — 연동됨") : wn("채널: 워드프레스 — 연동 대기(WORDPRESS_URL/USER/APP_PASSWORD 필요)");
 wn("채널: 네이버 블로그 — 수동 발행(기획안 다운로드 제공)");
 
 // 8) 수익화/분석 (정보)

@@ -28,6 +28,9 @@ on:
       publish_blogger:
         description: "구글 블로거 발행 여부"
         default: "false"
+      publish_wordpress:
+        description: "워드프레스 발행 여부"
+        default: "false"
   push:
     branches: ["**"]
     paths:
@@ -101,6 +104,11 @@ jobs:
           BLOGGER_CLIENT_ID: ${{ secrets.BLOGGER_CLIENT_ID }}
           BLOGGER_CLIENT_SECRET: ${{ secrets.BLOGGER_CLIENT_SECRET }}
           BLOGGER_REFRESH_TOKEN: ${{ secrets.BLOGGER_REFRESH_TOKEN }}
+          PUBLISH_WORDPRESS: ${{ github.event.inputs.publish_wordpress || vars.PUBLISH_WORDPRESS || 'false' }}
+          WORDPRESS_URL: ${{ vars.WORDPRESS_URL }}
+          WORDPRESS_USER: ${{ vars.WORDPRESS_USER }}
+          WORDPRESS_APP_PASSWORD: ${{ secrets.WORDPRESS_APP_PASSWORD }}
+          WORDPRESS_STATUS: ${{ vars.WORDPRESS_STATUS }}
         run: node automation/run-all.mjs
 
       - name: 생성된 글 저장소에 커밋

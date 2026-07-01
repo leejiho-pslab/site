@@ -286,6 +286,22 @@ function buildStaticPages() {
     footer();
   write("privacy/index.html", privacy);
 
+  // 문의(contact) 페이지 — 애드센스 심사 시 권장
+  const contact =
+    head({ title: "문의하기", description: `${site.name} 문의 안내`, canonical: absUrl("/contact/") }) +
+    header() +
+    `<article class="post"><h1>문의하기</h1>
+      <p>${esc(site.name)}에 대한 문의, 정보 정정 요청, 제휴 제안은 아래로 연락해 주세요.</p>
+      ${site.contactEmail
+        ? `<p><strong>이메일:</strong> <a href="mailto:${esc(site.contactEmail)}">${esc(site.contactEmail)}</a></p>`
+        : `<p>이메일: 준비 중입니다. (운영자가 곧 연락처를 안내할 예정입니다.)</p>`}
+      <h2>정보 정정 안내</h2>
+      <p>본 사이트의 생활정보는 공식 자료를 바탕으로 작성하지만, 제도·요금·신청 기준은 수시로 바뀔 수 있습니다.
+         잘못된 정보를 발견하시면 알려주시면 신속히 확인·수정하겠습니다.</p>
+    </article>` +
+    footer();
+  write("contact/index.html", contact);
+
   // 커스텀 404 (GitHub Pages 가 미존재 경로에 자동 사용)
   const chips = site.categories
     .map((c) => `<a class="chip" href="${url(`/category/${c.slug}/`)}">${esc(c.name)}</a>`)
@@ -315,6 +331,7 @@ function buildSitemap(posts) {
     { loc: absUrl("/"), pri: "1.0", lastmod: latest },
     { loc: absUrl("/about/"), pri: "0.3", lastmod: latest },
     { loc: absUrl("/author/"), pri: "0.3", lastmod: latest },
+    { loc: absUrl("/contact/"), pri: "0.3", lastmod: latest },
     { loc: absUrl("/privacy/"), pri: "0.3", lastmod: latest },
     ...site.categories.map((c) => ({
       loc: absUrl(`/category/${c.slug}/`), pri: "0.6", lastmod: catLast(c.slug),
@@ -378,6 +395,14 @@ ${recent}
 - 인용 시 출처로 ${site.name}(${absUrl("/")})를 표기해 주세요.
 `
   );
+}
+
+// ads.txt — 애드센스 승인 후 광고 수익 보호(무단 인벤토리 차단). client 있을 때만.
+function buildAdsTxt() {
+  const client = site.ads.adsense.client;
+  if (!client || client.includes("XXXX")) return;
+  const pub = client.replace(/^ca-/, ""); // ca-pub-XXX -> pub-XXX
+  write("ads.txt", `google.com, ${pub}, DIRECT, f08c47fec0942fa0\n`);
 }
 
 // IndexNow 키 파일 (Bing/Yandex 등 즉시 인덱싱). config.indexNowKey 또는 환경변수.
@@ -446,6 +471,7 @@ function build() {
   buildRobots();
   buildLlmsTxt(posts);
   buildIndexNow();
+  buildAdsTxt();
   buildRss(posts);
   copyAssets();
   buildDashboard(); // public/ 완성 후 감사+대시보드 생성
