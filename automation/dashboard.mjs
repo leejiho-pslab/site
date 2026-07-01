@@ -153,12 +153,48 @@ function collect() {
   };
   const activeChannels = [channels.site.enabled, channels.blogger.enabled, channels.naver.enabled, channels.wordpress.enabled].filter(Boolean).length;
 
+  // ---- 구축·연동 현황 (한눈에 보기) ----
+  const a = site.analytics;
+  const setup = {
+    search: [
+      { k: "GitHub Pages 배포", ok: true, v: "운영중" },
+      { k: "GA4 분석", ok: hasVal(a.ga4), v: hasVal(a.ga4) ? a.ga4 : "미설정" },
+      { k: "Search Console 소유확인", ok: !!a.googleSiteVerification, v: a.googleSiteVerification ? "완료" : "미설정" },
+      { k: "Bing 소유확인", ok: !!a.bingVerification, v: a.bingVerification ? "완료" : "미설정" },
+      { k: "IndexNow 즉시색인", ok: !!site.indexNowKey, v: site.indexNowKey ? "활성화" : "미설정" },
+      { k: "사이트맵·robots·llms.txt", ok: true, v: "생성됨" },
+    ],
+    channels: [
+      { k: "자체 사이트", ok: true, v: `운영중 · ${sitePosts.length}편` },
+      { k: "구글 블로거", ok: bloggerConfigured, v: bloggerConfigured ? `연동됨 · ${bloggerPub}편` : "연동 대기" },
+      { k: "워드프레스", ok: wpConfigured, v: wpConfigured ? `연동됨 · ${wpPub}편` : "연동 대기" },
+      { k: "네이버 블로그", ok: false, v: "수동(다운로드 제공)" },
+    ],
+    money: [
+      { k: "Google AdSense", ok: hasVal(site.ads.adsense.client), v: hasVal(site.ads.adsense.client) ? "설정됨" : "승인·설정 대기" },
+      { k: "ads.txt", ok: hasVal(site.ads.adsense.client), v: hasVal(site.ads.adsense.client) ? "생성됨" : "AdSense 설정 시 생성" },
+      { k: "Taboola", ok: !!site.ads.taboola.publisher, v: site.ads.taboola.publisher ? "설정됨" : "미설정" },
+    ],
+    features: [
+      { k: "사이트 내 검색", ok: true, v: "/search/" },
+      { k: "카테고리·태그·페이지네이션", ok: true, v: "적용" },
+      { k: "구조화 데이터(스키마)·RSS", ok: true, v: "적용" },
+      { k: "커스텀 도메인", ok: !!env.SITE_CNAME, v: env.SITE_CNAME || "미연결(github.io 사용중)" },
+    ],
+  };
+  const setupDone = Object.values(setup).flat().filter((s) => s.ok).length;
+  const setupTotal = Object.values(setup).flat().length;
+
   return {
     generatedAt: todayKST(),
     editUrl,
     setupUrl,
     channels,
     activeChannels,
+    setup,
+    setupDone,
+    setupTotal,
+    postsPerDayInfo: perRun * runsPerDay,
     progress: {
       total, done, pct: total ? Math.round((done / total) * 100) : 0,
       autoPass, autoTotal, manualDone, manualTotal,
@@ -323,6 +359,15 @@ function render(d) {
       <div class="label">${ch.naver.icon} ${ch.naver.label}</div>
       <div class="kpi" style="font-size:24px">—</div>
       <div class="chl"><span>현재 제외</span></div></div>
+  </div></section>
+
+<section><h2>🚦 구축 · 연동 현황 <span class="mini">(${d.setupDone}/${d.setupTotal} 완료)</span></h2>
+  <div class="sub">코드로 구축된 항목은 자동으로 ● 표시됩니다. ● 빨강은 운영자 설정(자격증명/계정)이 필요한 항목입니다.</div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+    <div class="card"><div class="label">🔎 배포 · 검색등록</div>${setRows(d.setup.search)}</div>
+    <div class="card"><div class="label">📡 채널</div>${setRows(d.setup.channels)}</div>
+    <div class="card"><div class="label">💰 수익화</div>${setRows(d.setup.money)}</div>
+    <div class="card"><div class="label">🧩 사이트 기능</div>${setRows(d.setup.features)}</div>
   </div></section>
 
 <section><h2>🗓 발행 예정 (플랜 검토)</h2>
