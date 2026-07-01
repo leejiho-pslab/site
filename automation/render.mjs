@@ -144,7 +144,7 @@ export function header() {
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="${url("/")}">${esc(site.name)}<small>${esc(site.tagline)}</small></a>
-    <nav class="nav">${nav}</nav>
+    <nav class="nav">${nav}<a href="${url("/search/")}">🔍 검색</a></nav>
   </div>
 </header>
 <div class="wrap"><main>`;
@@ -228,13 +228,15 @@ export function organizationJsonLd() {
     inLanguage: site.lang,
     publisher: { "@type": "Organization", name: site.name },
   };
-  if (b.searchUrlTemplate) {
-    website.potentialAction = {
-      "@type": "SearchAction",
-      target: { "@type": "EntryPoint", urlTemplate: b.searchUrlTemplate },
-      "query-input": "required name=search_term_string",
-    };
-  }
+  // 사이트 내 검색 페이지(/search/) 기반 SearchAction
+  website.potentialAction = {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: b.searchUrlTemplate || `${absUrl("/search/")}?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  };
   return [JSON.stringify(org), JSON.stringify(website)].join(
     '</script>\n<script type="application/ld+json">'
   );

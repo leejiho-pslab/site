@@ -9,7 +9,7 @@ import path from "node:path";
 import { marked } from "marked";
 import { site } from "../config/site.config.js";
 import {
-  ROOT, PUBLIC_DIR, ensureDir, loadPosts, excerpt, todayKST,
+  ROOT, PUBLIC_DIR, ensureDir, loadPosts, excerpt, todayKST, slugify,
 } from "./lib.mjs";
 import { buildDashboard } from "./dashboard.mjs";
 import {
@@ -80,7 +80,7 @@ function insertSectionImages(html, post) {
 }
 
 // ---------------- 개별 글 ----------------
-function buildPost(post, allPosts) {
+function buildPost(post, allPosts, validTags = new Set()) {
   const canonical = absUrl(post.path);
   const toc = buildToc(post.body);
   const bodyHtml = insertSectionImages(addHeadingIds(renderBody(post.body)), post);
@@ -106,6 +106,12 @@ function buildPost(post, allPosts) {
           .map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`)
           .join("")}</section>`
       : "";
+
+  const tagLinks = (post.tags || [])
+    .filter((t) => validTags.has(t))
+    .map((t) => `<a class="chip" href="${url(`/tag/${slugify(t)}/`)}">#${esc(t)}</a>`)
+    .join("");
+  const tagsHtml = tagLinks ? `<div class="chips" style="margin-top:22px">${tagLinks}</div>` : "";
 
   const jsonld = [
     articleJsonLd({ ...post, image: coverRel ? absUrl(coverRel) : undefined }),
@@ -146,6 +152,7 @@ function buildPost(post, allPosts) {
       ${faqHtml}
       ${taboolaWidget()}
       ${naverAd()}
+      ${tagsHtml}
       ${relatedHtml}
     </article>` +
     footer();
@@ -168,51 +175,155 @@ function postCard(p) {
   </li>`;
 }
 
+const PER_PAGE = 12;
+function chunkPages(arr, n) {
+  const out = [];
+  for (let i = 0; i < arr.length; i += n) out.push(arr.slice(i, i + n));
+  return out.length ? out : [[]];
+}
+// base 는 "/" 또는 "/category/slug/" 처럼 슬래시로 끝남
+function pager(base, page, total) {
+  if (total <= 1) return "";
+  const href = (p) => url(p === 1 ? base : `${base}page/${p}/`);
+  const item = (p, label, on) =>
+    on ? `<a class="pg" href="${href(p)}">${label}</a>` : `<span class="pg disabled">${label}</span>`;
+  let nums = "";
+  for (let i = 1; i <= total; i++)
+    nums += i === page ? `<span class="pg cur">${i}</span>` : `<a class="pg" href="${href(i)}">${i}</a>`;
+  return `<nav class="pager">${item(page - 1, "‹ 이전", page > 1)}${nums}${item(page + 1, "다음 ›", page < total)}</nav>`;
+}
+
 function buildIndex(posts) {
   const chips = site.categories
     .map((c) => `<a class="chip" href="${url(`/category/${c.slug}/`)}">${esc(c.name)}</a>`)
     .join("");
-  const list = posts.length
-    ? `<ul class="post-list">${posts.map(postCard).join("")}</ul>`
-    : `<p>아직 발행된 글이 없습니다. 곧 새로운 생활정보로 찾아뵙겠습니다.</p>`;
-  const html =
-    head({
-      title: site.name,
-      description: site.description,
-      canonical: absUrl("/"),
-      jsonld: organizationJsonLd(),
-    }) +
-    header() +
-    `<section>
-       <h1 style="font-size:24px">${esc(site.tagline)}</h1>
-       <div class="chips">${chips}</div>
-       ${adsenseUnit("top")}
-       ${list}
-     </section>` +
-    footer();
-  write("index.html", html);
+  const pages = chunkPages(posts, PER_PAGE);
+  pages.forEach((items, idx) => {
+    const page = idx + 1;
+    const rel = page === 1 ? "/" : `/page/${page}/`;
+    const list = items.length
+      ? `<ul class="post-list">${items.map(postCard).join("")}</ul>`
+      : `<p>아직 발행된 글이 없습니다. 곧 새로운 생활정보로 찾아뵙겠습니다.</p>`;
+    const html =
+      head({
+        title: page === 1 ? site.name : `${site.name} (${page}페이지)`,
+        description: site.description,
+        canonical: absUrl(rel),
+        jsonld: page === 1 ? organizationJsonLd() : "",
+      }) +
+      header() +
+      `<section>
+         <h1 style="font-size:24px">${esc(site.tagline)}</h1>
+         <div class="chips">${chips}</div>
+         ${adsenseUnit("top")}
+         ${list}
+         ${pager("/", page, pages.length)}
+       </section>` +
+      footer();
+    write(page === 1 ? "index.html" : path.join("page", String(page), "index.html"), html);
+  });
 }
 
 function buildCategories(posts) {
   for (const c of site.categories) {
     const items = posts.filter((p) => p.category === c.slug);
-    const list = items.length
-      ? `<ul class="post-list">${items.map(postCard).join("")}</ul>`
-      : `<p>이 카테고리에는 아직 글이 없습니다.</p>`;
+    const base = `/category/${c.slug}/`;
+    const pages = chunkPages(items, PER_PAGE);
+    pages.forEach((pageItems, idx) => {
+      const page = idx + 1;
+      const rel = page === 1 ? base : `${base}page/${page}/`;
+      const list = pageItems.length
+        ? `<ul class="post-list">${pageItems.map(postCard).join("")}</ul>`
+        : `<p>이 카테고리에는 아직 글이 없습니다.</p>`;
+      const html =
+        head({
+          title: page === 1 ? `${c.name} 정보 모음` : `${c.name} 정보 모음 (${page}페이지)`,
+          description: `${c.name} - ${c.desc}`,
+          canonical: absUrl(rel),
+        }) +
+        header() +
+        `<h1 style="font-size:24px">${esc(c.name)}</h1>
+         <p style="color:var(--muted)">${esc(c.desc)}</p>
+         ${adsenseUnit("top")}
+         ${list}
+         ${pager(base, page, pages.length)}` +
+        footer();
+      write(page === 1 ? path.join("category", c.slug, "index.html")
+        : path.join("category", c.slug, "page", String(page), "index.html"), html);
+    });
+  }
+}
+
+// 태그 페이지 (2편 이상 태그만 — 얇은 페이지 방지). 반환: {slug,tag} 목록(사이트맵용)
+function buildTags(posts) {
+  const map = new Map();
+  for (const p of posts)
+    for (const t of p.tags || []) {
+      const k = (t || "").trim();
+      if (!k) continue;
+      if (!map.has(k)) map.set(k, []);
+      map.get(k).push(p);
+    }
+  const built = [];
+  for (const [tag, ps] of map) {
+    if (ps.length < 2) continue;
+    const slug = slugify(tag);
+    if (!slug || built.find((b) => b.slug === slug)) continue;
+    const list = `<ul class="post-list">${ps.map(postCard).join("")}</ul>`;
     const html =
       head({
-        title: `${c.name} 정보 모음`,
-        description: `${c.name} - ${c.desc}`,
-        canonical: absUrl(`/category/${c.slug}/`),
+        title: `${tag} 관련 글`,
+        description: `${tag} 태그가 붙은 ${site.niche} 글 모음`,
+        canonical: absUrl(`/tag/${slug}/`),
       }) +
       header() +
-      `<h1 style="font-size:24px">${esc(c.name)}</h1>
-       <p style="color:var(--muted)">${esc(c.desc)}</p>
+      `<h1 style="font-size:24px"># ${esc(tag)}</h1>
        ${adsenseUnit("top")}
        ${list}` +
       footer();
-    write(path.join("category", c.slug, "index.html"), html);
+    write(path.join("tag", slug, "index.html"), html);
+    built.push({ slug, tag });
   }
+  return built;
+}
+
+// 사이트 내 검색: 검색 인덱스(JSON) + 검색 페이지(클라이언트 필터)
+function buildSearch(posts) {
+  const index = posts.map((p) => ({
+    t: p.title,
+    u: url(p.path),
+    c: catName(p.category),
+    e: (p.description || excerpt(p.body)).slice(0, 120),
+    g: (p.tags || []).join(" "),
+  }));
+  write(path.join("search", "index.json"), JSON.stringify(index));
+  const html =
+    head({ title: "검색", description: `${site.name} 사이트 내 검색`, canonical: absUrl("/search/") }) +
+    header() +
+    `<section>
+      <h1 style="font-size:24px">검색</h1>
+      <input id="q" class="search-box" type="search" placeholder="찾고 싶은 생활정보를 입력하세요 (예: 전기요금, 지원금)">
+      <div id="search-results"><p class="mini" style="color:var(--muted)">검색어를 입력하면 결과가 표시됩니다.</p></div>
+    </section>
+    <script>
+    (function(){
+      var box=document.getElementById('q'), out=document.getElementById('search-results'), data=[];
+      function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+      function render(q){
+        q=(q||'').trim().toLowerCase();
+        if(!q){out.innerHTML='<p class="mini" style="color:var(--muted)">검색어를 입력하면 결과가 표시됩니다.</p>';return;}
+        var r=data.filter(function(d){return (d.t+' '+d.c+' '+d.e+' '+d.g).toLowerCase().indexOf(q)>-1;}).slice(0,50);
+        if(!r.length){out.innerHTML='<p class="mini" style="color:var(--muted)">\\''+esc(q)+'\\' 검색 결과가 없습니다.</p>';return;}
+        out.innerHTML='<ul class="post-list">'+r.map(function(d){return '<li class="card"><span class="cat">'+esc(d.c)+'</span><h2><a href="'+d.u+'">'+esc(d.t)+'</a></h2><p class="excerpt">'+esc(d.e)+'</p></li>';}).join('')+'</ul>';
+      }
+      fetch('index.json').then(function(x){return x.json();}).then(function(j){data=j;
+        var p=new URLSearchParams(location.search).get('q'); if(p){box.value=p; render(p);}
+      });
+      box.addEventListener('input',function(){render(box.value);});
+    })();
+    </script>` +
+    footer();
+  write(path.join("search", "index.html"), html);
 }
 
 // ---------------- 정적 페이지 ----------------
@@ -320,7 +431,7 @@ function buildStaticPages() {
 }
 
 // ---------------- SEO 산출물 ----------------
-function buildSitemap(posts) {
+function buildSitemap(posts, tags = []) {
   // 모든 URL 에 lastmod 부여 (체크리스트: sitemap <lastmod> 포함)
   const latest = posts.length ? posts[0].updated || posts[0].date : todayKST();
   const catLast = (slug) => {
@@ -333,9 +444,11 @@ function buildSitemap(posts) {
     { loc: absUrl("/author/"), pri: "0.3", lastmod: latest },
     { loc: absUrl("/contact/"), pri: "0.3", lastmod: latest },
     { loc: absUrl("/privacy/"), pri: "0.3", lastmod: latest },
+    { loc: absUrl("/search/"), pri: "0.4", lastmod: latest },
     ...site.categories.map((c) => ({
       loc: absUrl(`/category/${c.slug}/`), pri: "0.6", lastmod: catLast(c.slug),
     })),
+    ...tags.map((t) => ({ loc: absUrl(`/tag/${t.slug}/`), pri: "0.5", lastmod: latest })),
     ...posts.map((p) => ({ loc: absUrl(p.path), pri: "0.8", lastmod: p.updated || p.date })),
   ];
   const body = urls
@@ -463,11 +576,18 @@ function build() {
   ensureDir(PUBLIC_DIR);
 
   const posts = loadPosts();
-  for (const p of posts) buildPost(p, posts);
+  // 2편 이상 태그만 페이지화 (얇은 페이지 방지) + 글 페이지 태그 링크용 집합
+  const tagCount = {};
+  for (const p of posts) for (const t of p.tags || []) tagCount[t] = (tagCount[t] || 0) + 1;
+  const validTags = new Set(Object.entries(tagCount).filter(([, n]) => n >= 2).map(([t]) => t));
+
+  for (const p of posts) buildPost(p, posts, validTags);
   buildIndex(posts);
   buildCategories(posts);
+  const tags = buildTags(posts);
+  buildSearch(posts);
   buildStaticPages();
-  buildSitemap(posts);
+  buildSitemap(posts, tags);
   buildRobots();
   buildLlmsTxt(posts);
   buildIndexNow();
@@ -476,7 +596,9 @@ function build() {
   copyAssets();
   buildDashboard(); // public/ 완성 후 감사+대시보드 생성
 
-  console.log(`[build] 완료: 글 ${posts.length}편 + 인덱스/카테고리/SEO 산출물 + 대시보드 -> public/`);
+  console.log(
+    `[build] 완료: 글 ${posts.length}편 + 태그 ${tags.length} + 검색/인덱스/카테고리/SEO + 대시보드 -> public/`
+  );
 }
 
 build();
