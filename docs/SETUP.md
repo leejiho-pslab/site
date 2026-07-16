@@ -50,11 +50,10 @@
 
 | 변수 이름 | 값(예시) | 설명 |
 | --- | --- | --- |
-| `SITE_URL` | `https://leejiho-pslab.github.io/site` | 배포 주소(끝 슬래시 없이) |
-| `SITE_BASE_PATH` | `/site` | 프로젝트 페이지 하위 경로. **커스텀 도메인 쓰면 빈 값** |
+| `SITE_URL` | `https://leejiho-pslab.github.io/site` | 배포 주소(끝 슬래시 없이) — 미등록 시 이 값이 기본값 |
 
-> 사용자명/저장소명이 다르면 `SITE_URL` 을 그에 맞게 바꾸세요.
-> 예) 저장소가 `myblog` 면 `https://leejiho-pslab.github.io/myblog`, `SITE_BASE_PATH=/myblog`
+> 하위 경로(basePath)는 `SITE_URL` 에서 **자동 계산**되므로 별도 설정이 필요 없습니다.
+> (`SITE_BASE_PATH` 는 특수한 경우에만 명시 — 루트 배포를 강제하려면 `/`)
 
 ---
 
@@ -319,13 +318,12 @@ Taboola 등 네이티브 광고 네트워크는 **일정 규모 이상의 트래
 1. 도메인 등록기관(DNS)에서 레코드 설정
    - 서브도메인(예: `ttip.example.com`): `CNAME` → `leejiho-pslab.github.io`
    - 루트 도메인: GitHub Pages의 A 레코드(IP 4개) 설정
-2. GitHub **Variables** 변경
+2. GitHub **Variables** 변경 — 딱 2개면 됩니다 (basePath 는 SITE_URL 에서 자동 계산)
 
 | 변수 | 값 |
 | --- | --- |
 | `SITE_CNAME` | `ttip.example.com` (CNAME 파일 자동 생성) |
 | `SITE_URL` | `https://ttip.example.com` |
-| `SITE_BASE_PATH` | (빈 값으로 변경) |
 
 3. 재배포 후 **Settings → Pages → Custom domain** 에서 HTTPS 적용 확인
 
@@ -339,7 +337,7 @@ Taboola 등 네이티브 광고 네트워크는 **일정 규모 이상의 트래
 - `BLOGGER_BLOG_ID`, `BLOGGER_CLIENT_ID`, `BLOGGER_CLIENT_SECRET`, `BLOGGER_REFRESH_TOKEN` *(블로거 선택)*
 
 **Variables (공개 가능)**
-- `SITE_URL`, `SITE_BASE_PATH` *(필수)*
+- `SITE_URL` *(권장 — 미등록 시 기본값 사용, basePath 자동 계산)*
 - `CONTENT_MODEL`, `POSTS_PER_RUN`
 - `ADSENSE_CLIENT`, `ADSENSE_SLOT_TOP`, `ADSENSE_SLOT_INARTICLE`, `ADSENSE_SLOT_BOTTOM`
 - `NAVER_CONNECT_ID`, `COUPANG_PARTNER_ID` *(제휴 마케팅)*

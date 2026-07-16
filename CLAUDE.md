@@ -22,3 +22,12 @@
 - **운영 방식**: 한 번에 가이드 하나씩 순차 진행, 완료 확인 후 다음 단계로
 - **자동 발행 크론**: 현재 홀딩 중 (.github/workflows/publish.yml 의 schedule 주석 처리됨)
 - **셋업 절차**: docs/SETUP.md · 운영자가 할 일은 GitHub Secrets/Variables 등록(본인 직접)
+
+## 진행 현황 (2026-07-16 기준)
+
+- ✅ 1번 네이버 블로그: 개설(blog.naver.com/astrape1) + 쇼핑커넥트 가입 (발행은 수동, 아직 0편)
+- ✅ 2번 구글 블로거: 연동 완료, 6편 자동 발행 (todays-kkultip.blogspot.com)
+- ✅ 3번 워드프레스: WordPress.com 무료 플랜 연동 완료 (todayskkultip.wordpress.com)
+- 🟡 4번 광고사이트: 쇼핑커넥트 ✅ · 쿠팡파트너스 가입 ✅(제습기 글에 링크 게시, 최종승인 스크린샷 제출)
+  · **애드센스 — 커스텀 도메인 구매/연결 대기** (github.io 주소로는 신청 불가)
+- ⏸ 자동 발행 크론 홀딩 중 · 다음 큰 작업: 주제·자동화 재기획 (주제 풀 소진 문제 해결 포함)

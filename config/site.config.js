@@ -5,6 +5,18 @@
 //    API 키/토큰 등 비밀값은 환경변수(.env / GitHub Secrets)로 관리
 // =============================================================
 
+// 배포 URL — 커스텀 도메인 사용 시 SITE_URL 만 바꾸면 basePath 는 자동 유도된다.
+const SITE_URL = process.env.SITE_URL || "https://leejiho-pslab.github.io/site";
+// basePath 는 SITE_URL 의 경로에서 자동 계산 (예: .../site → "/site", 커스텀 도메인 → "").
+// SITE_BASE_PATH 를 명시하면 그 값을 사용하되, 빈 값/미등록은 자동 유도로 처리하고
+// "/" 는 "루트 배포" 명시값으로 "" 처리 (CI 에서 미등록 변수가 빈 문자열로 들어와
+// 기본값을 덮어쓰던 사고 방지 — 이 버그로 배포 사이트의 CSS/링크가 깨진 적 있음).
+const RAW_BASE = (process.env.SITE_BASE_PATH ?? "").trim();
+const BASE_PATH =
+  RAW_BASE === "" ? new URL(SITE_URL).pathname.replace(/\/+$/, "")
+  : RAW_BASE === "/" ? ""
+  : RAW_BASE;
+
 export const site = {
   // ---- 기본 메타 ----
   // GitHub Pages 커스텀 도메인 사용 시 해당 도메인으로 교체.
@@ -13,11 +25,9 @@ export const site = {
   tagline: "매일 쓰는 생활정보·꿀팁 모음",
   description:
     "공공요금, 환급, 지원금, 생활 절약, 신청 방법까지 — 실생활에 바로 쓰는 생활정보와 꿀팁을 매일 발행합니다.",
-  // 배포 URL (끝에 슬래시 없이). 환경변수로 덮어쓸 수 있음.
-  url: process.env.SITE_URL || "https://leejiho-pslab.github.io/site",
-  // GitHub Pages 프로젝트 페이지로 배포 시 base path (예: "/site").
-  // 커스텀 도메인 또는 user.github.io 루트 배포면 "" 로 둔다.
-  basePath: process.env.SITE_BASE_PATH ?? "/site",
+  // 배포 URL (끝에 슬래시 없이). 환경변수 SITE_URL 로 덮어쓸 수 있음.
+  url: SITE_URL,
+  basePath: BASE_PATH,
   lang: "ko",
   locale: "ko_KR",
   author: "오늘의 꿀팁 편집부",
