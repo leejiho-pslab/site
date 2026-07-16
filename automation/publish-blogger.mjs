@@ -14,7 +14,7 @@ import { google } from "googleapis";
 import { marked } from "marked";
 import matter from "gray-matter";
 import { site } from "../config/site.config.js";
-import { POSTS_DIR, loadPosts } from "./lib.mjs";
+import { POSTS_DIR, loadPosts, fixLeftoverBold } from "./lib.mjs";
 import { absUrl, affiliateDisclosureLines } from "./render.mjs";
 
 function getClient() {
@@ -31,7 +31,7 @@ function getClient() {
 
 /** 블로거용 본문 HTML 생성 (canonical 링크 + 간단 푸터 포함) */
 function bloggerHtml(post) {
-  const body = marked.parse(post.body);
+  const body = fixLeftoverBold(marked.parse(post.body));
   const faq =
     post.faqs && post.faqs.length
       ? `<h2>자주 묻는 질문</h2>` +

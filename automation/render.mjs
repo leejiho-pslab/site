@@ -154,7 +154,7 @@ ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 <body>`;
 }
 
-export function header() {
+export function header(wide = false) {
   const nav = site.categories
     .map((c) => `<a href="${url(`/category/${c.slug}/`)}">${esc(c.name)}</a>`)
     .join("");
@@ -165,7 +165,17 @@ export function header() {
     <nav class="nav">${nav}<a href="${url("/search/")}">🔍 검색</a></nav>
   </div>
 </header>
-<div class="wrap"><main>`;
+<div class="wrap${wide ? " wide" : ""}"><main>`;
+}
+
+/** 눈에 보이는 브레드크럼 내비게이션 (JSON-LD 와 별개로 UX/내부링크용) */
+export function breadcrumbNav(items) {
+  const parts = items.map((it, i) =>
+    i === items.length - 1
+      ? `<span>${esc(it.name)}</span>`
+      : `<a href="${url(it.path)}">${esc(it.name)}</a>`
+  );
+  return `<nav class="breadcrumb" aria-label="현재 위치">${parts.join(" › ")}</nav>`;
 }
 
 export function footer() {

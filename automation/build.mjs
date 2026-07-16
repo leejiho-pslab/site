@@ -9,12 +9,12 @@ import path from "node:path";
 import { marked } from "marked";
 import { site } from "../config/site.config.js";
 import {
-  ROOT, PUBLIC_DIR, ensureDir, loadPosts, excerpt, todayKST, slugify,
+  ROOT, PUBLIC_DIR, ensureDir, loadPosts, excerpt, todayKST, slugify, fixLeftoverBold,
 } from "./lib.mjs";
 import { buildDashboard } from "./dashboard.mjs";
 import {
   head, header, footer, url, absUrl,
-  adsenseUnit, taboolaWidget, naverAd, affiliateDisclosure,
+  adsenseUnit, taboolaWidget, naverAd, affiliateDisclosure, breadcrumbNav,
   articleJsonLd, breadcrumbJsonLd, faqJsonLd, organizationJsonLd, esc,
 } from "./render.mjs";
 
@@ -38,18 +38,91 @@ function coverFor(post) {
   return fs.existsSync(srcFile) ? post.image : "";
 }
 
-/** 본문 마크다운을 HTML 로 바꾸고, H2 사이에 본문 중간 광고를 1회 삽입 */
-function renderBody(markdown) {
-  const html = marked.parse(markdown);
-  // 두 번째 <h2> 직전에 인아티클 광고 삽입 (본문이 충분히 길 때)
+/** 본문 마크다운 → HTML.
+ *  광고 극대화: 소제목(H2) 2개마다 인아티클 광고 삽입(최대 3회) +
+ *  내부 링크: 첫 광고 지점에 "함께 보면 좋은 글" 인라인 박스 동반 삽입. */
+function renderBody(markdown, inlineBox = "") {
+  const html = fixLeftoverBold(marked.parse(markdown));
   const adUnit = adsenseUnit("inArticle");
-  if (!adUnit) return html;
   const parts = html.split("<h2");
-  if (parts.length >= 3) {
-    // parts[0] + <h2..#1.. + 광고 + <h2..#2..
-    return parts[0] + "<h2" + parts[1] + adUnit + "<h2" + parts.slice(2).join("<h2");
+  if (parts.length < 3) return html + inlineBox + adUnit;
+  // parts[0]=도입부, parts[1..]=각 H2 섹션. 섹션 2,4,6 시작 직전에 삽입.
+  let out = parts[0];
+  let adCount = 0;
+  for (let i = 1; i < parts.length; i++) {
+    if (i >= 2 && (i - 2) % 2 === 0 && adCount < 3) {
+      out += adUnit;
+      if (adCount === 0) out += inlineBox; // 첫 삽입 지점에 관련글 박스 동반
+      adCount++;
+    }
+    out += "<h2" + parts[i];
   }
-  return html + adUnit;
+  return out;
+}
+
+/** 본문 속 인라인 관련글 박스 (내부 이동 유도) */
+function inlineRelatedBox(post, allPosts) {
+  const picks = allPosts
+    .filter((p) => p.path !== post.path)
+    .sort((a, b) => (a.category === post.category ? -1 : 0) - (b.category === post.category ? -1 : 0))
+    .slice(0, 2);
+  if (!picks.length) return "";
+  const items = picks
+    .map((p) => `<li><a href="${url(p.path)}">${esc(p.title)}</a></li>`)
+    .join("");
+  return `<aside class="related-inline"><strong>📌 함께 보면 좋은 글</strong><ul>${items}</ul></aside>`;
+}
+
+/** 이전/다음 글 내비게이션 (최신순 정렬 기준) */
+function prevNextNav(post, allPosts) {
+  const idx = allPosts.findIndex((p) => p.path === post.path);
+  if (idx === -1) return "";
+  const newer = allPosts[idx - 1];
+  const older = allPosts[idx + 1];
+  if (!newer && !older) return "";
+  const cell = (p, lbl) =>
+    p
+      ? `<a href="${url(p.path)}"><span class="lbl">${lbl}</span>${esc(p.title)}</a>`
+      : `<span class="pn-empty"></span>`;
+  return `<nav class="prevnext">${cell(newer, "← 다음 글")}${cell(older, "이전 글 →")}</nav>`;
+}
+
+/** 썸네일 관련글 그리드 (같은 카테고리 우선, 부족하면 최신글로 채움) */
+function relatedGrid(post, allPosts) {
+  const sameCat = allPosts.filter((p) => p.path !== post.path && p.category === post.category);
+  const others = allPosts.filter((p) => p.path !== post.path && p.category !== post.category);
+  const picks = [...sameCat, ...others].slice(0, 6);
+  if (!picks.length) return "";
+  const cards = picks
+    .map((p) => {
+      const cover = coverFor(p);
+      const img = cover
+        ? `<img src="${url(cover)}" alt="${esc(p.imageAlt || p.title)}" loading="lazy" width="1200" height="630">`
+        : "";
+      return `<li class="rcard">${img ? `<a href="${url(p.path)}">${img}</a>` : ""}
+        <a class="t" href="${url(p.path)}">${esc(p.title)}</a></li>`;
+    })
+    .join("");
+  return `<section class="related"><h2>함께 보면 좋은 글</h2><ul class="related-grid">${cards}</ul></section>`;
+}
+
+/** 글 페이지 사이드바 — 광고(스티키) + 최신글 + 카테고리 (내부 순환 링크) */
+function sidebar(post, allPosts) {
+  const recent = allPosts.filter((p) => p.path !== post.path).slice(0, 5);
+  const recentHtml = recent.length
+    ? `<div class="widget"><strong class="wt">🕐 최신 글</strong><ul>${recent
+        .map((p) => `<li><a href="${url(p.path)}">${esc(p.title)}</a></li>`)
+        .join("")}</ul></div>`
+    : "";
+  const cats = site.categories
+    .map((c) => `<li><a href="${url(`/category/${c.slug}/`)}">${esc(c.name)}</a></li>`)
+    .join("");
+  return `<aside class="sidebar">
+    ${adsenseUnit("sidebar")}
+    ${recentHtml}
+    <div class="widget"><strong class="wt">🗂 카테고리</strong><ul>${cats}</ul></div>
+    ${adsenseUnit("sidebar")}
+  </aside>`;
 }
 
 function buildToc(markdown) {
@@ -83,7 +156,10 @@ function insertSectionImages(html, post) {
 function buildPost(post, allPosts, validTags = new Set()) {
   const canonical = absUrl(post.path);
   const toc = buildToc(post.body);
-  const bodyHtml = insertSectionImages(addHeadingIds(renderBody(post.body)), post);
+  const bodyHtml = insertSectionImages(
+    addHeadingIds(renderBody(post.body, inlineRelatedBox(post, allPosts))),
+    post
+  );
 
   // 대표(커버) 이미지: src/assets 에 실제 파일이 있을 때만 사용 (깨진 이미지 방지)
   const coverRel = coverFor(post);
@@ -91,14 +167,7 @@ function buildPost(post, allPosts, validTags = new Set()) {
     ? `<img class="hero" src="${url(coverRel)}" alt="${esc(post.imageAlt || post.title)}" width="1200" height="630" loading="eager">`
     : "";
 
-  const related = allPosts
-    .filter((p) => p.path !== post.path && p.category === post.category)
-    .slice(0, 5);
-  const relatedHtml = related.length
-    ? `<section class="related"><h2>함께 보면 좋은 글</h2><ul>${related
-        .map((p) => `<li><a href="${url(p.path)}">${esc(p.title)}</a></li>`)
-        .join("")}</ul></section>`
-    : "";
+  const relatedHtml = relatedGrid(post, allPosts);
 
   const faqHtml =
     post.faqs && post.faqs.length
@@ -125,6 +194,12 @@ function buildPost(post, allPosts, validTags = new Set()) {
     .filter(Boolean)
     .join("</script>\n<script type=\"application/ld+json\">");
 
+  const crumb = breadcrumbNav([
+    { name: "홈", path: "/" },
+    { name: catName(post.category), path: `/category/${post.category}/` },
+    { name: post.title, path: post.path },
+  ]);
+
   const html =
     head({
       title: post.title,
@@ -134,8 +209,10 @@ function buildPost(post, allPosts, validTags = new Set()) {
       image: coverRel ? absUrl(coverRel) : undefined,
       jsonld,
     }) +
-    header() +
-    `<article class="post">
+    header(true) +
+    `<div class="layout">
+    <article class="post">
+      ${crumb}
       <span class="card cat" style="border:0;padding:0">
         <a href="${url(`/category/${post.category}/`)}" class="cat">${esc(catName(post.category))}</a>
       </span>
@@ -154,8 +231,11 @@ function buildPost(post, allPosts, validTags = new Set()) {
       ${taboolaWidget()}
       ${naverAd()}
       ${tagsHtml}
+      ${prevNextNav(post, allPosts)}
       ${relatedHtml}
-    </article>` +
+    </article>
+    ${sidebar(post, allPosts)}
+    </div>` +
     footer();
 
   write(path.join(post.path, "index.html"), html);
@@ -174,6 +254,16 @@ function postCard(p) {
     <p class="excerpt">${esc(p.description || excerpt(p.body))}</p>
     <div class="meta">${esc(p.date)}</div>
   </li>`;
+}
+
+/** 목록 카드 배열 중간(7번째 위치)에 인피드 광고 삽입 */
+function cardsWithFeedAd(items) {
+  const cards = items.map(postCard);
+  const feedAd = adsenseUnit("inArticle");
+  if (feedAd && cards.length > 6) {
+    cards.splice(6, 0, `<li class="feed-ad">${feedAd}</li>`);
+  }
+  return cards.join("");
 }
 
 const PER_PAGE = 12;
@@ -203,7 +293,7 @@ function buildIndex(posts) {
     const page = idx + 1;
     const rel = page === 1 ? "/" : `/page/${page}/`;
     const list = items.length
-      ? `<ul class="post-list">${items.map(postCard).join("")}</ul>`
+      ? `<ul class="post-list">${cardsWithFeedAd(items)}</ul>`
       : `<p>아직 발행된 글이 없습니다. 곧 새로운 생활정보로 찾아뵙겠습니다.</p>`;
     const html =
       head({
@@ -234,7 +324,7 @@ function buildCategories(posts) {
       const page = idx + 1;
       const rel = page === 1 ? base : `${base}page/${page}/`;
       const list = pageItems.length
-        ? `<ul class="post-list">${pageItems.map(postCard).join("")}</ul>`
+        ? `<ul class="post-list">${cardsWithFeedAd(pageItems)}</ul>`
         : `<p>이 카테고리에는 아직 글이 없습니다.</p>`;
       const html =
         head({

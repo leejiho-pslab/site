@@ -16,7 +16,7 @@ import path from "node:path";
 import { marked } from "marked";
 import matter from "gray-matter";
 import { site } from "../config/site.config.js";
-import { POSTS_DIR, loadPosts } from "./lib.mjs";
+import { POSTS_DIR, loadPosts, fixLeftoverBold } from "./lib.mjs";
 import { absUrl, affiliateDisclosureLines } from "./render.mjs";
 
 function auth() {
@@ -33,7 +33,7 @@ function auth() {
 
 /** WP 본문 HTML (canonical 안내 + 출처 고지 포함) */
 function wpHtml(post) {
-  const body = marked.parse(post.body);
+  const body = fixLeftoverBold(marked.parse(post.body));
   const faq =
     post.faqs && post.faqs.length
       ? `<h2>자주 묻는 질문</h2>` + post.faqs.map((f) => `<h3>${f.q}</h3><p>${f.a}</p>`).join("")

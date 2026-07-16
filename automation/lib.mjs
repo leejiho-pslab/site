@@ -43,6 +43,12 @@ export function slugify(title) {
     .slice(0, 80);
 }
 
+/** marked 가 놓친 **굵게** 잔여 패턴 보정 (예: "**50~60%**입니다" — % 뒤 닫힘을
+ *  marked 가 강조로 인식 못함). HTML 변환 후 남은 리터럴 별표쌍을 <strong> 으로 치환. */
+export function fixLeftoverBold(html) {
+  return html.replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>");
+}
+
 /** 본문에서 발췌(excerpt) 추출 */
 export function excerpt(markdown, len = 110) {
   const text = markdown
