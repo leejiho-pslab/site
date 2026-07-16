@@ -132,6 +132,7 @@ function collect() {
   ];
   const aff = site.affiliate || {};
   const coupangReady = !!(aff.coupang && aff.coupang.enabled);
+  const naverConnectReady = !!(aff.naverConnect && aff.naverConnect.enabled);
   const channels = {
     site: {
       label: "자체 사이트", icon: "🌐", enabled: true, count: sitePosts.length,
@@ -176,7 +177,8 @@ function collect() {
       { k: "Google AdSense", ok: hasVal(site.ads.adsense.client), v: hasVal(site.ads.adsense.client) ? "설정됨" : "승인·설정 대기" },
       { k: "ads.txt", ok: hasVal(site.ads.adsense.client), v: hasVal(site.ads.adsense.client) ? "생성됨" : "AdSense 설정 시 생성" },
       { k: "Taboola", ok: !!site.ads.taboola.publisher, v: site.ads.taboola.publisher ? "설정됨" : "미설정" },
-      { k: "쿠팡 파트너스", ok: coupangReady, v: coupangReady ? "연동됨" : "가입·설정 대기 (가장 빠른 수익원)" },
+      { k: "네이버 쇼핑커넥트", ok: naverConnectReady, v: naverConnectReady ? "연동됨" : "가입·설정 대기 (심사 없음, 즉시)" },
+      { k: "쿠팡 파트너스", ok: coupangReady, v: coupangReady ? "연동됨" : "가입·설정 대기 (즉시 링크 발급)" },
       { k: "네이버 애드포스트", ok: false, v: "네이버 블로그 90일+ 운영 후 신청" },
     ],
     features: [
@@ -212,6 +214,12 @@ function collect() {
   // 네이버 애드포스트: 네이버 블로그(채널) 광고 수익 — 사이트 코드가 아니라
   //   블로그 운영 실적(90일+, 원본 글 50개+)으로 심사되므로 수동 항목으로만 추적.
   const affiliate = {
+    naverConnect: [
+      { k: "브랜드커넥트 스페이스 개설 + 쇼핑커넥트 약관 동의", ok: naverConnectReady, v: naverConnectReady ? "완료" : "심사 없음 — 네이버 계정으로 즉시 가입" },
+      { k: "활동 채널 등록(네이버 블로그 등)", ok: naverConnectReady, v: naverConnectReady ? "완료" : "블로그·인스타·유튜브·개인 사이트 모두 가능" },
+      { k: "식별자 등록", ok: !!aff.naverConnect?.partnerId, v: aff.naverConnect?.partnerId || "NAVER_CONNECT_ID 설정 시" },
+      { k: "글 내 고지 문구 자동 노출", ok: true, v: "affiliate:[naverConnect] 글에 자동 삽입" },
+    ],
     coupang: [
       { k: "쿠팡 파트너스 가입", ok: coupangReady, v: coupangReady ? "완료" : "partners.coupang.com — 가입 즉시 링크 발급" },
       { k: "채널(트래킹) ID 등록", ok: !!aff.coupang?.partnerId, v: aff.coupang?.partnerId || "COUPANG_PARTNER_ID 설정 시" },
@@ -223,8 +231,8 @@ function collect() {
       { k: "애드포스트 신청", ok: false, v: "adpost.naver.com (요건 충족 후)" },
     ],
   };
-  const affiliateDone = affiliate.coupang.filter((s) => s.ok).length;
-  const affiliateTotal = affiliate.coupang.length;
+  const affiliateDone = [...affiliate.naverConnect, ...affiliate.coupang].filter((s) => s.ok).length;
+  const affiliateTotal = affiliate.naverConnect.length + affiliate.coupang.length;
 
   return {
     generatedAt: todayKST(),
@@ -404,7 +412,7 @@ function render(d) {
     <div class="card chcard" onclick="showTab('ads')">
       <div class="label">💰 광고사이트(수익화) <span class="badge b-manual">4순위</span></div>
       <div class="kpi" style="font-size:24px">${d.adsenseDone + d.affiliateDone}<small>/${d.adsense.length + d.affiliateTotal} 준비됨</small></div>
-      <div class="chl"><span>쿠팡파트너스·AdSense·애드포스트</span></div></div>
+      <div class="chl"><span>쇼핑커넥트·쿠팡·AdSense·애드포스트</span></div></div>
     <div class="card chcard" onclick="showTab('site')">
       <div class="label">${ch.site.icon} ${ch.site.label} <span class="badge b-done">운영중</span></div>
       <div class="kpi" style="font-size:24px">${ch.site.count}<small> 편 발행</small></div>
@@ -424,9 +432,10 @@ function render(d) {
   <div class="sub">수익 발생까지 걸리는 시간이 짧은 순서입니다. 각 채널에 승인 리드타임이 있으므로 <b>지금 시작해야 총 대기시간이 최소화</b>됩니다.
     자세한 절차와 가입 링크는 <a href="#ads" onclick="showTab('ads')">💰 광고사이트 탭</a>에서 확인하세요.</div>
   <div class="card"><table><thead><tr><th>수익화 채널</th><th>수익까지 예상 시간</th><th>상태</th></tr></thead><tbody>
-    <tr><td>① 쿠팡 파트너스 (제휴)</td><td class="d">가입 즉시 링크 발급 — 수일 내 가능</td><td><span class="badge ${d.affiliate.coupang.every((s)=>s.ok) ? "b-done" : "b-todo"}">${d.affiliate.coupang.filter((s)=>s.ok).length}/${d.affiliate.coupang.length}</span></td></tr>
-    <tr><td>② Google AdSense (배너)</td><td class="d">커스텀 도메인 필수 + 심사 2~4주</td><td><span class="badge ${d.adsenseDone === d.adsense.length ? "b-done" : "b-todo"}">${d.adsenseDone}/${d.adsense.length}</span></td></tr>
-    <tr><td>③ 네이버 애드포스트 (네이버 블로그)</td><td class="d">블로그 90일+ 운영 후 신청 가능</td><td><span class="badge b-todo">${d.affiliate.adpost.filter((s)=>s.ok).length}/${d.affiliate.adpost.length}</span></td></tr>
+    <tr><td>① 네이버 쇼핑커넥트 (제휴)</td><td class="d">심사 없음 — 가입 즉시 시작</td><td><span class="badge ${d.affiliate.naverConnect.every((s)=>s.ok) ? "b-done" : "b-todo"}">${d.affiliate.naverConnect.filter((s)=>s.ok).length}/${d.affiliate.naverConnect.length}</span></td></tr>
+    <tr><td>② 쿠팡 파트너스 (제휴)</td><td class="d">가입 즉시 링크 발급 — 수일 내 가능</td><td><span class="badge ${d.affiliate.coupang.every((s)=>s.ok) ? "b-done" : "b-todo"}">${d.affiliate.coupang.filter((s)=>s.ok).length}/${d.affiliate.coupang.length}</span></td></tr>
+    <tr><td>③ Google AdSense (배너)</td><td class="d">커스텀 도메인 필수 + 심사 2~4주</td><td><span class="badge ${d.adsenseDone === d.adsense.length ? "b-done" : "b-todo"}">${d.adsenseDone}/${d.adsense.length}</span></td></tr>
+    <tr><td>④ 네이버 애드포스트 (네이버 블로그)</td><td class="d">블로그 90일+ 운영 후 신청 가능</td><td><span class="badge b-todo">${d.affiliate.adpost.filter((s)=>s.ok).length}/${d.affiliate.adpost.length}</span></td></tr>
   </tbody></table></div></section>
 
 <section><h2>🗓 발행 예정 (플랜 검토)</h2>
@@ -589,20 +598,33 @@ ${scheduleSection()}
   </div>
   <div class="note">자체 사이트 글을 네이버 검색에 노출시키려면 <a href="https://searchadvisor.naver.com" target="_blank">네이버 서치어드바이저</a>에 사이트를 등록하고 사이트맵을 제출하세요.</div></section>`;
 
-  // ===== 탭: 광고사이트(수익화) — 수익 도달 속도 순 =====
+  // ===== 탭: 광고사이트(수익화) — 애드센스·쇼핑커넥트·쿠팡파트너스 =====
   const adsTab = `
 <section><h2>💰 수익화 최속 경로 (수익 도달 속도 순)</h2>
-  <div class="sub">각 채널마다 승인 리드타임이 있으므로, 순서를 기다리지 말고 <b>오늘 셋을 병렬로 시작</b>하는 것이 총 대기시간을 최소화합니다.</div>
+  <div class="sub">각 채널마다 승인 리드타임이 다르므로, 순서를 기다리지 말고 <b>오늘 병렬로 시작</b>하는 것이 총 대기시간을 최소화합니다.</div>
   <div class="card">
-    <div class="row"><div><b>① 쿠팡 파트너스</b> — 오늘 가입 <span class="badge b-done">가장 빠름</span></div>
-      <div class="d">가입 즉시 링크 발급 → 기존 글에 상품 링크 삽입 → 수일 내 수익 가능</div></div>
-    <div class="row"><div><b>② 커스텀 도메인 구매 + AdSense 신청</b> — 이번 주</div>
-      <div class="d">도메인은 AdSense의 전제조건(연 1~2만원) · 심사 2~4주 → 글 30편 충족으로 지금 신청 가능</div></div>
-    <div class="row"><div><b>③ 네이버 블로그 개설 (애드포스트 시계 시작)</b> — 오늘</div>
+    <div class="row"><div><b>① 네이버 쇼핑커넥트 가입</b> — 오늘 <span class="badge b-done">심사 없음</span></div>
+      <div class="d">브랜드커넥트 스페이스 개설 → 쇼핑커넥트 약관 동의 → 즉시 시작 · 수수료 최대 30~50%(판매자 설정)</div></div>
+    <div class="row"><div><b>② 쿠팡 파트너스 가입</b> — 오늘 <span class="badge b-done">즉시 링크 발급</span></div>
+      <div class="d">기존 글에 상품 링크 삽입 → 수일 내 수익 가능 · 최종 승인은 누적 판매 15만원 도달 시 자동 심사</div></div>
+    <div class="row"><div><b>③ 커스텀 도메인 구매 + AdSense 신청</b> — 이번 주</div>
+      <div class="d">도메인은 AdSense의 전제조건(연 1~2만원) · 심사 2~4주</div></div>
+    <div class="row"><div><b>④ 네이버 블로그 개설 (애드포스트 시계 시작)</b> — 오늘</div>
       <div class="d">애드포스트는 개설 90일+ 운영 실적 심사 → 오늘 개설해야 3개월 뒤 신청 가능</div></div>
   </div></section>
 
-<section><h2>1️⃣ 쿠팡 파트너스 (제휴 마케팅) — 가장 빠른 수익원</h2>
+<section><h2>1️⃣ 네이버 쇼핑커넥트 (제휴 마케팅) — 심사 없이 즉시 시작</h2>
+  <div class="sub">네이버가 2025년 7월 정식 출시한 크리에이터 제휴 서비스입니다. 스마트스토어 상품 링크를 콘텐츠에 넣고 구매 발생 시 수수료(판매자 설정, 최대 30~50%)를 받습니다.</div>
+  <div class="card">${setRows(d.affiliate.naverConnect)}
+    <div class="note">가입: 네이버 <b>브랜드커넥트</b>에서 크리에이터 스페이스 개설 → <b>쇼핑 커넥트</b> 메뉴에서 이용약관 동의 → 즉시 시작(사전 심사 없음).
+      활동 채널로 네이버 블로그·인스타그램·유튜브는 물론 <b>개인 사이트(본 사이트)</b>도 등록할 수 있습니다.<br>
+      💡 네이버 블로그(1순위 채널)와 궁합이 가장 좋습니다 — 네이버 생태계 안에서 콘텐츠·상품·구매가 한 흐름으로 이어집니다.<br>
+      식별자를 GitHub <b>Variables</b>에 <code>NAVER_CONNECT_ID</code>로 등록하면 대시보드에 연동 상태가 반영되고,
+      글 frontmatter에 <code>affiliate: [naverConnect]</code>를 넣으면 고지 문구가 자동 삽입됩니다.<br>
+      ℹ️ 명칭 주의: "쇼핑파트너센터"는 스마트스토어 <b>판매자</b>용 센터로 별개입니다. 블로거용 제휴는 <b>쇼핑커넥트</b>가 정식 명칭입니다.</div>
+  </div></section>
+
+<section><h2>2️⃣ 쿠팡 파트너스 (제휴 마케팅) — 즉시 링크 발급</h2>
   <div class="sub">글에서 소개한 상품에 쿠팡 링크를 걸고, 클릭 후 구매가 발생하면 수수료를 받는 방식입니다. 배너광고와 병행 가능합니다.</div>
   <div class="card">${setRows(d.affiliate.coupang)}
     <div class="note">가입: <a href="https://partners.coupang.com" target="_blank">partners.coupang.com</a> → 가입 후 발급되는 채널(트래킹) ID를
@@ -612,7 +634,7 @@ ${scheduleSection()}
       💡 <b>최종 승인</b>은 누적 판매금액 15만원 도달 시 자동 심사되므로, 가입 직후부터 활동 실적을 쌓는 것이 중요합니다.</div>
   </div></section>
 
-<section><h2>2️⃣ Google AdSense (배너 광고) — 커스텀 도메인 필수</h2>
+<section><h2>3️⃣ Google AdSense (배너 광고) — 커스텀 도메인 필수</h2>
   <div class="sub">정공법 승인 기준입니다. 미끼(그림자) 사이트 없이 <b>이 사이트 그대로</b> 신청하세요.</div>
   <div class="card">${setRows(d.adsense)}
     <div class="note">⚠️ <b>커스텀 도메인이 사실상 필수입니다.</b> AdSense는 루트 도메인만 사이트로 등록할 수 있어
@@ -623,17 +645,15 @@ ${scheduleSection()}
       가입: <a href="https://adsense.google.com" target="_blank">adsense.google.com</a></div>
   </div></section>
 
-<section><h2>3️⃣ 네이버 애드포스트 (네이버 블로그 광고 수익)</h2>
+<section><h2>4️⃣ 네이버 애드포스트 (네이버 블로그 광고 수익)</h2>
   <div class="sub">네이버 블로그에 붙는 광고 수익 프로그램입니다. 사이트 코드가 아니라 <b>블로그 운영 실적</b>으로 심사합니다.</div>
   <div class="card">${setRows(d.affiliate.adpost)}
     <div class="note">신청: <a href="https://adpost.naver.com" target="_blank">adpost.naver.com</a> · 심사 기준: 개설 90일+, 공개 글 50개+, 방문자 지표, <b>복사 콘텐츠 없음</b>.<br>
       ⚠️ 사이트 글을 <b>그대로 복붙하면 '복사 콘텐츠'로 탈락</b>할 수 있습니다. 네이버 탭의 원고를 기반으로
-      도입부·구성·어투를 다듬어 발행하세요(네이버 검색의 유사문서 필터에도 유리합니다).<br>
-      ℹ️ 참고: "네이버 쇼핑파트너센터"는 스마트스토어 <b>판매자</b>용 입점 센터로, 쿠팡파트너스 같은 블로거 제휴 프로그램이 아닙니다.
-      네이버 쪽 수익화는 이 애드포스트가 현실적인 경로입니다.</div>
+      도입부·구성·어투를 다듬어 발행하세요(네이버 검색의 유사문서 필터에도 유리합니다).</div>
   </div></section>
 
-<section><h2>4️⃣ Taboola (추천 위젯) — 후순위</h2>
+<section><h2>5️⃣ Taboola (추천 위젯) — 후순위</h2>
   <div class="card">
     <div class="note">Taboola 등 네이티브 광고 네트워크는 <b>일정 규모 이상의 트래픽</b>을 요구해 신규 사이트는 승인되기 어렵습니다.
       트래픽이 쌓인 뒤(월 수만 PV+) 신청하는 후순위 항목으로 두세요. 코드는 이미 준비되어 있어 <code>TABOOLA_PUBLISHER</code>만 등록하면 활성화됩니다.</div>
@@ -643,9 +663,9 @@ ${scheduleSection()}
   <div class="card">
     <p style="margin:0 0 10px">제휴 마케팅은 "상품 추천/비교"형 콘텐츠에서 효과가 크므로, 상품 추천 주제를
       <code>config/requests.json</code>에 등록해 요청하거나, 다음 라운드의 주제·자동화 기획에서 전용 카테고리로 편입할 수 있습니다.
-      (예: 현재 계절 주제인 '제습기'·'장마철 곰팡이' 글은 쿠팡 상품 링크와 궁합이 좋습니다.)</p>
-    <p style="margin:0">글 frontmatter에 <code>affiliate: ["coupang"]</code>을 추가하면
-      해당 글 상단에 법정 고지 문구가 자동 노출됩니다(<code>automation/render.mjs</code>의 <code>affiliateDisclosure()</code>).</p>
+      (예: 계절 주제인 '제습기'·'장마철 곰팡이' 글은 쿠팡/네이버 상품 링크와 궁합이 좋습니다.)</p>
+    <p style="margin:0">글 frontmatter에 <code>affiliate: ["coupang"]</code> 또는 <code>["naverConnect"]</code>를 추가하면
+      해당 글 상단에 고지 문구가 자동 노출됩니다(<code>automation/render.mjs</code>의 <code>affiliateDisclosure()</code>).</p>
   </div></section>`;
 
   return `<!doctype html><html lang="ko"><head>
