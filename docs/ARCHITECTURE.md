@@ -10,7 +10,9 @@
         │                              │
         └──────────┬───────────────────┘   (운영자 요청 우선)
                    ▼
-        automation/topic-picker.mjs  ──(선택)── automation/trend.mjs (네이버 DataLab)
+        automation/topic-picker.mjs  ──(풀 부족 시)── automation/topic-generate.mjs
+                   │                                  (Claude 가 시의성 주제 자동 발굴·보충)
+                   ├──(선택)── automation/trend.mjs (네이버 DataLab)
                    ▼
         automation/generate.mjs  ── Claude API ──▶ content/posts/<date>-<slug>.md
                    │                              + 고정 작성기준 4종 주입

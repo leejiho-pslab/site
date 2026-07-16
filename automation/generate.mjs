@@ -171,6 +171,14 @@ export async function generateOne(topic) {
 }
 
 export async function generateBatch(count = site.publishing.postsPerRun) {
+  // 0) 주제 풀이 부족하면 Claude 로 시의성 주제를 자동 보충 (실패해도 발행은 계속)
+  try {
+    const { ensureTopicPool } = await import("./topic-generate.mjs");
+    await ensureTopicPool(Math.max(count * 3, 6));
+  } catch (e) {
+    console.warn("[generate] 주제 자동 보충 실패(무시):", e.message);
+  }
+
   // 1) 운영자(사용자) 요청 주제를 최우선으로 처리
   const userTopics = pendingTopics().slice(0, count);
   let topics = [...userTopics];
