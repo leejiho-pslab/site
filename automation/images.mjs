@@ -125,6 +125,31 @@ function genOgDefault() {
   shoot(html, 1200, 630, path.join(ASSETS, "og-default.png"));
 }
 
+// ---- 프로필 이미지 (1000x1000) ----
+// 쇼핑커넥트/네이버 블로그/블로거/SNS 프로필 공용. 원형 크롭을 고려해
+// 콘텐츠를 중앙 원 안에 배치한다. 크리에이터명: "오늘의 꿀팁 편집부"
+function genProfile() {
+  const html = `<!doctype html><html><head><meta charset="utf-8"><style>${FF}
+  html,body{margin:0}
+  .bg{position:fixed;inset:0;background:${GRAD}}
+  .deco{position:fixed;border-radius:50%;background:rgba(255,255,255,.07)}
+  .d1{width:560px;height:560px;top:-180px;right:-160px}
+  .d2{width:420px;height:420px;bottom:-150px;left:-130px}
+  .box{position:relative;z-index:1;width:1000px;height:1000px;color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .e{font-size:200px;line-height:1;filter:drop-shadow(0 14px 30px rgba(0,0,0,.25))}
+  .t1{font-weight:700;font-size:86px;letter-spacing:-2px;margin-top:26px;opacity:.95}
+  .t2{font-weight:900;font-size:168px;letter-spacing:-7px;line-height:1.02;margin-top:2px}
+  .chip{margin-top:40px;background:rgba(255,255,255,.18);border:3px solid rgba(255,255,255,.5);
+    padding:14px 46px;border-radius:999px;font-size:46px;font-weight:700;letter-spacing:2px}
+  </style></head><body><div class="bg"></div>
+  <div class="deco d1"></div><div class="deco d2"></div>
+  <div class="box"><div class="e">💡</div>
+  <div class="t1">오늘의</div><div class="t2">꿀팁</div>
+  <div class="chip">편집부</div></div></body></html>`;
+  shoot(html, 1000, 1000, path.join(ASSETS, "profile.png"));
+}
+
 // ---- 파비콘 (SVG, 폰트 불필요) ----
 function genFavicon() {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
@@ -203,7 +228,7 @@ export function genSectionCards(post, headings) {
   return hs.length;
 }
 
-function genBrand() { genLogo(); genOgDefault(); genFavicon(); }
+function genBrand() { genLogo(); genOgDefault(); genFavicon(); genProfile(); }
 function genCovers() {
   const posts = loadPosts();
   for (const p of posts) {
@@ -218,5 +243,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const cmd = process.argv[2] || "all";
   ensureDir(ASSETS);
   if (cmd === "brand" || cmd === "all") genBrand();
+  if (cmd === "profile") genProfile();
   if (cmd === "covers" || cmd === "all") genCovers();
 }
