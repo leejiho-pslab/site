@@ -38,7 +38,9 @@ source_topic: 근로장려금 신청 자격과 지급액
 channels:
   site: true
   blogger: true
+  wordpress: true
 published:
+  wordpress: false
   blogger: true
 ---
 

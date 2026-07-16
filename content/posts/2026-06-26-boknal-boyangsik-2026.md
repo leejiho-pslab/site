@@ -36,7 +36,9 @@ source_topic: 말복 보양식과 집에서 만드는 삼계탕
 channels:
   site: true
   blogger: true
+  wordpress: true
 published:
+  wordpress: false
   blogger: true
 ---
 

@@ -34,7 +34,9 @@ source_topic: 장마철 습기·곰팡이 제거와 제습 꿀팁
 channels:
   site: true
   blogger: true
+  wordpress: true
 published:
+  wordpress: false
   blogger: true
 ---
 

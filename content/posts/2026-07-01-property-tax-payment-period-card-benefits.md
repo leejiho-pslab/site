@@ -50,10 +50,10 @@ source_topic: 재산세 납부 기간과 절약·카드 혜택 정리
 channels:
   site: true
   blogger: true
-  wordpress: false
+  wordpress: true
 published:
-  blogger: true
   wordpress: false
+  blogger: true
 ---
 재산세 납부 기간과 카드 혜택을 미리 파악해 두면 매년 찾아오는 세금 고지서가 훨씬 덜 부담스럽습니다. 저도 처음 집을 마련하고 재산세 고지서를 받았을 때 "이게 언제 내는 거지? 카드로 내면 혜택이 있나?" 하고 한참 찾아봤던 기억이 있는데요. 이 글에서는 **재산세 납부 기간·분할납부 조건·카드 혜택·절약 팁**을 2025년 기준으로 한 번에 정리해 드리겠습니다.
 

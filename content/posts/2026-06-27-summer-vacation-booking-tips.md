@@ -36,7 +36,9 @@ source_topic: 여름 휴가 알뜰하게 가는 예약·할인 정보
 channels:
   site: true
   blogger: true
+  wordpress: true
 published:
+  wordpress: false
   blogger: true
 ---
 

@@ -36,7 +36,9 @@ source_topic: 여름철 전기요금 폭탄 피하는 에어컨 절약법
 channels:
   site: true
   blogger: true
+  wordpress: true
 published:
+  wordpress: false
   blogger: true
 ---
 
