@@ -136,9 +136,16 @@ export const site = {
     },
     naver: { enabled: false }, // 공식 글쓰기 API 부재로 현재 제외
     wordpress: {
-      // WORDPRESS_URL/USER/APP_PASSWORD 설정 시 자동으로 활성화됨
-      enabled: !!(process.env.WORDPRESS_URL && process.env.WORDPRESS_APP_PASSWORD),
-      url: process.env.WORDPRESS_URL || "", // 예: https://myblog.com (또는 워드프레스닷컴 주소)
+      // 두 가지 모드 지원 (환경변수 등록 시 자동 활성화):
+      //  ① wpcom: WordPress.com 무료 플랜 — WPCOM_SITE + WPCOM_TOKEN (공식 REST API, OAuth2 토큰)
+      //  ② selfhosted: 자체 호스팅/비즈니스 — WORDPRESS_URL/USER/APP_PASSWORD (앱 비밀번호)
+      enabled:
+        !!(process.env.WPCOM_SITE && process.env.WPCOM_TOKEN) ||
+        !!(process.env.WORDPRESS_URL && process.env.WORDPRESS_APP_PASSWORD),
+      mode: process.env.WPCOM_SITE && process.env.WPCOM_TOKEN ? "wpcom" : "selfhosted",
+      // wpcom 모드: 사이트 주소(도메인만, 예: todays-kkultip.wordpress.com)
+      wpcomSite: process.env.WPCOM_SITE || "",
+      url: process.env.WORDPRESS_URL || "", // selfhosted 모드: 예 https://myblog.com
       user: process.env.WORDPRESS_USER || "",
       // 상태: publish(즉시 공개) | draft(초안). 초기엔 draft 로 검수 후 공개 권장 가능
       status: process.env.WORDPRESS_STATUS || "publish",

@@ -151,8 +151,24 @@
 
 ## STEP 7. 워드프레스 채널 연동 — 3순위 (선택)
 
-자체 사이트/블로거와 동일한 글을 워드프레스에도 자동 발행합니다. **호스팅 필요**
-(워드프레스닷컴 비즈니스 이상 또는 자체 호스팅 WP).
+자체 사이트/블로거와 동일한 글을 워드프레스에도 자동 발행합니다. 두 가지 방식을 지원합니다.
+
+### 방식 ① WordPress.com 무료 플랜 (권장 — 비용 0원)
+
+1. [WordPress.com](https://wordpress.com/start) 가입 → 무료 플랜으로 사이트 개설 (주소: `xxx.wordpress.com`)
+2. [developer.wordpress.com/apps](https://developer.wordpress.com/apps/) → **Create New Application**
+   - Name: `kkultip-publisher` / Website URL: 사이트 주소 / Redirect URL: 자체 사이트 주소
+3. 발급된 Client ID/Secret으로 OAuth2 인증 → **액세스 토큰** 확보
+   (브라우저에서 authorize URL 접속 → 허용 → 리디렉션 주소의 `code`를 토큰으로 교환. 토큰은 만료되지 않음)
+4. GitHub 등록
+
+| 종류 | 이름 | 값 |
+| --- | --- | --- |
+| Variable | `WPCOM_SITE` | `xxx.wordpress.com` (도메인만) |
+| Secret | `WPCOM_TOKEN` | OAuth2 액세스 토큰 |
+| Variable | `PUBLISH_WORDPRESS` | `true` |
+
+### 방식 ② 자체 호스팅 / 비즈니스 플랜 (앱 비밀번호)
 
 1. 워드프레스 관리자 → **사용자 → 프로필 → 애플리케이션 비밀번호** 에서 새 비밀번호 발급
 2. GitHub 등록
@@ -164,7 +180,7 @@
 | Secret | `WORDPRESS_APP_PASSWORD` | 발급한 애플리케이션 비밀번호 |
 | Variable | `WORDPRESS_STATUS` | `publish`(기본) 또는 `draft` |
 
-3. 등록하면 이후 생성되는 글이 자동으로 WP에도 발행됩니다(수동 실행 시 `publish_wordpress=true`).
+등록하면 이후 생성되는 글이 자동으로 WP에도 발행됩니다(수동 실행 시 `publish_wordpress=true`).
 
 ---
 

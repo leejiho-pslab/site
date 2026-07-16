@@ -42,11 +42,9 @@ function run(scriptRelPath, label) {
     }
   }
 
-  // 4) 워드프레스 발행 (설정 시)
-  if (
-    (process.env.PUBLISH_WORDPRESS === "true" || site.channels.wordpress.enabled) &&
-    process.env.WORDPRESS_URL
-  ) {
+  // 4) 워드프레스 발행 (wpcom 또는 selfhosted 자격증명이 있을 때)
+  const wpReady = !!(process.env.WPCOM_SITE && process.env.WPCOM_TOKEN) || !!process.env.WORDPRESS_URL;
+  if ((process.env.PUBLISH_WORDPRESS === "true" || site.channels.wordpress.enabled) && wpReady) {
     run("automation/publish-wordpress.mjs", "4) 워드프레스 발행");
   }
 

@@ -109,12 +109,18 @@ function collect() {
   const bloggerPub = bloggerPosts.filter((p) => p.published?.blogger).length;
   const wpPosts = posts.filter((p) => p.channels?.wordpress);
   const wpPub = wpPosts.filter((p) => p.published?.wordpress).length;
-  const wpSecrets = [
-    { k: "WORDPRESS_URL", ok: !!env.WORDPRESS_URL },
-    { k: "WORDPRESS_USER", ok: !!env.WORDPRESS_USER },
-    { k: "WORDPRESS_APP_PASSWORD", ok: !!env.WORDPRESS_APP_PASSWORD },
-  ];
-  const wpConfigured = wpSecrets.every((s) => s.ok);
+  // 워드프레스: wpcom(무료) 모드 우선, 아니면 자체 호스팅 3종
+  const wpcomMode = !!(env.WPCOM_SITE && env.WPCOM_TOKEN);
+  const wpSecrets = wpcomMode
+    ? [
+        { k: "WPCOM_SITE (WordPress.com 무료)", ok: !!env.WPCOM_SITE },
+        { k: "WPCOM_TOKEN", ok: !!env.WPCOM_TOKEN },
+      ]
+    : [
+        { k: "WPCOM_SITE + WPCOM_TOKEN (무료 플랜)", ok: false },
+        { k: "또는 WORDPRESS_URL/USER/APP_PASSWORD (자체 호스팅)", ok: !!(env.WORDPRESS_URL && env.WORDPRESS_USER && env.WORDPRESS_APP_PASSWORD) },
+      ];
+  const wpConfigured = wpcomMode || !!(env.WORDPRESS_URL && env.WORDPRESS_USER && env.WORDPRESS_APP_PASSWORD);
   const bloggerSecrets = [
     { k: "BLOGGER_BLOG_ID", ok: !!env.BLOGGER_BLOG_ID },
     { k: "BLOGGER_CLIENT_ID", ok: !!env.BLOGGER_CLIENT_ID },

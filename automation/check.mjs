@@ -86,8 +86,9 @@ ok("채널: 자체 사이트 — 운영중");
 const bsec = ["BLOGGER_BLOG_ID", "BLOGGER_CLIENT_ID", "BLOGGER_CLIENT_SECRET", "BLOGGER_REFRESH_TOKEN"];
 const bReady = bsec.every((k) => process.env[k]);
 bReady ? ok("채널: 구글 블로거 — 연동됨") : wn("채널: 구글 블로거 — 연동 대기(Secrets 4종 필요)");
-const wpReady = !!(process.env.WORDPRESS_URL && process.env.WORDPRESS_USER && process.env.WORDPRESS_APP_PASSWORD);
-wpReady ? ok("채널: 워드프레스 — 연동됨") : wn("채널: 워드프레스 — 연동 대기(WORDPRESS_URL/USER/APP_PASSWORD 필요)");
+const wpReady = !!(process.env.WPCOM_SITE && process.env.WPCOM_TOKEN) ||
+  !!(process.env.WORDPRESS_URL && process.env.WORDPRESS_USER && process.env.WORDPRESS_APP_PASSWORD);
+wpReady ? ok("채널: 워드프레스 — 연동됨") : wn("채널: 워드프레스 — 연동 대기(WPCOM_SITE/TOKEN 또는 WORDPRESS_* 필요)");
 wn("채널: 네이버 블로그 — 수동 발행(기획안 다운로드 제공)");
 
 // 8) 수익화/분석 (정보)

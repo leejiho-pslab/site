@@ -1,13 +1,14 @@
 // =============================================================
-//  워드프레스(WordPress) 자동 발행 — REST API
+//  워드프레스(WordPress) 자동 발행 — 두 가지 모드
 //  - content/posts 중 아직 WP에 발행되지 않은 글을 발행
 //  - 발행 후 frontmatter 의 published.wordpress 를 true 로 갱신
 //
-//  인증(애플리케이션 비밀번호 방식, Basic Auth):
-//    WORDPRESS_URL           예: https://myblog.com  (워드프레스닷컴이면 https://xxx.wordpress.com)
-//    WORDPRESS_USER          워드프레스 로그인 사용자명
-//    WORDPRESS_APP_PASSWORD  사용자 > 프로필 > 애플리케이션 비밀번호에서 발급 (공백 포함 가능)
-//    WORDPRESS_STATUS        publish(기본) | draft
+//  ① wpcom 모드 (WordPress.com 무료 플랜 — 공식 REST API):
+//    WPCOM_SITE   예: todays-kkultip.wordpress.com (도메인만)
+//    WPCOM_TOKEN  OAuth2 액세스 토큰 (developer.wordpress.com 앱으로 발급, 만료 없음)
+//  ② selfhosted 모드 (자체 호스팅/비즈니스 — 앱 비밀번호 Basic Auth):
+//    WORDPRESS_URL / WORDPRESS_USER / WORDPRESS_APP_PASSWORD
+//  공통: WORDPRESS_STATUS  publish(기본) | draft
 //  발급 방법은 docs/SETUP.md 의 "워드프레스 연동" 참고.
 // =============================================================
 import fs from "node:fs";
@@ -66,6 +67,33 @@ async function publishOne({ base, token }, post) {
   return res.json();
 }
 
+// WordPress.com 공식 REST API (무료 플랜 지원, Bearer 토큰)
+async function publishOneWpcom(post) {
+  const siteDomain = process.env.WPCOM_SITE;
+  const res = await fetch(
+    `https://public-api.wordpress.com/rest/v1.1/sites/${encodeURIComponent(siteDomain)}/posts/new`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.WPCOM_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: post.title,
+        content: wpHtml(post),
+        status: site.channels.wordpress.status || "publish",
+        excerpt: post.description || "",
+        tags: (post.tags || []).slice(0, 5).join(","),
+      }),
+    }
+  );
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`WP.com ${res.status}: ${txt.slice(0, 200)}`);
+  }
+  return res.json();
+}
+
 function markPublished(file) {
   const full = path.join(POSTS_DIR, file);
   const raw = fs.readFileSync(full, "utf8");
@@ -75,7 +103,8 @@ function markPublished(file) {
 }
 
 async function main() {
-  const client = auth();
+  const wpcom = !!(process.env.WPCOM_SITE && process.env.WPCOM_TOKEN);
+  const client = wpcom ? null : auth();
   const pending = loadPosts().filter(
     (p) => p.channels?.wordpress && !p.published?.wordpress
   );
@@ -83,11 +112,12 @@ async function main() {
     console.log("[wordpress] 발행할 신규 글이 없습니다.");
     return;
   }
+  console.log(`[wordpress] 모드: ${wpcom ? "WordPress.com(무료 플랜)" : "자체 호스팅"}`);
   for (const post of pending) {
     console.log(`[wordpress] 발행: ${post.title}`);
-    const data = await publishOne(client, post);
+    const data = wpcom ? await publishOneWpcom(post) : await publishOne(client, post);
     markPublished(post.file);
-    console.log(`[wordpress] 완료: ${data.link || data.id}`);
+    console.log(`[wordpress] 완료: ${data.URL || data.link || data.ID || data.id}`);
   }
 }
 
