@@ -74,13 +74,16 @@ async function main() {
   if (!blogId) throw new Error("BLOGGER_BLOG_ID 가 필요합니다.");
   const blogger = getClient();
 
-  const pending = loadPosts().filter(
-    (p) => p.channels?.blogger && !p.published?.blogger
-  );
+  // 1회 실행당 발행 상한 — 신규 블로그에 한꺼번에 쏟아지면 스팸으로 보일 수 있음
+  const LIMIT = Number(process.env.PUBLISH_LIMIT || 2);
+  const pending = loadPosts()
+    .filter((p) => p.channels?.blogger && !p.published?.blogger)
+    .slice(0, LIMIT);
   if (!pending.length) {
     console.log("[blogger] 발행할 신규 글이 없습니다.");
     return;
   }
+  console.log(`[blogger] 이번 실행 ${pending.length}편(상한 ${LIMIT})`);
   for (const post of pending) {
     console.log(`[blogger] 발행: ${post.title}`);
     const data = await publishOne(blogger, blogId, post);

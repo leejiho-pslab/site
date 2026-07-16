@@ -105,14 +105,16 @@ function markPublished(file) {
 async function main() {
   const wpcom = !!(process.env.WPCOM_SITE && process.env.WPCOM_TOKEN);
   const client = wpcom ? null : auth();
-  const pending = loadPosts().filter(
-    (p) => p.channels?.wordpress && !p.published?.wordpress
-  );
+  // 1회 실행당 발행 상한 — 신규 블로그에 한꺼번에 쏟아지면 스팸으로 보일 수 있음
+  const LIMIT = Number(process.env.PUBLISH_LIMIT || 2);
+  const pending = loadPosts()
+    .filter((p) => p.channels?.wordpress && !p.published?.wordpress)
+    .slice(0, LIMIT);
   if (!pending.length) {
     console.log("[wordpress] 발행할 신규 글이 없습니다.");
     return;
   }
-  console.log(`[wordpress] 모드: ${wpcom ? "WordPress.com(무료 플랜)" : "자체 호스팅"}`);
+  console.log(`[wordpress] 모드: ${wpcom ? "WordPress.com(무료 플랜)" : "자체 호스팅"} · 이번 실행 ${pending.length}편(상한 ${LIMIT})`);
   for (const post of pending) {
     console.log(`[wordpress] 발행: ${post.title}`);
     const data = wpcom ? await publishOneWpcom(post) : await publishOne(client, post);
