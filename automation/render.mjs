@@ -82,17 +82,21 @@ export function naverAd() {
 }
 
 /** 제휴 마케팅(쿠팡파트너스 등) 고지 문구.
- *  post.affiliate 배열에 담긴 네트워크 중 config 에서 활성화된 것만 노출한다.
+ *  post.affiliate 배열에 태그가 있으면 항상 노출한다 — 고지 의무는 본문에 링크가
+ *  존재하는지에 따르는 것이지, 환경변수(연동 상태)와 무관하기 때문(정책 위반 방지).
  *  네트워크를 추가하면(site.affiliate 에 항목 추가) 자동으로 지원된다. */
 export function affiliateDisclosure(post) {
-  const tags = post?.affiliate || [];
-  if (!tags.length) return "";
-  const a = site.affiliate || {};
-  const lines = tags
-    .filter((t) => a[t]?.enabled && a[t]?.disclosure)
-    .map((t) => a[t].disclosure);
+  const lines = affiliateDisclosureLines(post);
   if (!lines.length) return "";
   return `<div class="affiliate-disclosure">${lines.map((l) => esc(l)).join("<br>")}</div>`;
+}
+
+/** 고지 문구 텍스트 배열 — 블로거/워드프레스 발행 모듈에서도 재사용 */
+export function affiliateDisclosureLines(post) {
+  const tags = post?.affiliate || [];
+  if (!tags.length) return [];
+  const a = site.affiliate || {};
+  return tags.filter((t) => a[t]?.disclosure).map((t) => a[t].disclosure);
 }
 
 // ---------------- 분석/검증 ----------------

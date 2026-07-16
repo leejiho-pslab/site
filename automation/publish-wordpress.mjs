@@ -17,7 +17,7 @@ import { marked } from "marked";
 import matter from "gray-matter";
 import { site } from "../config/site.config.js";
 import { POSTS_DIR, loadPosts } from "./lib.mjs";
-import { absUrl } from "./render.mjs";
+import { absUrl, affiliateDisclosureLines } from "./render.mjs";
 
 function auth() {
   const { WORDPRESS_URL, WORDPRESS_USER, WORDPRESS_APP_PASSWORD } = process.env;
@@ -38,9 +38,13 @@ function wpHtml(post) {
     post.faqs && post.faqs.length
       ? `<h2>자주 묻는 질문</h2>` + post.faqs.map((f) => `<h3>${f.q}</h3><p>${f.a}</p>`).join("")
       : "";
+  // 제휴 고지: 본문에 제휴 링크가 있는 글은 발행 채널 어디서든 고지 문구 필수
+  const disclosure = affiliateDisclosureLines(post)
+    .map((l) => `<p><em>${l}</em></p>`)
+    .join("");
   // 원문 링크: 검색엔진이 자체 사이트를 원본으로 인식하도록 유도(중복 콘텐츠 잠식 방지)
   const canonical = absUrl(post.path);
-  return `${body}${faq}
+  return `${disclosure}${body}${faq}
 <hr>
 <p><small>※ 제도·요금·신청 기준은 변경될 수 있으니 공식 누리집을 확인하세요.<br>
 이 글의 원문은 <a href="${canonical}">${site.name}</a>에 처음 게시되었습니다.</small></p>`;
