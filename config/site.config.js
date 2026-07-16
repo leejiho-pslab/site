@@ -107,7 +107,9 @@ export const site = {
   // ---- 분석/검증 ----
   analytics: {
     ga4: process.env.GA4_ID || "G-Q8SKG9HNXY", // GA4 측정 ID (공개값). 환경변수로 덮어쓰기 가능
-    naverWebmaster: process.env.NAVER_SITE_VERIFICATION || "",
+    naverWebmaster: process.env.NAVER_SITE_VERIFICATION || "59ca3c5efcda5e1cdf0b516ea3e84873c2b346c9", // 네이버 소유확인 메타 (공개값)
+    // 네이버 서치어드바이저 소유확인 파일명 (HTML 파일 업로드 방식 — 빌드 시 자동 생성)
+    naverVerificationFile: process.env.NAVER_VERIFICATION_FILE || "naverb78587335c832116d83072e2fcf26f30.html",
     googleSiteVerification: process.env.GOOGLE_SITE_VERIFICATION || "7bAqxRVLGiokcF0CW0NZuIERUL5ztZxXbDwrOulgC5w",
     bingVerification: process.env.BING_VERIFICATION || "89A438FEF1F6A929DAE6B75606C67966", // Bing msvalidate.01 값
   },

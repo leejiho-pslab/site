@@ -660,6 +660,13 @@ function buildIndexNow() {
   write(`${key}.txt`, key + "\n");
 }
 
+// 네이버 서치어드바이저 소유확인 파일 (HTML 파일 업로드 방식)
+function buildNaverVerification() {
+  const f = site.analytics.naverVerificationFile;
+  if (!f) return;
+  write(f, `naver-site-verification: ${f}`);
+}
+
 function buildRss(posts) {
   const items = posts
     .slice(0, 20)
@@ -726,6 +733,7 @@ function build() {
   buildRobots();
   buildLlmsTxt(posts);
   buildIndexNow();
+  buildNaverVerification();
   buildAdsTxt();
   buildRss(posts);
   copyAssets();
