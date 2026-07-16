@@ -38,7 +38,7 @@ channels:
   blogger: true
   wordpress: true
 published:
-  wordpress: false
+  wordpress: true
   blogger: true
 ---
 
