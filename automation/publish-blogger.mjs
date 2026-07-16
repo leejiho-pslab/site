@@ -37,9 +37,12 @@ function bloggerHtml(post) {
       ? `<h2>자주 묻는 질문</h2>` +
         post.faqs.map((f) => `<h3>${f.q}</h3><p>${f.a}</p>`).join("")
       : "";
+  // 원문 링크: 검색엔진이 자체 사이트를 원본으로 인식하도록 유도(중복 콘텐츠 잠식 방지)
+  const canonical = absUrl(post.path);
   return `${body}${faq}
 <hr>
-<p><small>※ 제도·요금·신청 기준은 변경될 수 있으니 공식 누리집을 확인하세요.</small></p>`;
+<p><small>※ 제도·요금·신청 기준은 변경될 수 있으니 공식 누리집을 확인하세요.<br>
+이 글의 원문은 <a href="${canonical}">${site.name}</a>에 처음 게시되었습니다.</small></p>`;
 }
 
 async function publishOne(blogger, blogId, post) {

@@ -81,15 +81,16 @@ export function naverAd() {
   return `<div class="ad-slot">${n.script}</div>`;
 }
 
-/** 제휴 마케팅(쿠팡파트너스/네이버쇼핑파트너) 고지 문구.
- *  post.affiliate 에 담긴 채널만 활성 + 실제 활성화된 채널만 노출한다. */
+/** 제휴 마케팅(쿠팡파트너스 등) 고지 문구.
+ *  post.affiliate 배열에 담긴 네트워크 중 config 에서 활성화된 것만 노출한다.
+ *  네트워크를 추가하면(site.affiliate 에 항목 추가) 자동으로 지원된다. */
 export function affiliateDisclosure(post) {
   const tags = post?.affiliate || [];
   if (!tags.length) return "";
   const a = site.affiliate || {};
-  const lines = [];
-  if (tags.includes("coupang") && a.coupang?.enabled) lines.push(a.coupang.disclosure);
-  if (tags.includes("naverShopping") && a.naverShopping?.enabled) lines.push(a.naverShopping.disclosure);
+  const lines = tags
+    .filter((t) => a[t]?.enabled && a[t]?.disclosure)
+    .map((t) => a[t].disclosure);
   if (!lines.length) return "";
   return `<div class="affiliate-disclosure">${lines.map((l) => esc(l)).join("<br>")}</div>`;
 }

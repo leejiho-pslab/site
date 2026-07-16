@@ -95,7 +95,6 @@ const money = [
   ["AdSense", hasVal(site.ads.adsense.client)], ["Taboola", !!site.ads.taboola.publisher],
   ["GA4", !!site.analytics.ga4], ["GSC 인증", !!site.analytics.googleSiteVerification],
   ["쿠팡 파트너스", !!(site.affiliate?.coupang?.enabled)],
-  ["네이버 쇼핑 파트너", !!(site.affiliate?.naverShopping?.enabled)],
 ];
 for (const [k, v] of money) v ? ok(`수익화/분석: ${k} 설정됨`) : wn(`수익화/분석: ${k} 미설정`);
 

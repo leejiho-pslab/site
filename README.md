@@ -3,11 +3,11 @@
 생활정보/꿀팁 니치의 **SEO 최적화 콘텐츠를 자동 생성·발행**하고, 배너 광고
 (애드센스·타뷸라 등)로 수익화하는 정적 사이트 + 자동화 파이프라인입니다.
 
-- **채널 연결 우선순위**: ① 네이버 블로그(수동) → ② 구글 블로거(Blogger API) → ③ 워드프레스(REST API) → ④ 광고사이트
+- **채널 연결 우선순위**: ① 네이버 블로그(수동) → ② 구글 블로거(Blogger API) → ③ 워드프레스(REST API)
+- **수익화(수익 도달 속도 순, 병렬 시작)**: ① 쿠팡 파트너스(가입 즉시) → ② AdSense(커스텀 도메인 필수, 심사 2~4주) → ③ 네이버 애드포스트(블로그 90일+ 운영)
 - **콘텐츠**: 월별 **시즌성/시의성** 주제를 Claude API로 자동 생성
-- **수익화**: AdSense(배너), Taboola(추천위젯), 쿠팡 파트너스·네이버 쇼핑 파트너(제휴 마케팅)
 - **자동화**: GitHub Actions 크론으로 생성→빌드→배포→발행까지 무인 운영(하루 3회)
-- **네이버 블로그**: 공식 글쓰기 API 부재로 대시보드에서 원고 다운로드 후 수동 발행
+- **네이버 블로그**: 공식 글쓰기 API 부재로 대시보드에서 원고 다운로드 후 다듬어 수동 발행(그대로 복붙 금지 — 유사문서·애드포스트 심사 리스크)
 
 > 📌 **처음 설정하시나요?** → [docs/SETUP.md](docs/SETUP.md) 에 사용자가 해야 할
 > 단계(GitHub Pages 활성화·시크릿 등록·애드센스·검색엔진 등록·블로거 연동·도메인)가
@@ -67,29 +67,26 @@ npm run serve               # http://localhost:8080 미리보기
 > 프로젝트 페이지(`<user>.github.io/site`)는 `SITE_BASE_PATH=/site`.
 > 커스텀 도메인 사용 시 `SITE_CNAME` 설정 + `SITE_BASE_PATH=` (빈 값).
 
-## 수익화 설정 (광고사이트 — 4순위)
+## 수익화 설정 (수익 도달 속도 순 — 오늘 병렬 시작 권장)
 
-### 배너 광고
-| 네트워크 | 설정 항목 | 위치 |
-| --- | --- | --- |
-| **Google AdSense** | `ADSENSE_CLIENT`, `ADSENSE_SLOT_*` | 상단/본문중간/하단 자동 삽입 |
-| **Taboola** | `TABOOLA_PUBLISHER`, `TABOOLA_PLACEMENT` | 글 하단 추천 위젯 |
-| **네이버 등** | `NAVER_AD_SCRIPT` | 발급 스크립트 raw 삽입 |
+| 순서 | 채널 | 수익까지 | 설정 항목 |
+| --- | --- | --- | --- |
+| ① | **쿠팡 파트너스** (제휴) | 수일 — 가입 즉시 링크 발급 | `COUPANG_PARTNER_ID` |
+| ② | **Google AdSense** (배너) | 2~4주 심사 · **커스텀 도메인 필수** | `ADSENSE_CLIENT`, `ADSENSE_SLOT_*` |
+| ③ | **네이버 애드포스트** (네이버 블로그) | 90일+ 운영 실적 심사 | (사이트 코드 불필요) |
+| 후순위 | **Taboola** (추천위젯) | 트래픽 요건(월 수만 PV+) | `TABOOLA_PUBLISHER` |
 
+- ⚠️ **AdSense는 루트 도메인만 등록 가능** — `github.io` 하위 주소로는 신청 불가.
+  커스텀 도메인 연결(SETUP STEP 10)이 애드센스의 전제조건입니다.
+- ℹ️ "네이버 쇼핑파트너센터"는 스마트스토어 **판매자**용 입점 센터로 블로거 제휴 프로그램이
+  아닙니다. 네이버 쪽 수익화는 애드포스트(블로그 90일+, 원본 글 50개+, 복사 콘텐츠 없음)가 현실적 경로입니다.
 - ID가 비어있거나 `XXXX` placeholder면 해당 광고는 렌더링되지 않습니다(빈 슬롯 없음).
-- 본문 중간 광고는 두 번째 소제목(H2) 앞에 자동 삽입됩니다.
-- AdSense 자동광고(`autoAds`)도 기본 활성화되어 있습니다.
-
-### 제휴 마케팅 (어필리에이트)
-| 네트워크 | 설정 항목 | 비고 |
-| --- | --- | --- |
-| **쿠팡 파트너스** | `COUPANG_PARTNER_ID` | [partners.coupang.com](https://partners.coupang.com) 가입 |
-| **네이버 쇼핑 파트너** | `NAVER_PARTNER_ID` | [shoppartner.naver.com](https://shoppartner.naver.com) 가입 |
-
-- `config/site.config.js`의 `affiliate` 설정으로 관리하며, 값 등록 시 자동 활성화됩니다.
-- 글 frontmatter에 `affiliate: ["coupang"]`(또는 `"naverShopping"`)을 추가하면
-  정책상 필수인 고지 문구(`"이 포스팅은 ○○ 파트너스 활동의 일환으로..."`)가 글 상단에 **자동 삽입**됩니다
-  (`automation/render.mjs`의 `affiliateDisclosure()`).
+  본문 중간 광고는 두 번째 소제목(H2) 앞에 자동 삽입, AdSense 자동광고(`autoAds`)는 기본 활성화.
+- **제휴 고지 자동화**: 글 frontmatter에 `affiliate: ["coupang"]`을 추가하면 정책상 필수인
+  고지 문구가 글 상단에 자동 삽입됩니다(`automation/render.mjs`의 `affiliateDisclosure()`,
+  `config/site.config.js > affiliate`에 네트워크 추가 시 자동 지원).
+- 블로거/워드프레스 발행본에는 **원문 링크**가 자동 포함되어 자체 사이트가 원본으로
+  인식되도록 합니다(중복 콘텐츠 상호 잠식 방지).
 - 상품 추천형 콘텐츠 기획·자동 태깅은 다음 라운드(주제·자동화 재기획)에서 다룹니다.
 
 ## 구글 블로거 연동 (선택)

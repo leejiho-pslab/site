@@ -71,6 +71,9 @@ export const site = {
   // ---- 수익화: 제휴 마케팅(어필리에이트) ----
   // 배너 광고가 아닌 "상품 링크 클릭·구매 시 수수료" 방식. partnerId 미설정 시
   // 비활성 상태로 유지되며, 활성화되면 글에 법정 고지 문구가 자동 노출된다.
+  // ※ 네이버에는 쿠팡파트너스 같은 일반인용 쇼핑 제휴 프로그램이 없음
+  //   (쇼핑파트너센터는 스마트스토어 '판매자'용 입점 센터). 네이버 쪽 수익화는
+  //   네이버 블로그의 애드포스트(채널 차원, 사이트 코드 불필요)로 진행한다.
   affiliate: {
     coupang: {
       enabled: !!process.env.COUPANG_PARTNER_ID,
@@ -80,13 +83,8 @@ export const site = {
       disclosure:
         "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
     },
-    naverShopping: {
-      enabled: !!process.env.NAVER_PARTNER_ID,
-      // 네이버 쇼핑 파트너 채널 ID
-      partnerId: process.env.NAVER_PARTNER_ID || "",
-      disclosure:
-        "이 포스팅은 네이버 쇼핑 파트너 활동을 통해 일정액의 수수료를 지급받을 수 있습니다.",
-    },
+    // 추가 제휴 네트워크(링크프라이스 등)는 같은 형태로 항목을 늘리면
+    // 고지 문구 삽입(render.mjs affiliateDisclosure)이 자동 적용된다.
   },
 
   // ---- 분석/검증 ----
