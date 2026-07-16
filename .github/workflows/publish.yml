@@ -14,10 +14,11 @@ name: 자동 발행 (생성 → 빌드 → 배포 → 블로거)
 #  3) cron 스케줄은 기본 브랜치에 있을 때만 동작함
 
 on:
-  schedule:
-    - cron: "0 0 * * *" # 매일 09:00 KST (00:00 UTC)
-    - cron: "0 6 * * *" # 매일 15:00 KST (06:00 UTC)
-    - cron: "0 12 * * *" # 매일 21:00 KST (12:00 UTC)
+  # ⏸ 자동 발행 홀딩 중 (운영자 지시) — 재개하려면 아래 schedule 블록의 주석을 해제
+  # schedule:
+  #   - cron: "0 0 * * *" # 매일 09:00 KST (00:00 UTC)
+  #   - cron: "0 6 * * *" # 매일 15:00 KST (06:00 UTC)
+  #   - cron: "0 12 * * *" # 매일 21:00 KST (12:00 UTC)
   workflow_dispatch:
     inputs:
       posts:
