@@ -50,7 +50,7 @@ export const site = {
   ads: {
     adsense: {
       enabled: true,
-      client: process.env.ADSENSE_CLIENT || "ca-pub-XXXXXXXXXXXXXXXX",
+      client: process.env.ADSENSE_CLIENT || "ca-pub-1075710398120688", // 게시자 ID (공개값)
       // 자동 광고(Auto ads) 사용 여부 — true면 본문 자동 삽입
       autoAds: true,
       // 수동 슬롯 ID (위치별). 발급 후 채워넣기.
