@@ -130,6 +130,9 @@ function collect() {
     { k: "Search Console 인증", ok: !!site.analytics.googleSiteVerification, v: site.analytics.googleSiteVerification ? "설정됨" : "미설정" },
     { k: "IndexNow", ok: !!site.indexNowKey, v: site.indexNowKey ? "활성화" : "미설정" },
   ];
+  const aff = site.affiliate || {};
+  const coupangReady = !!(aff.coupang && aff.coupang.enabled);
+  const naverShopReady = !!(aff.naverShopping && aff.naverShopping.enabled);
   const channels = {
     site: {
       label: "자체 사이트", icon: "🌐", enabled: true, count: sitePosts.length,
@@ -165,15 +168,17 @@ function collect() {
       { k: "사이트맵·robots·llms.txt", ok: true, v: "생성됨" },
     ],
     channels: [
-      { k: "자체 사이트", ok: true, v: `운영중 · ${sitePosts.length}편` },
-      { k: "구글 블로거", ok: bloggerConfigured, v: bloggerConfigured ? `연동됨 · ${bloggerPub}편` : "연동 대기" },
-      { k: "워드프레스", ok: wpConfigured, v: wpConfigured ? `연동됨 · ${wpPub}편` : "연동 대기" },
-      { k: "네이버 블로그", ok: false, v: "수동(다운로드 제공)" },
+      { k: "네이버 블로그 (1순위)", ok: false, v: "수동(다운로드 제공)" },
+      { k: "구글 블로거 (2순위)", ok: bloggerConfigured, v: bloggerConfigured ? `연동됨 · ${bloggerPub}편` : "연동 대기" },
+      { k: "워드프레스 (3순위)", ok: wpConfigured, v: wpConfigured ? `연동됨 · ${wpPub}편` : "연동 대기" },
+      { k: "자체 사이트 (기준)", ok: true, v: `운영중 · ${sitePosts.length}편` },
     ],
     money: [
       { k: "Google AdSense", ok: hasVal(site.ads.adsense.client), v: hasVal(site.ads.adsense.client) ? "설정됨" : "승인·설정 대기" },
       { k: "ads.txt", ok: hasVal(site.ads.adsense.client), v: hasVal(site.ads.adsense.client) ? "생성됨" : "AdSense 설정 시 생성" },
       { k: "Taboola", ok: !!site.ads.taboola.publisher, v: site.ads.taboola.publisher ? "설정됨" : "미설정" },
+      { k: "쿠팡 파트너스", ok: coupangReady, v: coupangReady ? "연동됨" : "가입·설정 대기" },
+      { k: "네이버 쇼핑 파트너", ok: naverShopReady, v: naverShopReady ? "연동됨" : "가입·설정 대기" },
     ],
     features: [
       { k: "사이트 내 검색", ok: true, v: "/search/" },
@@ -203,6 +208,22 @@ function collect() {
   ];
   const adsenseDone = adsense.filter((s) => s.ok).length;
 
+  // ---- 제휴 마케팅(쿠팡파트너스/네이버쇼핑파트너) 준비도 ----
+  const affiliate = {
+    coupang: [
+      { k: "쿠팡 파트너스 가입", ok: coupangReady, v: coupangReady ? "완료" : "partners.coupang.com 에서 가입" },
+      { k: "채널(트래킹) ID 등록", ok: !!aff.coupang?.partnerId, v: aff.coupang?.partnerId || "COUPANG_PARTNER_ID 설정 시" },
+      { k: "글 내 고지 문구 자동 노출", ok: true, v: "affiliate:[coupang] 글에 자동 삽입" },
+    ],
+    naverShopping: [
+      { k: "네이버 쇼핑 파트너 가입", ok: naverShopReady, v: naverShopReady ? "완료" : "shoppartner.naver.com 에서 가입" },
+      { k: "파트너 채널 ID 등록", ok: !!aff.naverShopping?.partnerId, v: aff.naverShopping?.partnerId || "NAVER_PARTNER_ID 설정 시" },
+      { k: "글 내 고지 문구 자동 노출", ok: true, v: "affiliate:[naverShopping] 글에 자동 삽입" },
+    ],
+  };
+  const affiliateDone = [...affiliate.coupang, ...affiliate.naverShopping].filter((s) => s.ok).length;
+  const affiliateTotal = affiliate.coupang.length + affiliate.naverShopping.length;
+
   return {
     generatedAt: todayKST(),
     editUrl,
@@ -214,6 +235,9 @@ function collect() {
     setupTotal,
     adsense,
     adsenseDone,
+    affiliate,
+    affiliateDone,
+    affiliateTotal,
     postsPerDayInfo: perRun * runsPerDay,
     progress: {
       total, done, pct: total ? Math.round((done / total) * 100) : 0,
@@ -361,24 +385,28 @@ function render(d) {
     <div class="kpi">${d.activeChannels}<small> / 4</small></div></div>
 </div>
 
-<section><h2>📡 채널별 현황</h2>
+<section><h2>📡 채널별 현황 <span class="mini">(연결 우선순위: 네이버 → 블로거 → 워드프레스 → 광고사이트)</span></h2>
   <div class="grid cols">
-    <div class="card chcard" onclick="showTab('site')">
-      <div class="label">${ch.site.icon} ${ch.site.label}</div>
-      <div class="kpi" style="font-size:24px">${ch.site.count}<small> 편 발행</small></div>
-      <div class="chl"><span>상태: 운영중</span></div></div>
+    <div class="card chcard" onclick="showTab('naver')">
+      <div class="label">${ch.naver.icon} ${ch.naver.label} <span class="badge b-manual">1순위</span></div>
+      <div class="kpi" style="font-size:24px">—</div>
+      <div class="chl"><span>수동(다운로드 제공)</span></div></div>
     <div class="card chcard" onclick="showTab('blogger')">
-      <div class="label">${ch.blogger.icon} ${ch.blogger.label}</div>
+      <div class="label">${ch.blogger.icon} ${ch.blogger.label} <span class="badge b-manual">2순위</span></div>
       <div class="kpi" style="font-size:24px">${ch.blogger.published}<small> 발행 / ${ch.blogger.pending} 대기</small></div>
       <div class="chl"><span>${ch.blogger.configured ? "연동됨" : "연동 필요"}</span></div></div>
     <div class="card chcard" onclick="showTab('wordpress')">
-      <div class="label">${ch.wordpress.icon} ${ch.wordpress.label}</div>
+      <div class="label">${ch.wordpress.icon} ${ch.wordpress.label} <span class="badge b-manual">3순위</span></div>
       <div class="kpi" style="font-size:24px">${ch.wordpress.published}<small> 발행 / ${ch.wordpress.pending} 대기</small></div>
       <div class="chl"><span>${ch.wordpress.configured ? "연동됨" : "연동 필요"}</span></div></div>
-    <div class="card chcard muted-card" onclick="showTab('naver')">
-      <div class="label">${ch.naver.icon} ${ch.naver.label}</div>
-      <div class="kpi" style="font-size:24px">—</div>
-      <div class="chl"><span>현재 제외</span></div></div>
+    <div class="card chcard" onclick="showTab('ads')">
+      <div class="label">💰 광고사이트(수익화) <span class="badge b-manual">4순위</span></div>
+      <div class="kpi" style="font-size:24px">${d.adsenseDone + d.affiliateDone}<small>/${d.adsense.length + d.affiliateTotal} 준비됨</small></div>
+      <div class="chl"><span>AdSense·쿠팡파트너스·네이버쇼핑파트너</span></div></div>
+    <div class="card chcard" onclick="showTab('site')">
+      <div class="label">${ch.site.icon} ${ch.site.label} <span class="badge b-done">운영중</span></div>
+      <div class="kpi" style="font-size:24px">${ch.site.count}<small> 편 발행</small></div>
+      <div class="chl"><span>기준 채널</span></div></div>
   </div></section>
 
 <section><h2>🚦 구축 · 연동 현황 <span class="mini">(${d.setupDone}/${d.setupTotal} 완료)</span></h2>
@@ -390,12 +418,14 @@ function render(d) {
     <div class="card"><div class="label">🧩 사이트 기능</div>${setRows(d.setup.features)}</div>
   </div></section>
 
-<section><h2>💵 애드센스 승인 준비도 <span class="mini">(${d.adsenseDone}/${d.adsense.length})</span></h2>
-  <div class="sub">정공법 승인 기준입니다. 미끼(그림자) 사이트 없이 <b>이 사이트 그대로</b> 신청하세요. ● 빨강 항목을 채우면 승인율이 올라갑니다.</div>
-  <div class="card">${setRows(d.adsense)}
-    <div class="note">가장 중요한 건 <b>콘텐츠 축적(20편+)</b> 과 <b>원본성</b>입니다. 하루 3편 자동 발행으로 채워지며, 20편 도달 후 신청을 권장합니다.
-      절차: <a href="${esc(d.setupUrl)}" target="_blank">SETUP STEP 5</a>.</div>
-  </div></section>
+<section><h2>💰 수익화(광고사이트) 준비도 <span class="mini">(${d.adsenseDone + d.affiliateDone}/${d.adsense.length + d.affiliateTotal})</span></h2>
+  <div class="sub">Google AdSense · 쿠팡 파트너스 · 네이버 쇼핑 파트너 3종의 가입·연동 현황 요약입니다. 자세한 절차와 가입 링크는
+    <a href="#ads" onclick="showTab('ads')">💰 광고사이트 탭</a>에서 확인하세요.</div>
+  <div class="card"><table><thead><tr><th>수익화 채널</th><th>상태</th></tr></thead><tbody>
+    <tr><td>Google AdSense (배너광고)</td><td><span class="badge ${d.adsenseDone === d.adsense.length ? "b-done" : "b-todo"}">${d.adsenseDone}/${d.adsense.length}</span></td></tr>
+    <tr><td>쿠팡 파트너스 (어필리에이트)</td><td><span class="badge ${d.affiliate.coupang.every((s)=>s.ok) ? "b-done" : "b-todo"}">${d.affiliate.coupang.filter((s)=>s.ok).length}/${d.affiliate.coupang.length}</span></td></tr>
+    <tr><td>네이버 쇼핑 파트너 (어필리에이트)</td><td><span class="badge ${d.affiliate.naverShopping.every((s)=>s.ok) ? "b-done" : "b-todo"}">${d.affiliate.naverShopping.filter((s)=>s.ok).length}/${d.affiliate.naverShopping.length}</span></td></tr>
+  </tbody></table></div></section>
 
 <section><h2>🗓 발행 예정 (플랜 검토)</h2>
   <div class="sub">다음에 자동 발행될 순서입니다. 운영자 요청이 시즌 주제보다 먼저 처리됩니다. 매일 09:00·15:00·21:00(KST) 각 ${d.perRun}편(하루 ${d.perRun * (site.publishing.runsPerDay || 1)}편).</div>
@@ -473,7 +503,7 @@ ${scheduleSection()}
     <div class="card"><div class="label">발행됨</div><div class="kpi">${ch.blogger.published}<small> 편</small></div></div>
     <div class="card"><div class="label">발행 대기</div><div class="kpi">${ch.blogger.pending}<small> 편</small></div></div>
   </div>
-  ${ch.blogger.configured ? "" : `<div class="note">아직 연동되지 않았습니다. 아래 4개 Secret 을 등록하고 워크플로우 입력 <code>publish_blogger=true</code>(또는 변수 <code>PUBLISH_BLOGGER=true</code>) 로 두면 자동 발행됩니다. 발급 절차: <a href="${esc(d.setupUrl)}" target="_blank">SETUP STEP 7</a>.</div>`}</section>
+  ${ch.blogger.configured ? "" : `<div class="note">아직 연동되지 않았습니다. 아래 4개 Secret 을 등록하고 워크플로우 입력 <code>publish_blogger=true</code>(또는 변수 <code>PUBLISH_BLOGGER=true</code>) 로 두면 자동 발행됩니다. 발급 절차: <a href="${esc(d.setupUrl)}" target="_blank">SETUP STEP 6</a>.</div>`}</section>
 
 ${scheduleSection()}
 
@@ -549,6 +579,51 @@ ${scheduleSection()}
   </div>
   <div class="note">자체 사이트 글을 네이버 검색에 노출시키려면 <a href="https://searchadvisor.naver.com" target="_blank">네이버 서치어드바이저</a>에 사이트를 등록하고 사이트맵을 제출하세요.</div></section>`;
 
+  // ===== 탭: 광고사이트(수익화 — AdSense·쿠팡파트너스·네이버쇼핑파트너) =====
+  const adsTab = `
+<section><h2>💰 수익화 채널 3종 현황</h2>
+  <div class="grid cols">
+    <div class="card"><div class="label">Google AdSense</div>
+      <div class="kpi" style="font-size:22px">${d.adsenseDone}/${d.adsense.length}</div></div>
+    <div class="card"><div class="label">쿠팡 파트너스</div>
+      <div class="kpi" style="font-size:22px">${d.affiliate.coupang.filter((s)=>s.ok).length}/${d.affiliate.coupang.length}</div></div>
+    <div class="card"><div class="label">네이버 쇼핑 파트너</div>
+      <div class="kpi" style="font-size:22px">${d.affiliate.naverShopping.filter((s)=>s.ok).length}/${d.affiliate.naverShopping.length}</div></div>
+  </div></section>
+
+<section><h2>1️⃣ Google AdSense (배너 광고)</h2>
+  <div class="sub">정공법 승인 기준입니다. 미끼(그림자) 사이트 없이 <b>이 사이트 그대로</b> 신청하세요.</div>
+  <div class="card">${setRows(d.adsense)}
+    <div class="note">가장 중요한 건 <b>콘텐츠 축적(20편+)</b>과 <b>원본성</b>입니다. 하루 3편 자동 발행으로 채워지며, 20편 도달 후 신청을 권장합니다.<br>
+      가입: <a href="https://adsense.google.com" target="_blank">adsense.google.com</a> · 절차: <a href="${esc(d.setupUrl)}" target="_blank">SETUP STEP 8</a></div>
+  </div></section>
+
+<section><h2>2️⃣ 쿠팡 파트너스 (제휴 마케팅)</h2>
+  <div class="sub">글에서 소개한 상품에 쿠팡 링크를 걸고, 클릭 후 구매가 발생하면 수수료를 받는 방식입니다. 배너광고와 병행 가능합니다.</div>
+  <div class="card">${setRows(d.affiliate.coupang)}
+    <div class="note">가입: <a href="https://partners.coupang.com" target="_blank">partners.coupang.com</a> → 가입 후 발급되는 채널(트래킹) ID를
+      GitHub <b>Variables</b>에 <code>COUPANG_PARTNER_ID</code>로 등록하면 연동됩니다.<br>
+      ⚠️ 정책상 링크가 포함된 글에는 <b>"이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다."</b> 문구를 반드시 표시해야 하며,
+      본 사이트는 글 frontmatter에 <code>affiliate: [coupang]</code>이 있으면 이 문구를 자동으로 삽입합니다.</div>
+  </div></section>
+
+<section><h2>3️⃣ 네이버 쇼핑 파트너 (제휴 마케팅)</h2>
+  <div class="sub">네이버 쇼핑 상품을 글에서 링크하고 구매 발생 시 수수료를 받는 방식입니다.</div>
+  <div class="card">${setRows(d.affiliate.naverShopping)}
+    <div class="note">가입: <a href="https://shoppartner.naver.com" target="_blank">shoppartner.naver.com</a> → 파트너 채널 ID를
+      GitHub <b>Variables</b>에 <code>NAVER_PARTNER_ID</code>로 등록하면 연동됩니다. 쿠팡과 동일하게 고지 문구가 자동 삽입됩니다
+      (<code>affiliate: [naverShopping]</code>).</div>
+  </div></section>
+
+<section><h2>📝 제휴 마케팅 콘텐츠 운영 방식</h2>
+  <div class="card">
+    <p style="margin:0 0 10px">제휴 마케팅은 "상품 추천/비교"형 콘텐츠에서 효과가 크므로, 현재의 시즌성 정보 글과는 별도로
+      상품 추천 주제를 <code>config/requests.json</code>에 등록해 요청하거나, 다음 라운드의 주제·자동화 기획에서
+      전용 카테고리로 편입할 수 있습니다.</p>
+    <p style="margin:0">글 frontmatter에 <code>affiliate: ["coupang"]</code> 또는 <code>["naverShopping"]</code>을 추가하면
+      해당 글 상단에 법정 고지 문구가 자동 노출됩니다(<code>automation/render.mjs</code>의 <code>affiliateDisclosure()</code>).</p>
+  </div></section>`;
+
   return `<!doctype html><html lang="ko"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
@@ -559,17 +634,19 @@ ${scheduleSection()}
 
 <div class="tabs">
   <button data-tab="all" onclick="showTab('all',this)">📊 전체</button>
+  <button data-tab="naver" onclick="showTab('naver',this)">🟢 네이버 블로그 · 1순위</button>
+  <button data-tab="blogger" onclick="showTab('blogger',this)">📝 구글 블로거 · 2순위</button>
+  <button data-tab="wordpress" onclick="showTab('wordpress',this)">🔵 워드프레스 · 3순위</button>
+  <button data-tab="ads" onclick="showTab('ads',this)">💰 광고사이트 · 4순위</button>
   <button data-tab="site" onclick="showTab('site',this)">🌐 자체 사이트</button>
-  <button data-tab="blogger" onclick="showTab('blogger',this)">📝 구글 블로거</button>
-  <button data-tab="wordpress" onclick="showTab('wordpress',this)">🔵 워드프레스</button>
-  <button data-tab="naver" onclick="showTab('naver',this)">🟢 네이버 블로그</button>
 </div>
 
 <div id="t-all" class="panel">${overview}</div>
-<div id="t-site" class="panel">${siteTab}</div>
+<div id="t-naver" class="panel">${naverTab}</div>
 <div id="t-blogger" class="panel">${bloggerTab}</div>
 <div id="t-wordpress" class="panel">${wpTab}</div>
-<div id="t-naver" class="panel">${naverTab}</div>
+<div id="t-ads" class="panel">${adsTab}</div>
+<div id="t-site" class="panel">${siteTab}</div>
 
 <script>
 function showTab(key, btn){

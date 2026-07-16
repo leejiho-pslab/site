@@ -3,11 +3,11 @@
 생활정보/꿀팁 니치의 **SEO 최적화 콘텐츠를 자동 생성·발행**하고, 배너 광고
 (애드센스·타뷸라 등)로 수익화하는 정적 사이트 + 자동화 파이프라인입니다.
 
-- **채널**: 자체 사이트(GitHub Pages) + 구글 블로거(Blogger API)
+- **채널 연결 우선순위**: ① 네이버 블로그(수동) → ② 구글 블로거(Blogger API) → ③ 워드프레스(REST API) → ④ 광고사이트
 - **콘텐츠**: 월별 **시즌성/시의성** 주제를 Claude API로 자동 생성
-- **수익화**: AdSense(상단/본문중간/하단), Taboola(추천위젯), 네이버 디스플레이(선택)
-- **자동화**: GitHub Actions 크론으로 생성→빌드→배포→발행까지 무인 운영
-- **네이버 블로그**: 공식 글쓰기 API 부재로 현재 제외 (추후 별도 논의)
+- **수익화**: AdSense(배너), Taboola(추천위젯), 쿠팡 파트너스·네이버 쇼핑 파트너(제휴 마케팅)
+- **자동화**: GitHub Actions 크론으로 생성→빌드→배포→발행까지 무인 운영(하루 3회)
+- **네이버 블로그**: 공식 글쓰기 API 부재로 대시보드에서 원고 다운로드 후 수동 발행
 
 > 📌 **처음 설정하시나요?** → [docs/SETUP.md](docs/SETUP.md) 에 사용자가 해야 할
 > 단계(GitHub Pages 활성화·시크릿 등록·애드센스·검색엔진 등록·블로거 연동·도메인)가
@@ -67,8 +67,9 @@ npm run serve               # http://localhost:8080 미리보기
 > 프로젝트 페이지(`<user>.github.io/site`)는 `SITE_BASE_PATH=/site`.
 > 커스텀 도메인 사용 시 `SITE_CNAME` 설정 + `SITE_BASE_PATH=` (빈 값).
 
-## 수익화 설정
+## 수익화 설정 (광고사이트 — 4순위)
 
+### 배너 광고
 | 네트워크 | 설정 항목 | 위치 |
 | --- | --- | --- |
 | **Google AdSense** | `ADSENSE_CLIENT`, `ADSENSE_SLOT_*` | 상단/본문중간/하단 자동 삽입 |
@@ -78,6 +79,18 @@ npm run serve               # http://localhost:8080 미리보기
 - ID가 비어있거나 `XXXX` placeholder면 해당 광고는 렌더링되지 않습니다(빈 슬롯 없음).
 - 본문 중간 광고는 두 번째 소제목(H2) 앞에 자동 삽입됩니다.
 - AdSense 자동광고(`autoAds`)도 기본 활성화되어 있습니다.
+
+### 제휴 마케팅 (어필리에이트)
+| 네트워크 | 설정 항목 | 비고 |
+| --- | --- | --- |
+| **쿠팡 파트너스** | `COUPANG_PARTNER_ID` | [partners.coupang.com](https://partners.coupang.com) 가입 |
+| **네이버 쇼핑 파트너** | `NAVER_PARTNER_ID` | [shoppartner.naver.com](https://shoppartner.naver.com) 가입 |
+
+- `config/site.config.js`의 `affiliate` 설정으로 관리하며, 값 등록 시 자동 활성화됩니다.
+- 글 frontmatter에 `affiliate: ["coupang"]`(또는 `"naverShopping"`)을 추가하면
+  정책상 필수인 고지 문구(`"이 포스팅은 ○○ 파트너스 활동의 일환으로..."`)가 글 상단에 **자동 삽입**됩니다
+  (`automation/render.mjs`의 `affiliateDisclosure()`).
+- 상품 추천형 콘텐츠 기획·자동 태깅은 다음 라운드(주제·자동화 재기획)에서 다룹니다.
 
 ## 구글 블로거 연동 (선택)
 

@@ -102,6 +102,10 @@ article.post blockquote { margin: 18px 0; padding: 12px 16px; background: var(--
 .site-footer .nav { margin-top: 8px; }
 .disclaimer { margin-top: 12px; font-size: 12px; color: #9aa1ac; }
 
+/* ---- 제휴 마케팅 고지 ---- */
+.affiliate-disclosure { margin: 16px 0; padding: 10px 14px; font-size: 13px;
+  color: #92620a; background: #fff8e6; border: 1px solid #f2dca0; border-radius: 8px; }
+
 /* ---- 카테고리 칩 ---- */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 22px; }
 .chip { font-size: 13px; border: 1px solid var(--line); border-radius: 999px;

@@ -81,6 +81,19 @@ export function naverAd() {
   return `<div class="ad-slot">${n.script}</div>`;
 }
 
+/** 제휴 마케팅(쿠팡파트너스/네이버쇼핑파트너) 고지 문구.
+ *  post.affiliate 에 담긴 채널만 활성 + 실제 활성화된 채널만 노출한다. */
+export function affiliateDisclosure(post) {
+  const tags = post?.affiliate || [];
+  if (!tags.length) return "";
+  const a = site.affiliate || {};
+  const lines = [];
+  if (tags.includes("coupang") && a.coupang?.enabled) lines.push(a.coupang.disclosure);
+  if (tags.includes("naverShopping") && a.naverShopping?.enabled) lines.push(a.naverShopping.disclosure);
+  if (!lines.length) return "";
+  return `<div class="affiliate-disclosure">${lines.map((l) => esc(l)).join("<br>")}</div>`;
+}
+
 // ---------------- 분석/검증 ----------------
 
 export function analytics() {

@@ -134,6 +134,8 @@ export async function generateOne(topic) {
     imageAlt: `${a.title} - ${site.name} 대표 이미지`,
     faqs: a.faqs || [],
     source_topic: topic.title,
+    // 제휴 마케팅(쿠팡파트너스/네이버쇼핑파트너) 태그. 상품 추천형 글에 수동/향후 자동으로 채움.
+    affiliate: [],
     channels: {
       site: true,
       blogger: site.channels.blogger.enabled,

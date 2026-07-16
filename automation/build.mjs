@@ -14,7 +14,7 @@ import {
 import { buildDashboard } from "./dashboard.mjs";
 import {
   head, header, footer, url, absUrl,
-  adsenseUnit, taboolaWidget, naverAd,
+  adsenseUnit, taboolaWidget, naverAd, affiliateDisclosure,
   articleJsonLd, breadcrumbJsonLd, faqJsonLd, organizationJsonLd, esc,
 } from "./render.mjs";
 
@@ -145,6 +145,7 @@ function buildPost(post, allPosts, validTags = new Set()) {
       } · <a href="${url("/author/")}" rel="author">${esc(site.authorProfile?.name || site.author)}</a></div>
       ${heroImg}
       ${post.summary ? `<blockquote class="summary"><strong>핵심 요약</strong><br>${esc(post.summary)}</blockquote>` : ""}
+      ${affiliateDisclosure(post)}
       ${adsenseUnit("top")}
       ${toc}
       ${bodyHtml}

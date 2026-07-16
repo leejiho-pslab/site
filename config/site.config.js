@@ -68,6 +68,27 @@ export const site = {
     },
   },
 
+  // ---- 수익화: 제휴 마케팅(어필리에이트) ----
+  // 배너 광고가 아닌 "상품 링크 클릭·구매 시 수수료" 방식. partnerId 미설정 시
+  // 비활성 상태로 유지되며, 활성화되면 글에 법정 고지 문구가 자동 노출된다.
+  affiliate: {
+    coupang: {
+      enabled: !!process.env.COUPANG_PARTNER_ID,
+      // 쿠팡 파트너스 채널(트래킹) ID — 파트너스 가입 후 발급되는 subId/채널 식별자
+      partnerId: process.env.COUPANG_PARTNER_ID || "",
+      // 쿠팡 파트너스 운영정책상 링크가 포함된 글에는 이 문구를 반드시 노출해야 함(문구 임의 변경 금지)
+      disclosure:
+        "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
+    },
+    naverShopping: {
+      enabled: !!process.env.NAVER_PARTNER_ID,
+      // 네이버 쇼핑 파트너 채널 ID
+      partnerId: process.env.NAVER_PARTNER_ID || "",
+      disclosure:
+        "이 포스팅은 네이버 쇼핑 파트너 활동을 통해 일정액의 수수료를 지급받을 수 있습니다.",
+    },
+  },
+
   // ---- 분석/검증 ----
   analytics: {
     ga4: process.env.GA4_ID || "G-Q8SKG9HNXY", // GA4 측정 ID (공개값). 환경변수로 덮어쓰기 가능
@@ -99,6 +120,7 @@ export const site = {
   },
 
   // ---- 채널 ----
+  // 연결 우선순위: 1.네이버 블로그(수동) 2.구글 블로거 3.워드프레스 4.자체 사이트(기준/이미 운영중)
   channels: {
     site: { enabled: true }, // GitHub Pages 자체 사이트
     blogger: {
