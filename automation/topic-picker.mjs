@@ -32,10 +32,15 @@ export function pickTopics(count = 1) {
   }
 
   if (candidates.length === 0) {
-    // 모든 시즌 주제 소진 시: 가장 오래 안 다룬 카테고리 기반 일반 주제 폴백
-    console.warn("[topic-picker] 시즌 주제 풀 소진 — 다음 달 주제를 재사용합니다.");
-    const all = Object.values(TOPICS).flat();
-    return all.slice(0, count).map((t) => ({ ...t, month }));
+    // 전체 연간 풀에서 미발행 주제 폴백 (시의성은 떨어지지만 중복보다 낫다)
+    const rest = Object.values(TOPICS).flat().filter((t) => !used.has(t.title));
+    if (rest.length) {
+      console.warn("[topic-picker] 시즌(인접월) 주제 소진 — 연간 풀에서 미발행 주제를 사용합니다.");
+      return rest.slice(0, count).map((t) => ({ ...t, month }));
+    }
+    // 진짜 소진: 같은 주제를 재생성하느니 이번 회차 발행을 건너뛴다 (중복 콘텐츠 방지)
+    console.warn("[topic-picker] 주제 풀 완전 소진 — 생성을 건너뜁니다. topics/seasonal-topics.json 을 보충하세요.");
+    return [];
   }
 
   return candidates.slice(0, count);

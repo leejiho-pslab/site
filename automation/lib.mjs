@@ -66,7 +66,14 @@ export function loadPosts() {
   return posts.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-/** 이미 다룬 제목/슬러그 목록 (중복 발행 방지) */
+/** 이미 다룬 제목 + 원천 주제 목록 (중복 발행 방지).
+ *  글 제목은 생성 시 모델이 새로 짓기 때문에, 주제 풀과의 비교에는
+ *  반드시 source_topic 도 포함해야 한다 (제목만 비교하면 같은 주제가 무한 재생성됨). */
 export function existingTitles() {
-  return new Set(loadPosts().map((p) => p.title));
+  const used = new Set();
+  for (const p of loadPosts()) {
+    if (p.title) used.add(p.title);
+    if (p.source_topic) used.add(p.source_topic);
+  }
+  return used;
 }

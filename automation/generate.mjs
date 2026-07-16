@@ -15,7 +15,7 @@ import { site } from "../config/site.config.js";
 import { pickTopics } from "./topic-picker.mjs";
 import { rankByTrend } from "./trend.mjs";
 import { pendingTopics, editorialNotes, markRequestDone } from "./requests.mjs";
-import { POSTS_DIR, ensureDir, slugify, todayKST } from "./lib.mjs";
+import { POSTS_DIR, ensureDir, slugify, todayKST, loadPosts, existingTitles } from "./lib.mjs";
 
 const MODEL = process.env.CONTENT_MODEL || "claude-sonnet-4-6";
 
@@ -115,7 +115,14 @@ export async function generateOne(topic) {
   const a = toolUse.input;
 
   const date = todayKST();
-  const slug = a.slug_en && /[a-z]/.test(a.slug_en) ? slugify(a.slug_en) : slugify(a.title);
+  let slug = a.slug_en && /[a-z]/.test(a.slug_en) ? slugify(a.slug_en) : slugify(a.title);
+  // 슬러그 충돌 방지: 같은 slug 는 같은 /posts/<slug>/ 경로에 빌드되어 기존 글을 덮어쓴다
+  const usedSlugs = new Set(loadPosts().map((p) => p.slug));
+  if (usedSlugs.has(slug)) {
+    let n = 2;
+    while (usedSlugs.has(`${slug}-${n}`)) n++;
+    slug = `${slug}-${n}`;
+  }
   const fileName = `${date}-${slug}.md`;
   const relPath = `/posts/${slug}/`;
 
@@ -176,6 +183,10 @@ export async function generateBatch(count = site.publishing.postsPerRun) {
       topics = topics.concat((await rankByTrend(seasonal)).slice(0, need));
     }
   }
+
+  // 최종 안전망: 이미 다룬 주제(source_topic/제목)는 제외 (운영자 명시 요청은 통과)
+  const used = existingTitles();
+  topics = topics.filter((t) => t.fromUser || !used.has(t.title));
 
   if (!topics.length) {
     console.log("[generate] 생성할 주제가 없습니다.");
