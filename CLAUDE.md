@@ -39,4 +39,7 @@
 - ▶ 멀티 사이트 확장(2026-07-17): kkultip/jype 프로필 구현 완료 — 신규 레포 2개 생성·변수·Pages·DNS·
   애드센스 사이트 추가는 운영자 가이드로 순차 진행 중
 - 남은 일: 신규 도메인 2개 셋업(레포 복제→변수→Pages→DNS→검색등록→애드센스 사이트 추가) ·
+  코드 동기화 활성화(SYNC_TOKEN PAT + SYNC_TARGETS — docs/MULTISITE.md) ·
   네이버 블로그 발행 루틴 시작 · 애드센스 승인 후 슬롯 ID 등록
+- 진행 위치(2026-07-17): todayskkultip 레포 생성+변수 3종+ANTHROPIC_API_KEY 등록 완료.
+  다음 가이드 순서: ①jype 레포 생성 ②두 레포 Pages 켜기 ③SYNC_TOKEN 동기화 ④가비아 DNS ⑤검색등록·애드센스 사이트 추가
