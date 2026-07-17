@@ -125,6 +125,7 @@ jobs:
           git add content/posts src/assets/covers config/requests.json config/topics/generated-topics.json || true
           if ! git diff --cached --quiet; then
             git commit -m "chore: 자동 발행 글 추가 ($(date -u +%Y-%m-%d))"
+            git pull --rebase origin "${GITHUB_REF_NAME}" || true
             git push
           else
             echo "커밋할 신규 글 없음"
