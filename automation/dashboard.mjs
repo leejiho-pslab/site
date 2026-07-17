@@ -299,6 +299,19 @@ function collect() {
     editUrl,
     setupUrl,
     revenueEditUrl,
+    // 사이트 간 교차 표시용 요약 — 다른 사이트 대시보드가 이 data.json 을 fetch 해 사용
+    summary: {
+      profile: site.profile || "default",
+      name: site.name,
+      url: site.url,
+      lang: site.lang,
+      totalPosts: posts.length,
+      last7d: daily.slice(-7).reduce((a, x) => a + x.count, 0),
+      bloggerPublished,
+      poolTotal: pool.length,
+      poolDays,
+      generatedAt: todayKST(),
+    },
     report: {
       daily, weekly,
       revenue: { records: revenueRecords, byMonth: revByMonth, bySource: revBySource, total: revTotal },
@@ -465,20 +478,48 @@ function render(d) {
       <span class="mini">${c.catDone}/${c.catTotal} (${pct}%)</span></summary>${rows}</details>`;
   }).join("");
 
+  // 사이트 3개 실시간 카드 — 현재 사이트는 빌드 데이터로, 다른 사이트는
+  // 해당 도메인의 /dashboard/data.json 을 브라우저에서 fetch 해 채운다
+  const sm = d.summary;
+  const siteCards = d.sites.map((s) => {
+    const cur = s.current;
+    return `
+    <div class="card sitecard ${cur ? "cur" : "sitefetch"}" data-url="${esc(s.url)}">
+      <div class="label">${cur ? "● 지금 보는 사이트" : "🌐 위성 사이트"} · ${esc(s.niche)}</div>
+      <div style="font-weight:800;font-size:18px">${esc(s.name)}</div>
+      <div class="chl" style="margin:10px 0 4px">
+        <span class="s-posts">${cur ? `발행 ${sm.totalPosts}편` : "…"}</span>
+        <span class="s-week">${cur ? `최근7일 ${sm.last7d}편` : "…"}</span>
+        <span class="s-pool">${cur ? `남은주제 ${sm.poolTotal}개` : "…"}</span>
+      </div>
+      <div style="margin-top:6px"><span class="s-status badge ${cur ? "b-done" : "b-na"}">${cur ? "정상 운영" : "확인 중…"}</span></div>
+      <div class="linkrow">
+        <a href="${esc(s.url)}/" target="_blank">사이트</a>
+        <a href="${esc(s.url)}/dashboard/" target="_blank">대시보드</a>
+        <a href="https://github.com/${esc(s.repo)}/actions" target="_blank">실행 로그</a>
+      </div>
+    </div>`;
+  }).join("");
+
   // ===== 탭1: 전체 =====
   const overview = `
 <div class="grid cols">
+  <div class="card"><div class="label">총 발행 글</div>
+    <div class="kpi">${d.publishing.totalPosts}<small> 편</small></div></div>
+  <div class="card"><div class="label">최근 7일 발행</div>
+    <div class="kpi">${sm.last7d}<small> 편</small></div></div>
   <div class="card"><div class="label">SEO·GEO 진척도</div>
     <div class="kpi">${p.pct}%<small> ${p.done}/${p.total}</small></div>
     <div class="bar"><span style="width:${p.pct}%"></span></div></div>
   <div class="card"><div class="label">자동 검사 통과</div>
     <div class="kpi">${p.autoPass}<small>/${p.autoTotal}</small></div>
     <div class="bar"><span style="width:${p.autoTotal ? Math.round(p.autoPass/p.autoTotal*100):0}%"></span></div></div>
-  <div class="card"><div class="label">총 발행 글</div>
-    <div class="kpi">${d.publishing.totalPosts}<small> 편</small></div></div>
   <div class="card"><div class="label">활성 채널</div>
     <div class="kpi">${d.activeChannels}<small> / 4</small></div></div>
 </div>
+
+<section><h2>🌍 사이트 3개 한눈에 <span class="mini">(위성 사이트 숫자는 실시간 조회)</span></h2>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">${siteCards}</div></section>
 
 <section><h2>📡 채널별 현황 <span class="mini">(연결 우선순위: 네이버 → 블로거 → 워드프레스 → 광고사이트)</span></h2>
   <div class="grid cols">
@@ -551,22 +592,6 @@ function render(d) {
         <td class="d">${esc(t.note || "")}</td></tr>`).join("")
       : `<tr><td colspan="4" class="mini">등록된 요청이 없습니다.</td></tr>`}
     </tbody></table>
-  </div></section>
-
-<section><h2>🌍 멀티 사이트 (3개 도메인)</h2>
-  <div class="sub">같은 자동 발행 코드를 프로필만 바꿔 3개 도메인에서 운영합니다. 각 사이트의 대시보드는 해당 도메인의 <code>/dashboard/</code>에 있습니다.</div>
-  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
-  ${d.sites.map((s) => `
-    <div class="card sitecard ${s.current ? "cur" : ""}">
-      <div class="label">${s.current ? "● 이 대시보드의 사이트" : "○ 별도 레포 운영"}</div>
-      <div style="font-weight:800;font-size:18px">${esc(s.name)}</div>
-      <div class="mini" style="margin:4px 0 10px">${esc(s.niche)}</div>
-      <div class="linkrow" style="margin-top:8px">
-        <a href="${esc(s.url)}/" target="_blank">사이트</a>
-        <a href="${esc(s.url)}/dashboard/" target="_blank">대시보드</a>
-        <a href="https://github.com/${esc(s.repo)}" target="_blank">레포</a>
-      </div>
-    </div>`).join("")}
   </div></section>
 
 <section><h2>📅 월별 발행 추이</h2>
@@ -876,6 +901,25 @@ function showTab(key, btn){
 document.addEventListener('DOMContentLoaded',function(){
   var h=(location.hash||'').replace('#','');
   showTab(document.querySelector('.tabs button[data-tab="'+h+'"]') ? h : 'all');
+  // 위성 사이트 실시간 현황 조회 (해당 도메인의 /dashboard/data.json)
+  document.querySelectorAll('.sitefetch').forEach(function(el){
+    var base=el.getAttribute('data-url');
+    fetch(base+'/dashboard/data.json',{cache:'no-store'}).then(function(r){
+      if(!r.ok) throw new Error(r.status); return r.json();
+    }).then(function(j){
+      var s=j.summary||{};
+      el.querySelector('.s-posts').textContent='발행 '+(s.totalPosts!=null?s.totalPosts:'?')+'편';
+      el.querySelector('.s-week').textContent='최근7일 '+(s.last7d!=null?s.last7d:'?')+'편';
+      el.querySelector('.s-pool').textContent='남은주제 '+(s.poolTotal!=null?s.poolTotal:'?')+'개';
+      var st=el.querySelector('.s-status');
+      st.textContent='정상 운영 · 갱신 '+(s.generatedAt||'');
+      st.className='s-status badge b-done';
+    }).catch(function(){
+      var st=el.querySelector('.s-status');
+      st.textContent='접속 대기 (DNS 연결 전)';
+      st.className='s-status badge b-todo';
+    });
+  });
 });
 </script>
 </div></body></html>`;
