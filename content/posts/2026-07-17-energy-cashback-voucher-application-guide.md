@@ -53,7 +53,7 @@ channels:
   blogger: true
   wordpress: false
 published:
-  blogger: false
+  blogger: true
   wordpress: false
 ---
 에너지캐시백 신청과 에너지바우처 신청, 이 두 가지만 제대로 챙겨도 매달 나가는 전기요금을 꽤 줄일 수 있습니다. 저도 처음엔 "이런 게 있었어?" 하고 뒤늦게 알았는데, 막상 신청해보니 생각보다 어렵지 않았거든요. 이 글에서는 두 제도의 개념 차이부터 신청 자격, 신청 방법, 지원 금액까지 한 번에 정리해드릴게요.

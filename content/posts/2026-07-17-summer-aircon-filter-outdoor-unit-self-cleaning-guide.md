@@ -53,7 +53,7 @@ channels:
   blogger: true
   wordpress: false
 published:
-  blogger: false
+  blogger: true
   wordpress: false
 ---
 에어컨 필터 청소와 실외기 셀프 관리, 막상 해보면 생각보다 어렵지 않습니다. 여름철 에어컨 냉방 효율이 떨어졌다고 느낀다면 십중팔구 필터 오염이나 실외기 주변 환경이 원인입니다. 이 글에서는 **에어컨 필터 청소 주기·방법**, **실외기 청소 순서**, **관리 시 주의사항**, 그리고 **전기세 절감 효과**까지 한 번에 정리해드립니다.
