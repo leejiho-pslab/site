@@ -1,0 +1,4 @@
+{
+  "_note": "수익을 기록하면 대시보드 '리포트' 탭에 월별·채널별로 집계됩니다. source 값: adsense | coupang | naverConnect | adpost. 예: {\"date\": \"2026-08-31\", \"source\": \"adsense\", \"amount\": 12340, \"note\": \"8월 애드센스\"}",
+  "records": []
+}
