@@ -54,7 +54,7 @@ channels:
   blogger: true
   wordpress: false
 published:
-  blogger: false
+  blogger: true
   wordpress: false
 ---
 냉동실 정리와 냉장고 전기세 절약, 이 두 가지를 한 번에 잡을 수 있는 여름 냉장고 효율 꿀팁을 찾고 계신가요? 막상 냉동실을 꽉꽉 채우면 전기세가 줄어든다는 말을 듣고도 "진짜야?" 싶었는데, 직접 해보니 차이가 느껴졌습니다. 이 글에서는 냉동·냉장 효율의 과학적 원리부터 실전 정리법, 온도 설정, 전기요금 절감 효과까지 한꺼번에 안내합니다.
