@@ -55,7 +55,7 @@ channels:
   blogger: true
   wordpress: false
 published:
-  blogger: false
+  blogger: true
   wordpress: false
 ---
 여름 자외선 차단 선글라스를 고를 때 가장 많이 하는 실수가 '디자인만 보고 사는 것'입니다. 저도 몇 년 전 예쁜 색상에 반해 저렴한 선글라스를 샀다가, 나중에 UV 차단 기능이 전혀 없다는 걸 알고 당황했던 기억이 있어요. 2026년 여름, 가성비 선글라스 추천과 함께 자외선 차단 성능을 제대로 갖춘 선글라스 고르는 법을 지금부터 하나씩 풀어드리겠습니다.
