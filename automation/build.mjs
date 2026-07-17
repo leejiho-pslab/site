@@ -620,6 +620,16 @@ function copyAssets() {
   if (fs.existsSync(srcAssets)) {
     fs.cpSync(srcAssets, destAssets, { recursive: true });
   }
+  // 멀티 사이트: 프로필 전용 브랜드 이미지(src/assets/brand/<profile>/)가 있으면
+  // 기본(꿀팁) 브랜드 파일을 현재 프로필 것으로 덮어쓴다 — 레포 복제 시 별도 작업 불필요
+  if (site.profile && site.profile !== "default") {
+    const brandDir = path.join(srcAssets, "brand", site.profile);
+    if (fs.existsSync(brandDir)) {
+      for (const f of fs.readdirSync(brandDir)) {
+        fs.copyFileSync(path.join(brandDir, f), path.join(destAssets, f));
+      }
+    }
+  }
   // GitHub Pages 가 Jekyll 처리를 건너뛰도록
   fs.writeFileSync(path.join(PUBLIC_DIR, ".nojekyll"), "");
   // 커스텀 도메인 설정 시 CNAME 생성
