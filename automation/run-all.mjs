@@ -53,9 +53,10 @@ function runSoft(scriptRelPath, label) {
     }
   }
 
-  // 4) 워드프레스 발행 (wpcom 또는 selfhosted 자격증명이 있을 때)
+  // 4) 워드프레스 발행 — 채널이 config 에서 활성화돼 있고 자격증명이 있을 때만
+  //    (환경변수만으로 강제되지 않도록 config enabled 를 단일 스위치로 사용)
   const wpReady = !!(process.env.WPCOM_SITE && process.env.WPCOM_TOKEN) || !!process.env.WORDPRESS_URL;
-  if ((process.env.PUBLISH_WORDPRESS === "true" || site.channels.wordpress.enabled) && wpReady) {
+  if (site.channels.wordpress.enabled && wpReady) {
     runSoft("automation/publish-wordpress.mjs", "4) 워드프레스 발행");
   }
 

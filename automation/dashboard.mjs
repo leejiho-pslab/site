@@ -120,7 +120,10 @@ function collect() {
         { k: "WPCOM_SITE + WPCOM_TOKEN (무료 플랜)", ok: false },
         { k: "또는 WORDPRESS_URL/USER/APP_PASSWORD (자체 호스팅)", ok: !!(env.WORDPRESS_URL && env.WORDPRESS_USER && env.WORDPRESS_APP_PASSWORD) },
       ];
-  const wpConfigured = wpcomMode || !!(env.WORDPRESS_URL && env.WORDPRESS_USER && env.WORDPRESS_APP_PASSWORD);
+  // 채널이 config 에서 꺼져 있으면(계정 정지 등) 자격증명이 있어도 '보류'로 표시
+  const wpConfigured =
+    site.channels.wordpress.enabled &&
+    (wpcomMode || !!(env.WORDPRESS_URL && env.WORDPRESS_USER && env.WORDPRESS_APP_PASSWORD));
   const bloggerSecrets = [
     { k: "BLOGGER_BLOG_ID", ok: !!env.BLOGGER_BLOG_ID },
     { k: "BLOGGER_CLIENT_ID", ok: !!env.BLOGGER_CLIENT_ID },
@@ -176,7 +179,7 @@ function collect() {
     channels: [
       { k: "네이버 블로그 (1순위)", ok: false, v: "수동(다운로드 제공)" },
       { k: "구글 블로거 (2순위)", ok: bloggerConfigured, v: bloggerConfigured ? `연동됨 · ${bloggerPub}편` : "연동 대기" },
-      { k: "워드프레스 (3순위)", ok: wpConfigured, v: wpConfigured ? `연동됨 · ${wpPub}편` : "연동 대기" },
+      { k: "워드프레스 (3순위)", ok: wpConfigured, v: wpConfigured ? `연동됨 · ${wpPub}편` : (site.channels.wordpress.enabled ? "연동 대기" : "보류 — WP.com 무료 계정 정지(자동화 스팸 분류)") },
       { k: "자체 사이트 (기준)", ok: true, v: `운영중 · ${sitePosts.length}편` },
     ],
     money: [

@@ -29,7 +29,8 @@
 
 - ✅ 1번 네이버 블로그: 개설(blog.naver.com/astrape1) + 쇼핑커넥트 가입 (발행은 수동, 아직 0편)
 - ✅ 2번 구글 블로거: 연동 완료, 6편 자동 발행 (todays-kkultip.blogspot.com)
-- ✅ 3번 워드프레스: WordPress.com 무료 플랜 연동 완료 (todayskkultip.wordpress.com)
+- ⏸ 3번 워드프레스: **보류** — WordPress.com 무료 블로그가 자동 발행을 스팸 분류, 계정 정지(2026-07-17).
+  무료 플랜은 자동화 부적합. 재개 조건: 자체 호스팅 WP + config 의 wordpress.enabled 복원
 - ✅ 4번 광고사이트: 쇼핑커넥트 ✅ · 쿠팡파트너스 ✅(제습기 글 링크 게시+스크린샷 제출)
   · 애드센스 ✅ 심사 접수 완료(2~4주 대기) — 커스텀 도메인 starship-ent.ai.kr 연결됨
 - ▶ 자동 발행 크론 재개 (매일 09/15/21시 KST) · 주제 풀 자동 보충(topic-generate.mjs) 가동
