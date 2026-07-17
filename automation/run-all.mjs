@@ -19,6 +19,17 @@ function run(scriptRelPath, label) {
   execFileSync("node", [path.join(ROOT, scriptRelPath)], { stdio: "inherit" });
 }
 
+/** 발행/인덱싱처럼 한 채널의 실패가 전체 파이프라인(커밋·배포)을 막으면 안 되는 단계용.
+ *  실패 시 경고만 남기고 계속 진행한다 — 실패한 채널은 published 플래그가 안 바뀌어
+ *  다음 실행에서 자동 재시도된다. */
+function runSoft(scriptRelPath, label) {
+  try {
+    run(scriptRelPath, label);
+  } catch (e) {
+    console.warn(`[run-all] ⚠ ${label} 실패(파이프라인은 계속): ${e.message}`);
+  }
+}
+
 (async () => {
   const doGenerate = process.env.GENERATE !== "false";
   const doBlogger =
@@ -38,19 +49,19 @@ function run(scriptRelPath, label) {
     if (!process.env.BLOGGER_BLOG_ID) {
       console.warn("[run-all] BLOGGER_BLOG_ID 없음 — 블로거 발행 건너뜀.");
     } else {
-      run("automation/publish-blogger.mjs", "3) 구글 블로거 발행");
+      runSoft("automation/publish-blogger.mjs", "3) 구글 블로거 발행");
     }
   }
 
   // 4) 워드프레스 발행 (wpcom 또는 selfhosted 자격증명이 있을 때)
   const wpReady = !!(process.env.WPCOM_SITE && process.env.WPCOM_TOKEN) || !!process.env.WORDPRESS_URL;
   if ((process.env.PUBLISH_WORDPRESS === "true" || site.channels.wordpress.enabled) && wpReady) {
-    run("automation/publish-wordpress.mjs", "4) 워드프레스 발행");
+    runSoft("automation/publish-wordpress.mjs", "4) 워드프레스 발행");
   }
 
   // 5) IndexNow 인덱싱 요청 (키 있을 때만, 기본 키 내장)
   if (site.indexNowKey) {
-    run("automation/indexnow.mjs", "5) IndexNow 인덱싱 요청");
+    runSoft("automation/indexnow.mjs", "5) IndexNow 인덱싱 요청");
   }
 
   console.log("\n[run-all] 파이프라인 완료.");

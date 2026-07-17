@@ -119,12 +119,19 @@ async function main() {
     return;
   }
   console.log(`[wordpress] 모드: ${wpcom ? "WordPress.com(무료 플랜)" : "자체 호스팅"} · 이번 실행 ${pending.length}편(상한 ${LIMIT})`);
+  let failed = 0;
   for (const post of pending) {
-    console.log(`[wordpress] 발행: ${post.title}`);
-    const data = wpcom ? await publishOneWpcom(post) : await publishOne(client, post);
-    markPublished(post.file);
-    console.log(`[wordpress] 완료: ${data.URL || data.link || data.ID || data.id}`);
+    try {
+      console.log(`[wordpress] 발행: ${post.title}`);
+      const data = wpcom ? await publishOneWpcom(post) : await publishOne(client, post);
+      markPublished(post.file);
+      console.log(`[wordpress] 완료: ${data.URL || data.link || data.ID || data.id}`);
+    } catch (e) {
+      failed++;
+      console.warn(`[wordpress] ⚠ 발행 실패(다음 실행에서 재시도): ${post.title} — ${e.message}`);
+    }
   }
+  if (failed) console.warn(`[wordpress] 실패 ${failed}편 — published 플래그 미변경으로 자동 재시도 예정`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

@@ -88,12 +88,19 @@ async function main() {
     return;
   }
   console.log(`[blogger] 이번 실행 ${pending.length}편(상한 ${LIMIT})`);
+  let failed = 0;
   for (const post of pending) {
-    console.log(`[blogger] 발행: ${post.title}`);
-    const data = await publishOne(blogger, blogId, post);
-    markPublished(post.file);
-    console.log(`[blogger] 완료: ${data.url || data.id}`);
+    try {
+      console.log(`[blogger] 발행: ${post.title}`);
+      const data = await publishOne(blogger, blogId, post);
+      markPublished(post.file);
+      console.log(`[blogger] 완료: ${data.url || data.id}`);
+    } catch (e) {
+      failed++;
+      console.warn(`[blogger] ⚠ 발행 실패(다음 실행에서 재시도): ${post.title} — ${e.message}`);
+    }
   }
+  if (failed) console.warn(`[blogger] 실패 ${failed}편 — published 플래그 미변경으로 자동 재시도 예정`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
