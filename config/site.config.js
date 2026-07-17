@@ -5,8 +5,22 @@
 //    API 키/토큰 등 비밀값은 환경변수(.env / GitHub Secrets)로 관리
 // =============================================================
 
+// ---- 사이트 프로필 (멀티 사이트: 같은 코드로 도메인별 다른 사이트 운영) ----
+// SITE_PROFILE 환경변수(레포 Variables)로 선택. 미설정 시 default(오늘의 꿀팁).
+//   default → starship-ent.ai.kr  (생활정보/꿀팁, 한국어)
+//   kkultip → todayskkultip.co.kr (재테크·머니, 한국어)
+//   jype    → jype.ai.kr          (K-culture, 영어 — 해외 대상)
+import kkultipProfile from "./profiles/kkultip.config.js";
+import jypeProfile from "./profiles/jype.config.js";
+
+const PROFILES = { kkultip: kkultipProfile, jype: jypeProfile };
+const PROFILE_KEY = (process.env.SITE_PROFILE || "default").trim() || "default";
+const PROFILE = PROFILES[PROFILE_KEY] || {};
+
 // 배포 URL — 커스텀 도메인 사용 시 SITE_URL 만 바꾸면 basePath 는 자동 유도된다.
-const SITE_URL = process.env.SITE_URL || "https://leejiho-pslab.github.io/site";
+// 프로필이 자체 기본 URL 을 가지면(신규 도메인) 그것을 기본값으로 사용.
+const SITE_URL =
+  process.env.SITE_URL || PROFILE.url || "https://leejiho-pslab.github.io/site";
 // basePath 는 SITE_URL 의 경로에서 자동 계산 (예: .../site → "/site", 커스텀 도메인 → "").
 // SITE_BASE_PATH 를 명시하면 그 값을 사용하되, 빈 값/미등록은 자동 유도로 처리하고
 // "/" 는 "루트 배포" 명시값으로 "" 처리 (CI 에서 미등록 변수가 빈 문자열로 들어와
@@ -17,7 +31,20 @@ const BASE_PATH =
   : RAW_BASE === "/" ? ""
   : RAW_BASE;
 
-export const site = {
+/** 깊은 병합: 프로필이 지정한 키만 덮어쓴다 (배열은 통째 교체) */
+function mergeDeep(base, over) {
+  if (over === undefined) return base;
+  if (Array.isArray(over) || typeof over !== "object" || over === null) return over;
+  const out = { ...base };
+  for (const [k, v] of Object.entries(over)) out[k] = mergeDeep(base?.[k], v);
+  return out;
+}
+
+const baseSite = {
+  // ---- 프로필 식별 ----
+  profile: PROFILE_KEY,
+  // 주제 풀 파일 접두어: default 는 기존 파일명 유지(하위 호환), 그 외 "<프로필>-"
+  topicsPrefix: PROFILE_KEY === "default" ? "" : `${PROFILE_KEY}-`,
   // ---- 기본 메타 ----
   // GitHub Pages 커스텀 도메인 사용 시 해당 도메인으로 교체.
   // 커스텀 도메인 미사용 시: https://<USERNAME>.github.io/<REPO>
@@ -194,6 +221,12 @@ export const site = {
     "핵심적인 결론·요점을 글 최상단에 먼저 배치하고, 이후 상세 내용을 전개한다.",
     "사람의 실제 경험에서 나오는 듯한 자연스러운 어투·말투로 작성한다 (1인칭 경험·체감 표현 활용, 기계적 나열 지양).",
   ],
+
+  // ---- 브랜드 이미지(로고/프로필) 문안 — images.mjs 가 사용 ----
+  brandmark: { emoji: "💡", line1: "오늘의", line2: "꿀팁", chip: "편집부", logoWord: "꿀팁" },
 };
+
+// 프로필 오버라이드 적용 — 프로필이 지정한 키만 기본값을 덮어쓴다
+export const site = mergeDeep(baseSite, PROFILE.overrides || {});
 
 export default site;

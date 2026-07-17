@@ -5,6 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import matter from "gray-matter";
+import { site } from "../config/site.config.js";
 
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const ROOT = path.resolve(__dirname, "..");
@@ -59,15 +60,20 @@ export function excerpt(markdown, len = 110) {
   return text.slice(0, len) + (text.length > len ? "…" : "");
 }
 
-/** 모든 발행글 로드 (frontmatter + 본문) */
+/** 모든 발행글 로드 (frontmatter + 본문).
+ *  멀티 사이트: 글 frontmatter 의 profile 이 현재 SITE_PROFILE 과 일치하는 글만 —
+ *  이 레포를 템플릿으로 복제해 다른 프로필로 돌릴 때, 원본 사이트의 글이
+ *  새 사이트에 섞여 빌드되는 것을 막는다 (profile 없는 기존 글 = default). */
 export function loadPosts() {
   ensureDir(POSTS_DIR);
   const files = fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith(".md"));
-  const posts = files.map((file) => {
-    const raw = fs.readFileSync(path.join(POSTS_DIR, file), "utf8");
-    const { data, content } = matter(raw);
-    return { ...data, body: content, file };
-  });
+  const posts = files
+    .map((file) => {
+      const raw = fs.readFileSync(path.join(POSTS_DIR, file), "utf8");
+      const { data, content } = matter(raw);
+      return { ...data, body: content, file };
+    })
+    .filter((p) => (p.profile || "default") === (site.profile || "default"));
   // 최신순
   return posts.sort((a, b) => (a.date < b.date ? 1 : -1));
 }

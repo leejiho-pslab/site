@@ -89,14 +89,21 @@ function hashCode(s) {
 const FF = fontFace();
 const GRAD = "linear-gradient(135deg,#2563eb 0%,#1e40af 60%,#1e3a8a 100%)";
 
-// 카테고리별 색상 (커버 다양성)
-const CAT_COLORS = {
-  money: ["#2563eb", "#1e40af"],
-  support: ["#0891b2", "#0e7490"],
-  life: ["#16a34a", "#15803d"],
-  season: ["#db2777", "#9d174d"],
-  howto: ["#7c3aed", "#5b21b6"],
-};
+// 브랜드 문안 (프로필별 — config brandmark)
+const BM = site.brandmark || { emoji: "💡", line1: "오늘의", line2: "꿀팁", chip: "편집부", logoWord: "꿀팁" };
+
+// 카테고리별 색상 (커버 다양성) — 프로필별 카테고리 순서에 팔레트를 매핑
+const PALETTE = [
+  ["#2563eb", "#1e40af"],
+  ["#0891b2", "#0e7490"],
+  ["#16a34a", "#15803d"],
+  ["#db2777", "#9d174d"],
+  ["#7c3aed", "#5b21b6"],
+];
+function catColors(slug) {
+  const i = site.categories.findIndex((c) => c.slug === slug);
+  return PALETTE[(i >= 0 ? i : 0) % PALETTE.length];
+}
 
 // ---- 로고 (512x512, 투명배경) ----
 function genLogo() {
@@ -105,7 +112,7 @@ function genLogo() {
   .c{width:430px;height:430px;border-radius:96px;background:${GRAD};display:flex;flex-direction:column;
      align-items:center;justify-content:center;color:#fff;box-shadow:0 20px 60px rgba(37,99,235,.4)}
   .e{font-size:150px;line-height:1}.t{font-weight:900;font-size:74px;margin-top:6px;letter-spacing:-2px}
-  </style></head><body><div class="box"><div class="c"><div class="e">💡</div><div class="t">꿀팁</div></div></div></body></html>`;
+  </style></head><body><div class="box"><div class="c"><div class="e">${BM.emoji}</div><div class="t">${BM.logoWord}</div></div></div></body></html>`;
   shoot(html, 512, 512, path.join(ASSETS, "logo.png"), true);
 }
 
@@ -119,7 +126,7 @@ function genOgDefault() {
   .e{font-size:90px}.t{font-weight:900;font-size:84px;letter-spacing:-3px;margin:10px 0 14px}
   .s{font-size:38px;opacity:.92;font-weight:400}
   .b{position:absolute;bottom:54px;left:90px;font-size:30px;opacity:.85}
-  </style></head><body><div class="bg"></div><div class="box"><div class="e">💡</div>
+  </style></head><body><div class="bg"></div><div class="box"><div class="e">${BM.emoji}</div>
   <div class="t">${site.name}</div><div class="s">${site.tagline}</div>
   <div class="b">${(site.url||"").replace(/^https?:\/\//,"")}</div></div></body></html>`;
   shoot(html, 1200, 630, path.join(ASSETS, "og-default.png"));
@@ -144,9 +151,9 @@ function genProfile() {
     padding:14px 46px;border-radius:999px;font-size:46px;font-weight:700;letter-spacing:2px}
   </style></head><body><div class="bg"></div>
   <div class="deco d1"></div><div class="deco d2"></div>
-  <div class="box"><div class="e">💡</div>
-  <div class="t1">오늘의</div><div class="t2">꿀팁</div>
-  <div class="chip">편집부</div></div></body></html>`;
+  <div class="box"><div class="e">${BM.emoji}</div>
+  <div class="t1">${BM.line1}</div><div class="t2">${BM.line2}</div>
+  <div class="chip">${BM.chip}</div></div></body></html>`;
   shoot(html, 1000, 1000, path.join(ASSETS, "profile.png"));
 }
 
@@ -154,7 +161,7 @@ function genProfile() {
 function genFavicon() {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="14" fill="#2563eb"/>
-  <text x="32" y="44" font-size="38" text-anchor="middle">💡</text></svg>`;
+  <text x="32" y="44" font-size="38" text-anchor="middle">${BM.emoji}</text></svg>`;
   ensureDir(ASSETS);
   fs.writeFileSync(path.join(ASSETS, "favicon.svg"), svg, "utf8");
   console.log("[images] 생성: src/assets/favicon.svg");
@@ -169,7 +176,7 @@ function catName(slug) {
   return c ? c.name : slug;
 }
 export function genCover(post) {
-  const [c1, c2] = CAT_COLORS[post.category] || CAT_COLORS.money;
+  const [c1, c2] = catColors(post.category);
   const grad = `linear-gradient(135deg,${c1} 0%,${c2} 100%)`;
   const title = post.title.replace(/&/g, "&amp;").replace(/</g, "&lt;");
   const html = `<!doctype html><html><head><meta charset="utf-8"><style>${FF}
@@ -185,7 +192,7 @@ export function genCover(post) {
   .bot{display:flex;justify-content:space-between;align-items:center;font-size:30px;opacity:.92}
   .brand{font-weight:700}
   </style></head><body><div class="bg"></div><div class="box">
-  <div class="top"><span class="e">💡</span><span class="chip">${catName(post.category)}</span></div>
+  <div class="top"><span class="e">${BM.emoji}</span><span class="chip">${catName(post.category)}</span></div>
   <div class="t">${title}</div>
   <div class="bot"><span class="brand">${site.name}</span><span>${(site.url||"").replace(/^https?:\/\//,"")}</span></div>
   </div></body></html>`;
@@ -201,7 +208,7 @@ export function extractHeadings(markdown) {
 
 // 소제목별 카드 이미지 (본문 내용과 연결되는 이미지 확보용)
 export function genSectionCard(post, heading, idx) {
-  const [c1, c2] = CAT_COLORS[post.category] || CAT_COLORS.money;
+  const [c1, c2] = catColors(post.category);
   const grad = `linear-gradient(135deg,${c2} 0%,${c1} 100%)`;
   const h = String(heading).replace(/&/g, "&amp;").replace(/</g, "&lt;");
   const html = `<!doctype html><html><head><meta charset="utf-8"><style>${FF}
@@ -215,7 +222,7 @@ export function genSectionCard(post, heading, idx) {
   .b{position:absolute;bottom:54px;left:80px;font-size:28px;opacity:.9;font-weight:700}
   </style></head><body><div class="bg"></div><div class="box">
   <div class="chip">POINT ${idx + 1}</div><div class="t">${h}</div>
-  <div class="b">💡 ${site.name}</div></div></body></html>`;
+  <div class="b">${BM.emoji} ${site.name}</div></div></body></html>`;
   const out = path.join(COVERS, `${post.slug}-s${idx}.png`);
   shoot(html, 1200, 630, out);
   return out;

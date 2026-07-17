@@ -7,10 +7,13 @@
 // =============================================================
 import fs from "node:fs";
 import path from "node:path";
+import { site } from "../config/site.config.js";
 import { ROOT, readJson, nowKST, existingTitles } from "./lib.mjs";
 
-const TOPICS = readJson(path.join(ROOT, "config", "topics", "seasonal-topics.json"));
-const GENERATED_FILE = path.join(ROOT, "config", "topics", "generated-topics.json");
+// 멀티 사이트: 프로필별 주제 풀 파일 (default 는 기존 파일명 유지)
+const SEASONAL_FILE = path.join(ROOT, "config", "topics", `${site.topicsPrefix}seasonal-topics.json`);
+export const GENERATED_FILE = path.join(ROOT, "config", "topics", `${site.topicsPrefix}generated-topics.json`);
+const TOPICS = fs.existsSync(SEASONAL_FILE) ? readJson(SEASONAL_FILE) : {};
 
 /** 시즌 고정 풀 + 자동 발굴 풀 병합 (발굴 파일은 매 호출마다 새로 읽음 —
  *  topic-generate 가 같은 프로세스에서 방금 보충한 주제도 반영되도록) */
@@ -58,7 +61,7 @@ export function pickTopics(count = 1) {
       return rest.slice(0, count).map((t) => ({ ...t, month }));
     }
     // 진짜 소진: 같은 주제를 재생성하느니 이번 회차 발행을 건너뛴다 (중복 콘텐츠 방지)
-    console.warn("[topic-picker] 주제 풀 완전 소진 — 생성을 건너뜁니다. topics/seasonal-topics.json 을 보충하세요.");
+    console.warn(`[topic-picker] 주제 풀 완전 소진 — 생성을 건너뜁니다. ${path.basename(SEASONAL_FILE)} 을 보충하세요.`);
     return [];
   }
 

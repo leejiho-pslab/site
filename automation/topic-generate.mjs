@@ -10,34 +10,44 @@ import path from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 import { site } from "../config/site.config.js";
 import { ROOT, readJson, nowKST, existingTitles } from "./lib.mjs";
-import { pickTopics } from "./topic-picker.mjs";
+import { pickTopics, GENERATED_FILE } from "./topic-picker.mjs";
 
-const GENERATED_FILE = path.join(ROOT, "config", "topics", "generated-topics.json");
+const SEASONAL_FILE = path.join(ROOT, "config", "topics", `${site.topicsPrefix}seasonal-topics.json`);
 const MODEL = process.env.CONTENT_MODEL || "claude-sonnet-4-6";
+const IS_EN = String(site.lang || "ko").toLowerCase().startsWith("en");
 
 const TOPIC_TOOL = {
   name: "save_topics",
-  description: "발굴한 블로그 주제 목록을 저장한다.",
+  description: IS_EN ? "Save the list of discovered blog topics." : "발굴한 블로그 주제 목록을 저장한다.",
   input_schema: {
     type: "object",
     properties: {
       topics: {
         type: "array",
-        description: "주제 목록 (12개)",
+        description: IS_EN ? "Topic list (12 items)" : "주제 목록 (12개)",
         items: {
           type: "object",
           properties: {
-            title: { type: "string", description: "주제 제목 (검색 수요가 있는 구체적 롱테일형)" },
+            title: {
+              type: "string",
+              description: IS_EN
+                ? "Topic title (specific long-tail phrasing with real search demand)"
+                : "주제 제목 (검색 수요가 있는 구체적 롱테일형)",
+            },
             category: {
               type: "string",
-              enum: ["money", "support", "life", "season", "howto"],
-              description: "카테고리 슬러그",
+              // 카테고리 슬러그는 프로필 설정에서 동적으로 — 프로필마다 카테고리가 다름
+              enum: site.categories.map((c) => c.slug),
+              description: IS_EN ? "Category slug" : "카테고리 슬러그",
             },
             keywords: {
               type: "array", items: { type: "string" },
-              description: "핵심 검색 키워드 2~4개",
+              description: IS_EN ? "2-4 key search keywords" : "핵심 검색 키워드 2~4개",
             },
-            month: { type: "integer", minimum: 1, maximum: 12, description: "가장 적합한 발행 월" },
+            month: {
+              type: "integer", minimum: 1, maximum: 12,
+              description: IS_EN ? "Best month to publish" : "가장 적합한 발행 월",
+            },
           },
           required: ["title", "category", "keywords", "month"],
         },
@@ -77,15 +87,32 @@ export async function ensureTopicPool(min = 6) {
   const used = existingTitles();
   const gen = loadGenerated();
   const poolTitles = [
-    ...Object.values(readJson(path.join(ROOT, "config", "topics", "seasonal-topics.json"))).flat(),
+    ...(fs.existsSync(SEASONAL_FILE) ? Object.values(readJson(SEASONAL_FILE)).flat() : []),
     ...gen.topics,
   ].map((t) => t.title);
   const exclusion = [...new Set([...used, ...poolTitles])].join("\n- ");
 
   const cats = site.categories.map((c) => `${c.slug}: ${c.name} — ${c.desc}`).join("\n");
-  const prompt = `당신은 한국 생활정보 블로그 "${site.name}"의 콘텐츠 기획자입니다.
+  const prompt = IS_EN
+    ? `You are the content planner of "${site.name}", an English-language blog about Korea for a global audience.
+It is month ${month} now. Discover 12 blog topics about Korea (${site.niche}) that international
+readers will actually search for during month ${month}-${nextMonth}.
+
+[Categories]
+${cats}
+
+[Requirements]
+1. Timeliness: seasonal events, festivals, comebacks/releases, travel seasons relevant to months ${month}-${nextMonth}
+2. Specific long-tail topics with real search demand (e.g. "Seoul 3-day itinerary for first-timers on a budget")
+3. Mix evergreen guides (how-to / what-is / best-of) with timely angles; all topics in ENGLISH
+4. Distribute evenly across the 5 categories
+5. Must NOT overlap with or resemble any of these existing topics:
+- ${exclusion}
+
+You MUST call the save_topics tool to store the result.`
+    : `당신은 한국 ${site.niche} 블로그 "${site.name}"의 콘텐츠 기획자입니다.
 지금은 ${month}월입니다. ${month}월 하순~${nextMonth}월에 한국인이 실제로 많이 검색할
-생활정보 주제 12개를 발굴하세요.
+${site.niche} 주제 12개를 발굴하세요.
 
 [카테고리]
 ${cats}

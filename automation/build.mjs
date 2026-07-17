@@ -12,6 +12,7 @@ import {
   ROOT, PUBLIC_DIR, ensureDir, loadPosts, excerpt, todayKST, slugify, fixLeftoverBold,
 } from "./lib.mjs";
 import { buildDashboard } from "./dashboard.mjs";
+import { t } from "./i18n.mjs";
 import {
   head, header, footer, url, absUrl,
   adsenseUnit, taboolaWidget, naverAd, affiliateDisclosure, breadcrumbNav,
@@ -70,7 +71,7 @@ function inlineRelatedBox(post, allPosts) {
   const items = picks
     .map((p) => `<li><a href="${url(p.path)}">${esc(p.title)}</a></li>`)
     .join("");
-  return `<aside class="related-inline"><strong>📌 함께 보면 좋은 글</strong><ul>${items}</ul></aside>`;
+  return `<aside class="related-inline"><strong>${t.relatedInline}</strong><ul>${items}</ul></aside>`;
 }
 
 /** 이전/다음 글 내비게이션 (최신순 정렬 기준) */
@@ -84,7 +85,7 @@ function prevNextNav(post, allPosts) {
     p
       ? `<a href="${url(p.path)}"><span class="lbl">${lbl}</span>${esc(p.title)}</a>`
       : `<span class="pn-empty"></span>`;
-  return `<nav class="prevnext">${cell(newer, "← 다음 글")}${cell(older, "이전 글 →")}</nav>`;
+  return `<nav class="prevnext">${cell(newer, t.newerPost)}${cell(older, t.olderPost)}</nav>`;
 }
 
 /** 썸네일 관련글 그리드 (같은 카테고리 우선, 부족하면 최신글로 채움) */
@@ -103,14 +104,14 @@ function relatedGrid(post, allPosts) {
         <a class="t" href="${url(p.path)}">${esc(p.title)}</a></li>`;
     })
     .join("");
-  return `<section class="related"><h2>함께 보면 좋은 글</h2><ul class="related-grid">${cards}</ul></section>`;
+  return `<section class="related"><h2>${t.relatedHeading}</h2><ul class="related-grid">${cards}</ul></section>`;
 }
 
 /** 글 페이지 사이드바 — 광고(스티키) + 최신글 + 카테고리 (내부 순환 링크) */
 function sidebar(post, allPosts) {
   const recent = allPosts.filter((p) => p.path !== post.path).slice(0, 5);
   const recentHtml = recent.length
-    ? `<div class="widget"><strong class="wt">🕐 최신 글</strong><ul>${recent
+    ? `<div class="widget"><strong class="wt">${t.recentPosts}</strong><ul>${recent
         .map((p) => `<li><a href="${url(p.path)}">${esc(p.title)}</a></li>`)
         .join("")}</ul></div>`
     : "";
@@ -120,7 +121,7 @@ function sidebar(post, allPosts) {
   return `<aside class="sidebar">
     ${adsenseUnit("sidebar")}
     ${recentHtml}
-    <div class="widget"><strong class="wt">🗂 카테고리</strong><ul>${cats}</ul></div>
+    <div class="widget"><strong class="wt">${t.categoriesWidget}</strong><ul>${cats}</ul></div>
     ${adsenseUnit("sidebar")}
   </aside>`;
 }
@@ -129,7 +130,7 @@ function buildToc(markdown) {
   const heads = [...markdown.matchAll(/^##\s+(.+)$/gm)].map((m) => m[1].trim());
   if (heads.length < 3) return "";
   const items = heads.map((h, i) => `<li><a href="#h${i}">${esc(h)}</a></li>`).join("");
-  return `<nav class="toc"><strong>목차</strong><ol>${items}</ol></nav>`;
+  return `<nav class="toc"><strong>${t.toc}</strong><ol>${items}</ol></nav>`;
 }
 
 /** H2 에 id 를 부여해 목차 앵커와 연결 */
@@ -171,7 +172,7 @@ function buildPost(post, allPosts, validTags = new Set()) {
 
   const faqHtml =
     post.faqs && post.faqs.length
-      ? `<section class="related"><h2>자주 묻는 질문</h2>${post.faqs
+      ? `<section class="related"><h2>${t.faqHeading}</h2>${post.faqs
           .map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`)
           .join("")}</section>`
       : "";
@@ -185,7 +186,7 @@ function buildPost(post, allPosts, validTags = new Set()) {
   const jsonld = [
     articleJsonLd({ ...post, image: coverRel ? absUrl(coverRel) : undefined }),
     breadcrumbJsonLd([
-      { name: "홈", path: "/" },
+      { name: t.breadcrumbHome, path: "/" },
       { name: catName(post.category), path: `/category/${post.category}/` },
       { name: post.title, path: post.path },
     ]),
@@ -195,7 +196,7 @@ function buildPost(post, allPosts, validTags = new Set()) {
     .join("</script>\n<script type=\"application/ld+json\">");
 
   const crumb = breadcrumbNav([
-    { name: "홈", path: "/" },
+    { name: t.breadcrumbHome, path: "/" },
     { name: catName(post.category), path: `/category/${post.category}/` },
     { name: post.title, path: post.path },
   ]);
@@ -217,11 +218,11 @@ function buildPost(post, allPosts, validTags = new Set()) {
         <a href="${url(`/category/${post.category}/`)}" class="cat">${esc(catName(post.category))}</a>
       </span>
       <h1>${esc(post.title)}</h1>
-      <div class="meta">게시일 ${esc(post.date)}${
-        post.updated && post.updated !== post.date ? ` · 최종 검토 ${esc(post.updated)}` : ""
+      <div class="meta">${t.publishedOn} ${esc(post.date)}${
+        post.updated && post.updated !== post.date ? ` · ${t.reviewedOn} ${esc(post.updated)}` : ""
       } · <a href="${url("/author/")}" rel="author">${esc(site.authorProfile?.name || site.author)}</a></div>
       ${heroImg}
-      ${post.summary ? `<blockquote class="summary"><strong>핵심 요약</strong><br>${esc(post.summary)}</blockquote>` : ""}
+      ${post.summary ? `<blockquote class="summary"><strong>${t.summaryLabel}</strong><br>${esc(post.summary)}</blockquote>` : ""}
       ${affiliateDisclosure(post)}
       ${adsenseUnit("top")}
       ${toc}
@@ -281,7 +282,7 @@ function pager(base, page, total) {
   let nums = "";
   for (let i = 1; i <= total; i++)
     nums += i === page ? `<span class="pg cur">${i}</span>` : `<a class="pg" href="${href(i)}">${i}</a>`;
-  return `<nav class="pager">${item(page - 1, "‹ 이전", page > 1)}${nums}${item(page + 1, "다음 ›", page < total)}</nav>`;
+  return `<nav class="pager">${item(page - 1, t.pagerPrev, page > 1)}${nums}${item(page + 1, t.pagerNext, page < total)}</nav>`;
 }
 
 function buildIndex(posts) {
@@ -294,10 +295,10 @@ function buildIndex(posts) {
     const rel = page === 1 ? "/" : `/page/${page}/`;
     const list = items.length
       ? `<ul class="post-list">${cardsWithFeedAd(items)}</ul>`
-      : `<p>아직 발행된 글이 없습니다. 곧 새로운 생활정보로 찾아뵙겠습니다.</p>`;
+      : `<p>${t.emptyIndex}</p>`;
     const html =
       head({
-        title: page === 1 ? site.name : `${site.name} (${page}페이지)`,
+        title: page === 1 ? site.name : `${site.name}${t.pageTitleSuffix(page)}`,
         description: site.description,
         canonical: absUrl(rel),
         jsonld: page === 1 ? organizationJsonLd() : "",
@@ -325,10 +326,10 @@ function buildCategories(posts) {
       const rel = page === 1 ? base : `${base}page/${page}/`;
       const list = pageItems.length
         ? `<ul class="post-list">${cardsWithFeedAd(pageItems)}</ul>`
-        : `<p>이 카테고리에는 아직 글이 없습니다.</p>`;
+        : `<p>${t.emptyCategory}</p>`;
       const html =
         head({
-          title: page === 1 ? `${c.name} 정보 모음` : `${c.name} 정보 모음 (${page}페이지)`,
+          title: page === 1 ? t.categoryTitle(c.name) : `${t.categoryTitle(c.name)}${t.pageTitleSuffix(page)}`,
           description: `${c.name} - ${c.desc}`,
           canonical: absUrl(rel),
         }) +
@@ -363,8 +364,8 @@ function buildTags(posts) {
     const list = `<ul class="post-list">${ps.map(postCard).join("")}</ul>`;
     const html =
       head({
-        title: `${tag} 관련 글`,
-        description: `${tag} 태그가 붙은 ${site.niche} 글 모음`,
+        title: t.tagTitle(tag),
+        description: t.tagDesc(tag, site.niche),
         canonical: absUrl(`/tag/${slug}/`),
       }) +
       header() +
@@ -388,23 +389,26 @@ function buildSearch(posts) {
     g: (p.tags || []).join(" "),
   }));
   write(path.join("search", "index.json"), JSON.stringify(index));
+  const hintJs = JSON.stringify(`<p class="mini" style="color:var(--muted)">${t.search.hint}</p>`);
+  const noResJs = JSON.stringify(t.search.noResults);
   const html =
-    head({ title: "검색", description: `${site.name} 사이트 내 검색`, canonical: absUrl("/search/") }) +
+    head({ title: t.search.title, description: t.search.desc(site.name), canonical: absUrl("/search/") }) +
     header() +
     `<section>
-      <h1 style="font-size:24px">검색</h1>
-      <input id="q" class="search-box" type="search" placeholder="찾고 싶은 생활정보를 입력하세요 (예: 전기요금, 지원금)">
-      <div id="search-results"><p class="mini" style="color:var(--muted)">검색어를 입력하면 결과가 표시됩니다.</p></div>
+      <h1 style="font-size:24px">${t.search.heading}</h1>
+      <input id="q" class="search-box" type="search" placeholder="${esc(t.search.placeholder)}">
+      <div id="search-results"><p class="mini" style="color:var(--muted)">${t.search.hint}</p></div>
     </section>
     <script>
     (function(){
       var box=document.getElementById('q'), out=document.getElementById('search-results'), data=[];
+      var HINT=${hintJs}, NORES=${noResJs};
       function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
       function render(q){
         q=(q||'').trim().toLowerCase();
-        if(!q){out.innerHTML='<p class="mini" style="color:var(--muted)">검색어를 입력하면 결과가 표시됩니다.</p>';return;}
+        if(!q){out.innerHTML=HINT;return;}
         var r=data.filter(function(d){return (d.t+' '+d.c+' '+d.e+' '+d.g).toLowerCase().indexOf(q)>-1;}).slice(0,50);
-        if(!r.length){out.innerHTML='<p class="mini" style="color:var(--muted)">\\''+esc(q)+'\\' 검색 결과가 없습니다.</p>';return;}
+        if(!r.length){out.innerHTML='<p class="mini" style="color:var(--muted)">'+esc(NORES.replace('{q}',q))+'</p>';return;}
         out.innerHTML='<ul class="post-list">'+r.map(function(d){return '<li class="card"><span class="cat">'+esc(d.c)+'</span><h2><a href="'+d.u+'">'+esc(d.t)+'</a></h2><p class="excerpt">'+esc(d.e)+'</p></li>';}).join('')+'</ul>';
       }
       fetch('index.json').then(function(x){return x.json();}).then(function(j){data=j;
@@ -417,29 +421,24 @@ function buildSearch(posts) {
   write(path.join("search", "index.html"), html);
 }
 
-// ---------------- 정적 페이지 ----------------
+// ---------------- 정적 페이지 (본문은 locale 파일에서 — 한국어/영어 프로필 공용) ----------------
 function buildStaticPages() {
-  const about =
-    head({ title: "사이트 소개", description: `${site.name} 소개`, canonical: absUrl("/about/") }) +
-    header() +
-    `<article class="post"><h1>사이트 소개</h1>
-      <p>${esc(site.name)}는 ${esc(site.description)}</p>
-      <p>공공요금·환급·지원금·생활 절약 등 실생활에 바로 쓰는 정보를 쉽고 정확하게 전달하는 것을 목표로 합니다.</p>
-      <h2>운영 원칙</h2>
-      <ul>
-        <li>정확한 정보 제공을 위해 공식 출처 확인을 권장합니다.</li>
-        <li>제도·요금 정보는 변경될 수 있어 최신 공식 안내를 함께 안내합니다.</li>
-        <li>독자에게 도움이 되는 콘텐츠를 최우선으로 합니다.</li>
-      </ul>
-    </article>` +
-    footer();
-  write("about/index.html", about);
+  const ctx = { site, url, absUrl, esc };
+
+  const about = t.pages.about(ctx);
+  write(
+    "about/index.html",
+    head({ title: about.title, description: about.desc, canonical: absUrl("/about/") }) +
+      header() + about.html + footer()
+  );
 
   const ap = site.authorProfile || {};
-  const authorPage =
+  const authorPage = t.pages.author(ctx);
+  write(
+    "author/index.html",
     head({
-      title: `${ap.name} - 작성자 소개`,
-      description: ap.bio,
+      title: authorPage.title,
+      description: authorPage.desc,
       canonical: absUrl("/author/"),
       jsonld: JSON.stringify({
         "@context": "https://schema.org",
@@ -451,113 +450,43 @@ function buildStaticPages() {
         worksFor: { "@type": "Organization", name: site.name },
         sameAs: ap.sameAs && ap.sameAs.length ? ap.sameAs : undefined,
       }),
-    }) +
-    header() +
-    `<article class="post"><h1>${esc(ap.name)}</h1>
-      <p class="meta">${esc(ap.jobTitle || "")}</p>
-      <p>${esc(ap.bio || "")}</p>
-      <h2>편집 원칙</h2>
-      <ul>
-        <li>공식 기관(정부·지자체·공공기관) 자료를 우선 확인합니다.</li>
-        <li>제도·요금 등 변동 정보는 기준 시점과 출처를 함께 안내합니다.</li>
-        <li>독자가 바로 활용할 수 있도록 실용성과 정확성을 우선합니다.</li>
-      </ul>
-    </article>` +
-    footer();
-  write("author/index.html", authorPage);
+    }) + header() + authorPage.html + footer()
+  );
 
-  const privacy =
-    head({ title: "개인정보처리방침", description: `${site.name} 개인정보처리방침`, canonical: absUrl("/privacy/") }) +
-    header() +
-    `<article class="post"><h1>개인정보처리방침</h1>
-      <p>${esc(site.name)}(이하 "사이트")는 이용자의 개인정보를 소중히 다루며, 회원가입·직접적인 개인정보
-         수집 절차를 두지 않습니다. 다만 광고 및 트래픽 분석을 위해 아래와 같이 쿠키가 사용될 수 있습니다.</p>
-
-      <h2>1. 수집하는 정보</h2>
-      <p>사이트는 이름·연락처 등 개인식별정보를 직접 수집하지 않습니다. 방문 분석·광고 게재 과정에서
-         브라우저 종류, 방문 페이지, 대략적 위치 등 비식별 정보가 쿠키를 통해 수집될 수 있습니다.</p>
-
-      <h2>2. 쿠키(Cookie) 사용</h2>
-      <p>쿠키는 이용자 브라우저에 저장되는 작은 텍스트 파일입니다. 이용자는 브라우저 설정에서 쿠키 저장을
-         거부하거나 삭제할 수 있으며, 이 경우 일부 기능 이용에 제한이 있을 수 있습니다.</p>
-
-      <h2>3. 제3자 광고 및 DART 쿠키 (Google AdSense)</h2>
-      <ul>
-        <li>본 사이트는 Google 등 제3자 광고 사업자의 광고를 게재합니다.</li>
-        <li>Google을 포함한 제3자 광고 사업자는 <strong>쿠키(DART 쿠키 등)</strong>를 사용하여 이용자의
-            이전 방문 기록을 바탕으로 맞춤형 광고를 제공합니다.</li>
-        <li>이용자는 <a href="https://policies.google.com/technologies/ads" rel="nofollow" target="_blank">Google 광고 정책</a> 및
-            <a href="https://www.google.com/settings/ads" rel="nofollow" target="_blank">Google 광고 설정</a>에서
-            맞춤형 광고를 해제할 수 있습니다.</li>
-        <li>제3자 공급업체의 쿠키 사용은 <a href="https://www.aboutads.info" rel="nofollow" target="_blank">aboutads.info</a>에서
-            일괄 해제할 수 있습니다.</li>
-      </ul>
-
-      <h2>4. 분석 도구</h2>
-      <p>본 사이트는 방문 통계 분석을 위해 Google Analytics(GA4)를 사용합니다. 수집된 데이터는 통계 목적의
-         비식별 정보이며, 개인을 특정하지 않습니다.</p>
-
-      <h2>5. 아동의 개인정보</h2>
-      <p>본 사이트는 만 14세 미만 아동을 대상으로 하지 않으며, 아동의 개인정보를 고의로 수집하지 않습니다.</p>
-
-      <h2>6. 방침 변경 및 문의</h2>
-      <p>본 방침은 관련 법령 및 서비스 변경에 따라 개정될 수 있으며, 변경 시 본 페이지를 통해 고지합니다.
-         개인정보 관련 문의는 <a href="${url("/contact/")}">문의 페이지</a>를 이용해 주세요.</p>
-    </article>` +
-    footer();
-  write("privacy/index.html", privacy);
+  const privacy = t.pages.privacy(ctx);
+  write(
+    "privacy/index.html",
+    head({ title: privacy.title, description: privacy.desc, canonical: absUrl("/privacy/") }) +
+      header() + privacy.html + footer()
+  );
 
   // 이용약관 · 면책조항 (애드센스 심사 신뢰도)
-  const terms =
-    head({ title: "이용약관 및 면책조항", description: `${site.name} 이용약관 및 면책조항`, canonical: absUrl("/terms/") }) +
-    header() +
-    `<article class="post"><h1>이용약관 및 면책조항</h1>
-      <h2>1. 목적</h2>
-      <p>본 약관은 ${esc(site.name)}(이하 "사이트")가 제공하는 콘텐츠 이용에 관한 조건을 규정합니다.</p>
-      <h2>2. 콘텐츠의 성격 및 면책</h2>
-      <ul>
-        <li>사이트의 모든 정보는 <strong>일반적인 참고용</strong>이며, 법률·세무·의료·금융 등 전문적 조언을 대체하지 않습니다.</li>
-        <li>제도·요금·지원금·신청 기준 등은 수시로 변경될 수 있으므로, 실제 이용 전 반드시 <strong>해당 기관의 공식 안내</strong>를 확인하시기 바랍니다.</li>
-        <li>사이트는 정보의 정확성·완전성을 위해 노력하지만, 이를 보증하지 않으며 정보 이용으로 발생한 손해에 대해 책임지지 않습니다.</li>
-      </ul>
-      <h2>3. 저작권</h2>
-      <p>사이트에 게시된 콘텐츠의 저작권은 ${esc(site.name)}에 있으며, 무단 복제·배포를 금합니다. 인용 시 출처를 표기해 주세요.</p>
-      <h2>4. 광고</h2>
-      <p>사이트는 제3자 광고를 게재하며, 이를 통해 운영 수익을 얻을 수 있습니다. 광고 관련 쿠키 정책은
-         <a href="${url("/privacy/")}">개인정보처리방침</a>을 참고하세요.</p>
-      <h2>5. 문의</h2>
-      <p>약관 관련 문의는 <a href="${url("/contact/")}">문의 페이지</a>를 이용해 주세요.</p>
-    </article>` +
-    footer();
-  write("terms/index.html", terms);
+  const terms = t.pages.terms(ctx);
+  write(
+    "terms/index.html",
+    head({ title: terms.title, description: terms.desc, canonical: absUrl("/terms/") }) +
+      header() + terms.html + footer()
+  );
 
   // 문의(contact) 페이지 — 애드센스 심사 시 권장
-  const contact =
-    head({ title: "문의하기", description: `${site.name} 문의 안내`, canonical: absUrl("/contact/") }) +
-    header() +
-    `<article class="post"><h1>문의하기</h1>
-      <p>${esc(site.name)}에 대한 문의, 정보 정정 요청, 제휴 제안은 아래로 연락해 주세요.</p>
-      ${site.contactEmail
-        ? `<p><strong>이메일:</strong> <a href="mailto:${esc(site.contactEmail)}">${esc(site.contactEmail)}</a></p>`
-        : `<p>이메일: 준비 중입니다. (운영자가 곧 연락처를 안내할 예정입니다.)</p>`}
-      <h2>정보 정정 안내</h2>
-      <p>본 사이트의 생활정보는 공식 자료를 바탕으로 작성하지만, 제도·요금·신청 기준은 수시로 바뀔 수 있습니다.
-         잘못된 정보를 발견하시면 알려주시면 신속히 확인·수정하겠습니다.</p>
-    </article>` +
-    footer();
-  write("contact/index.html", contact);
+  const contact = t.pages.contact(ctx);
+  write(
+    "contact/index.html",
+    head({ title: contact.title, description: contact.desc, canonical: absUrl("/contact/") }) +
+      header() + contact.html + footer()
+  );
 
   // 커스텀 404 (GitHub Pages 가 미존재 경로에 자동 사용)
   const chips = site.categories
     .map((c) => `<a class="chip" href="${url(`/category/${c.slug}/`)}">${esc(c.name)}</a>`)
     .join("");
   const notFound =
-    head({ title: "페이지를 찾을 수 없습니다 (404)", description: "요청하신 페이지를 찾을 수 없습니다.", canonical: absUrl("/404.html") }) +
+    head({ title: t.notFound.title, description: t.notFound.desc, canonical: absUrl("/404.html") }) +
     header() +
     `<article class="post" style="text-align:center">
       <h1 style="font-size:64px;margin:20px 0 0">404</h1>
-      <p>요청하신 페이지를 찾을 수 없습니다.</p>
-      <p><a href="${url("/")}">홈으로 돌아가기</a></p>
+      <p>${t.notFound.body}</p>
+      <p><a href="${url("/")}">${t.notFound.home}</a></p>
       <div class="chips" style="justify-content:center;margin-top:24px">${chips}</div>
     </article>` +
     footer();
@@ -623,26 +552,7 @@ function buildLlmsTxt(posts) {
     .slice(0, 15)
     .map((p) => `- [${p.title}](${absUrl(p.path)}): ${p.description || ""}`)
     .join("\n");
-  write(
-    "llms.txt",
-    `# ${site.name}
-
-> ${site.description}
-
-${site.name}는 ${site.niche} 분야의 정보를 공식 자료 기반으로 검증해 제공합니다.
-운영: ${site.author}. 언어: 한국어.
-
-## 카테고리
-${cats}
-
-## 최근 콘텐츠
-${recent}
-
-## 안내
-- 모든 콘텐츠는 공식 기관 자료 확인을 권장합니다(제도·요금은 변동 가능).
-- 인용 시 출처로 ${site.name}(${absUrl("/")})를 표기해 주세요.
-`
-  );
+  write("llms.txt", t.llms({ site, absUrl }, cats, recent));
 }
 
 // ads.txt — 애드센스 승인 후 광고 수익 보호(무단 인벤토리 차단). client 있을 때만.
@@ -687,7 +597,7 @@ function buildRss(posts) {
   <title>${esc(site.name)}</title>
   <link>${absUrl("/")}</link>
   <description>${esc(site.description)}</description>
-  <language>ko</language>
+  <language>${site.lang || "ko"}</language>
 ${items}
 </channel></rss>\n`
   );

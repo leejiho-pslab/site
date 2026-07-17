@@ -3,6 +3,7 @@
 //  build.mjs 가 이 모듈을 사용해 정적 페이지를 조립한다.
 // =============================================================
 import { site } from "../config/site.config.js";
+import { t } from "./i18n.mjs";
 
 /** basePath 를 붙인 절대경로 (사이트 내부 링크용) */
 export function url(path = "/") {
@@ -162,7 +163,7 @@ export function header(wide = false) {
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="${url("/")}">${esc(site.name)}<small>${esc(site.tagline)}</small></a>
-    <nav class="nav">${nav}<a href="${url("/search/")}">🔍 검색</a></nav>
+    <nav class="nav">${nav}<a href="${url("/search/")}">${t.navSearch}</a></nav>
   </div>
 </header>
 <div class="wrap${wide ? " wide" : ""}"><main>`;
@@ -175,7 +176,7 @@ export function breadcrumbNav(items) {
       ? `<span>${esc(it.name)}</span>`
       : `<a href="${url(it.path)}">${esc(it.name)}</a>`
   );
-  return `<nav class="breadcrumb" aria-label="현재 위치">${parts.join(" › ")}</nav>`;
+  return `<nav class="breadcrumb" aria-label="${t.breadcrumbAria}">${parts.join(" › ")}</nav>`;
 }
 
 export function footer() {
@@ -189,17 +190,15 @@ export function footer() {
     <strong>${esc(site.name)}</strong> · ${esc(site.tagline)}
     <nav class="nav">${nav}</nav>
     <div class="nav" style="margin-top:6px">
-      <a href="${url("/about/")}">소개</a>
-      <a href="${url("/author/")}">작성자</a>
-      <a href="${url("/contact/")}">문의</a>
-      <a href="${url("/privacy/")}">개인정보처리방침</a>
-      <a href="${url("/terms/")}">이용약관</a>
-      <a href="${url("/sitemap.xml")}">사이트맵</a>
+      <a href="${url("/about/")}">${t.footerLinks.about}</a>
+      <a href="${url("/author/")}">${t.footerLinks.author}</a>
+      <a href="${url("/contact/")}">${t.footerLinks.contact}</a>
+      <a href="${url("/privacy/")}">${t.footerLinks.privacy}</a>
+      <a href="${url("/terms/")}">${t.footerLinks.terms}</a>
+      <a href="${url("/sitemap.xml")}">${t.footerLinks.sitemap}</a>
     </div>
     <p class="disclaimer">
-      본 사이트의 정보는 일반적인 참고용이며, 제도·요금·신청 기준은 변경될 수 있으니
-      반드시 해당 기관의 공식 안내를 확인하시기 바랍니다.
-      본 사이트는 제휴 광고를 통해 수익을 얻을 수 있습니다.<br>
+      ${t.footerDisclaimer}<br>
       &copy; ${year} ${esc(site.name)}. All rights reserved.
     </p>
   </div>
