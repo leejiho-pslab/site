@@ -43,6 +43,12 @@
 - 남은 일: 신규 도메인 2개 셋업(레포 복제→변수→Pages→DNS→검색등록→애드센스 사이트 추가) ·
   코드 동기화 활성화(SYNC_TOKEN PAT + SYNC_TARGETS — docs/MULTISITE.md) ·
   네이버 블로그 발행 루틴 시작 · 애드센스 승인 후 슬롯 ID 등록
-- 진행 위치(2026-07-17): 두 신규 레포(todayskkultip/jype) 생성·변수·Pages·첫 배포 ✅ (크론 3회/일 가동).
-  기본 사이트 시의성 15편 대량 발행(총 22편) · 생성 프롬프트에 현재 날짜 주입(연도 오표기 수정)
-  다음 가이드 순서: ①SYNC_TOKEN 코드 동기화(위성 레포가 구버전 코드·브랜드) ②가비아 DNS ③검색등록·애드센스 사이트 추가
+- 진행 위치(2026-07-18): 3개 사이트 체제 가동 완료 ✅
+  · 위성 2개(todayskkultip 머니꿀팁 / jype Korea Unboxed): 레포·변수·Pages·커스텀 도메인·DNS·
+    코드+콘텐츠 자동 동기화(SYNC_TOKEN)·크론 3회/일 모두 가동
+  · 검색등록 완료: 구글(3도메인, 사이트맵) · Bing(3도메인) · 네이버(starship+todayskkultip, 사이트맵+RSS)
+  · 애드센스 3개 도메인 심사 중 · 엔터 도메인 전략(JYP/스타쉽 타깃 콘텐츠+비제휴 고지) 적용
+  · 사고 이력: 크롬 자동번역이 GitHub 변수값을 한글로 오염(SITE_PROFILE=쿨팁) → 가이드에 번역 끄기 안내 필수
+  · 수정: publish.yml 에 NAVER_VERIFICATION_FILE 등 env 6종 누락 보완(242105e)
+- 남은 일: 애드센스 승인 후 슬롯 ID 4종 등록 · 네이버 블로그 수동 발행 루틴 ·
+  (선택) jype 네이버 등록 · www CNAME 레코드 · 수익 발생 시 revenue.json 기록
