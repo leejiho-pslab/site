@@ -55,7 +55,7 @@ channels:
   blogger: true
   wordpress: false
 published:
-  blogger: false
+  blogger: true
   wordpress: false
 ---
 재난적 의료비 지원 신청 자격이 궁금하신 분들, 저도 가족이 갑자기 큰 수술을 받게 되면서 이 제도를 처음 알게 됐어요. 막상 알아보니 생각보다 지원 범위도 넓고, 신청 방법도 어렵지 않더라고요. 이 글에서는 **2026년 재난적 의료비 지원사업**의 신청 자격, 지원금액, 신청 방법까지 실제로 헷갈렸던 부분들을 중심으로 꼼꼼하게 정리해드립니다.
