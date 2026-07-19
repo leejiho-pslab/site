@@ -54,7 +54,7 @@ channels:
   blogger: true
   wordpress: true
 published:
-  blogger: false
+  blogger: true
   wordpress: true
 ---
 2026년 하반기 아이돌 컴백 일정과 콘서트 일정을 한 곳에서 확인하고 싶은 분들을 위해, 저도 매 시즌 티켓팅 전쟁을 치르면서 쌓아온 정보를 총정리했습니다. **확정된 사실은 확정으로, 미확정 사항은 '예상'으로 명확히 구분**해서 적었으니 공식 채널과 교차 확인하며 활용해 주세요.
