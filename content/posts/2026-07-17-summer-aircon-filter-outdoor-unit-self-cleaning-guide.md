@@ -51,7 +51,7 @@ affiliate: []
 channels:
   site: true
   blogger: true
-  wordpress: false
+  wordpress: true
 published:
   blogger: true
   wordpress: false
