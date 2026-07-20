@@ -32,9 +32,9 @@
     },
     {
       "scope": "news-global",
-      "title": "태국서 현대미술로 만난 '강릉과 방콕', 파마리서치의 '경계에서 함께 ...",
+      "title": "[자정 뉴스브리핑] 트럼프 대통령 “오늘 밤 우리는 이란을 다시 강하게...",
       "source": "네이버 뉴스",
-      "url": "https://www.newspim.com/news/view/20260713001177",
+      "url": "https://www.tokenpost.kr/news/briefing/379568",
       "capturedAt": "2026-07-20"
     },
     {
@@ -74,16 +74,16 @@
     },
     {
       "scope": "media-buzz",
-      "title": "롯데홈쇼핑, LA K브랜드 팝업 흥행…북미 진출 교두보 역할",
+      "title": "[마켓 HOT 뉴스]  K-브랜드 북미 진출 교두보 …롯데홈쇼핑, LA 수출 플랫...",
       "source": "네이버 뉴스",
-      "url": "https://www.ziksir.com/news/articleView.html?idxno=140563",
+      "url": "http://www.bizwnews.com/news/articleView.html?idxno=140961",
       "capturedAt": "2026-07-20"
     },
     {
       "scope": "media-buzz",
-      "title": "롯데홈쇼핑, 美 LA서 K-브랜드 수출 플랫폼 '이설' 팝업 인기… 북미 진...",
+      "title": "CJ올리브영 롯데홈쇼핑 남양유업 外(유통家 이모저모)",
       "source": "네이버 뉴스",
-      "url": "http://www.ftoday.co.kr/news/articleView.html?idxno=362301",
+      "url": "https://www.newsclaim.co.kr/news/articleView.html?idxno=3069751",
       "capturedAt": "2026-07-20"
     },
     {
@@ -102,16 +102,16 @@
     },
     {
       "scope": "platform-event",
-      "title": "NOL, 국내 프리미엄 숙소 할인...해외 항공권 쿠폰도 지급",
+      "title": "[유통레이더] CJ올리브영, 컬리, 세라젬, 삼성물산 패션부문, 요기요, 청...",
       "source": "네이버 뉴스",
-      "url": "https://www.womentimes.co.kr/news/articleView.html?idxno=104487",
+      "url": "https://daily.hankooki.com/news/articleView.html?idxno=1387035",
       "capturedAt": "2026-07-20"
     },
     {
       "scope": "platform-event",
-      "title": "[유통레이더] CJ올리브영, 컬리, 세라젬, 삼성물산 패션부문, 요기요, 청...",
+      "title": "[유통소식] 롯데홈쇼핑  LA 수출 플랫폼 '이설' LA 팝업 인기",
       "source": "네이버 뉴스",
-      "url": "https://daily.hankooki.com/news/articleView.html?idxno=1387035",
+      "url": "http://www.4th.kr/news/articleView.html?idxno=2114952",
       "capturedAt": "2026-07-20"
     },
     {
@@ -130,66 +130,76 @@
     },
     {
       "scope": "vertical-event",
-      "title": "무신사, 전국 매장·온라인서 상반기 결산 세일",
+      "title": "무신사, '상반기 결산 빅세일' 진행…인기 상품 50% 할인",
       "source": "네이버 뉴스",
-      "url": "https://zdnet.co.kr/view/?no=20260717160150",
+      "url": "https://www.busan.com/view/busan/view.php?code=2026071709523464650",
       "capturedAt": "2026-07-20"
     },
     {
       "scope": "vertical-event",
-      "title": "무신사, 온·오프라인 '상반기 결산 빅세일' 진행",
+      "title": "무신사, 상반기 결산 '빅세일'...인기 브랜드 최대 80%",
       "source": "네이버 뉴스",
-      "url": "https://www.megaeconomy.co.kr/news/newsview.php?ncode=1065577604258116",
+      "url": "https://www.slist.kr/news/articleView.html?idxno=752386",
       "capturedAt": "2026-07-20"
     },
     {
       "scope": "trend",
-      "title": "효리수 (검색 급상승도 0.98)",
+      "title": "🔥 콘서트 티켓팅 — 검색지수 추세 1.37 (상승)",
       "keywords": [
-        "효리수"
+        "콘서트 티켓팅"
       ],
-      "score": 0.98,
-      "source": "네이버 데이터랩",
+      "score": 1.37,
+      "source": "네이버 데이터랩(검색어트렌드)",
       "capturedAt": "2026-07-20"
     },
     {
       "scope": "trend",
-      "title": "Is (검색 급상승도 0.87)",
+      "title": "제철음식 — 검색지수 추세 0.94",
       "keywords": [
-        "Is"
+        "제철음식"
       ],
-      "score": 0.87,
-      "source": "네이버 데이터랩",
+      "score": 0.94,
+      "source": "네이버 데이터랩(검색어트렌드)",
       "capturedAt": "2026-07-20"
     },
     {
       "scope": "trend",
-      "title": "추경호 (검색 급상승도 0.75)",
+      "title": "정부지원금 — 검색지수 추세 0.89",
       "keywords": [
-        "추경호"
+        "정부지원금"
       ],
-      "score": 0.75,
-      "source": "네이버 데이터랩",
+      "score": 0.89,
+      "source": "네이버 데이터랩(검색어트렌드)",
       "capturedAt": "2026-07-20"
     },
     {
       "scope": "trend",
-      "title": "Who (검색 급상승도 0.7)",
+      "title": "올리브영 — 검색지수 추세 0.89",
       "keywords": [
-        "Who"
+        "올리브영"
       ],
-      "score": 0.7,
-      "source": "네이버 데이터랩",
+      "score": 0.89,
+      "source": "네이버 데이터랩(검색어트렌드)",
       "capturedAt": "2026-07-20"
     },
     {
       "scope": "trend",
-      "title": "대구광역시장 (검색 급상승도 0.56)",
+      "title": "쿠팡 — 검색지수 추세 0.83",
       "keywords": [
-        "대구광역시장"
+        "쿠팡"
       ],
-      "score": 0.56,
-      "source": "네이버 데이터랩",
+      "score": 0.83,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-07-20"
+    },
+    {
+      "scope": "trend",
+      "title": "무신사 — 검색지수 추세 0.79",
+      "keywords": [
+        "무신사"
+      ],
+      "score": 0.79,
+      "source": "네이버 데이터랩(검색어트렌드)",
       "capturedAt": "2026-07-20"
     },
     {
