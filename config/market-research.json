@@ -1,0 +1,31 @@
+{
+  "_설명": "시장조사 수집 데이터(신호). Claude 가 MCP 로 수집해 적재하며, 대시보드 '시장조사' 탭이 이걸 표시한다. 기사 본문은 저장하지 않고 제목·출처·링크만 신호로 보관한다. researchOnly=true 이면 여기 items 범위 안에서만 발행 주제가 뽑힌다.",
+  "collectedAt": "2026-07-20",
+  "items": [
+    { "scope": "trend", "title": "BTS 신곡 'NORMAL' 공개 — 음원·MV 화제", "keywords": ["BTS", "신곡", "컴백"], "source": "YouTube 트렌드", "capturedAt": "2026-07-20" },
+    { "scope": "trend", "title": "2026 북중미 월드컵 조별리그 이슈", "keywords": ["월드컵", "국가대표", "축구"], "source": "네이버 뉴스", "capturedAt": "2026-07-20" },
+    { "scope": "trend", "title": "달러·원 환율 급변동(중동 불안·반도체주)", "keywords": ["환율", "달러원", "증시"], "source": "네이버 뉴스", "capturedAt": "2026-07-20" },
+
+    { "scope": "news-kr", "title": "민주당 청년 정치 '기탁금' 인상 논란", "keywords": ["정치", "기탁금", "청년"], "source": "네이버 뉴스", "capturedAt": "2026-07-20" },
+    { "scope": "news-kr", "title": "쿠팡 물류센터 화재 관련 안전 이슈", "keywords": ["쿠팡", "물류센터", "화재", "안전"], "source": "네이버 뉴스", "capturedAt": "2026-07-20" },
+    { "scope": "news-kr", "title": "반도체 마이스터고 취업률·'삼전닉스' 직행", "keywords": ["반도체", "취업", "삼성전자", "SK하이닉스"], "source": "네이버 뉴스", "capturedAt": "2026-07-20" },
+
+    { "scope": "news-global", "title": "중동발 군사적 긴장과 글로벌 반도체주 약세", "keywords": ["중동", "국제정세", "반도체"], "source": "네이버 뉴스(국제)", "capturedAt": "2026-07-20" },
+    { "scope": "news-global", "title": "글로벌 반도체 공급망·해외 진출 동향", "keywords": ["반도체", "공급망", "수출"], "source": "네이버 뉴스(국제)", "capturedAt": "2026-07-20" },
+
+    { "scope": "media-buzz", "title": "영화 '암살자(들)' 티저 예고편 화제", "keywords": ["영화", "예고편", "개봉"], "source": "YouTube 트렌드", "capturedAt": "2026-07-20" },
+    { "scope": "media-buzz", "title": "SBS 금토드라마 '김부장' 전개 화제", "keywords": ["드라마", "김부장", "SBS"], "source": "YouTube 트렌드", "capturedAt": "2026-07-20" },
+
+    { "scope": "platform-event", "title": "쿠팡 '메가뷰티쇼' — 뷰티 브랜드 50여개 할인", "keywords": ["쿠팡", "메가뷰티쇼", "뷰티 할인"], "source": "네이버 뉴스(유통)", "capturedAt": "2026-07-20" },
+    { "scope": "platform-event", "title": "G마켓 '코카-콜라 올인' 기획전(최대 30% 쿠폰)", "keywords": ["G마켓", "기획전", "쿠폰"], "source": "네이버 뉴스(유통)", "capturedAt": "2026-07-20" },
+    { "scope": "platform-event", "title": "SSG닷컴 바캉스 시즌 행사(휴가철 인기상품 특가)", "keywords": ["SSG닷컴", "바캉스", "여름 특가"], "source": "네이버 뉴스(유통)", "capturedAt": "2026-07-20" },
+
+    { "scope": "vertical-event", "title": "무신사 상반기 최대 규모 세일 캠페인(성수 팝업)", "keywords": ["무신사", "세일", "성수 팝업"], "source": "네이버 뉴스(패션)", "capturedAt": "2026-07-20" },
+    { "scope": "vertical-event", "title": "지그재그·에이블리 타임특가·쿠폰팩 경쟁", "keywords": ["지그재그", "에이블리", "타임특가"], "source": "네이버 뉴스(패션)", "capturedAt": "2026-07-20" },
+    { "scope": "vertical-event", "title": "29CM 스페셜오더·W컨셉 웰컴패키지 프로모션", "keywords": ["29CM", "W컨셉", "프로모션"], "source": "네이버 뉴스(패션)", "capturedAt": "2026-07-20" },
+
+    { "scope": "season", "title": "7월 제철: 복숭아·자두·옥수수·갑오징어", "keywords": ["7월 제철음식", "복숭아", "옥수수"], "source": "시즌 캘린더", "capturedAt": "2026-07-20" },
+    { "scope": "season", "title": "장마·폭염 대비 생활정보(제습·전기요금)", "keywords": ["장마", "폭염", "제습", "전기요금"], "source": "시즌 캘린더", "capturedAt": "2026-07-20" },
+    { "scope": "season", "title": "초복·중복 보양식 시즌(삼계탕 등)", "keywords": ["초복", "중복", "보양식", "삼계탕"], "source": "시즌 캘린더", "capturedAt": "2026-07-20" }
+  ]
+}
