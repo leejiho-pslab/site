@@ -56,7 +56,7 @@ channels:
   wordpress: true
 published:
   blogger: true
-  wordpress: false
+  wordpress: true
 ---
 아이브 콘서트 티켓팅에 성공하려면 **선예매 자격 확보 → 예매처 사전 세팅 → 오픈 당일 실전 전략** 이 세 단계를 반드시 챙겨야 합니다. 저도 몇 차례 피눈물 나는 실패를 겪고 나서야 이 흐름을 체득했는데요, 이 글 하나로 예매처 비교부터 좌석 선택 요령, 주요 유의사항까지 한 번에 정리해 드리겠습니다.
 
