@@ -1,5 +1,5 @@
 {
-  "_설명": "발행 자동화 스위치. paused=true 이면 새 글 생성과 채널 발행(블로거·워드프레스)을 멈추고, 기존 콘텐츠의 빌드·배포만 계속합니다. researchOnly=true 이면 새 글 주제를 config/market-research.json 의 시장조사 범위 안에서만 뽑습니다. 전략 변경 대기 등으로 잠시 발행을 끌 때 paused 를 켜세요.",
-  "paused": true,
+  "_설명": "발행 자동화 스위치. paused=true 이면 새 글 생성과 채널 발행(블로거·워드프레스)을 멈추고, 기존 콘텐츠의 빌드·배포만 계속합니다. researchOnly=true 이면 새 글 주제를 config/market-research.json 의 시장조사 범위 안에서만(검색량 높은 순) 뽑습니다.",
+  "paused": false,
   "researchOnly": true
 }
