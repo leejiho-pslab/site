@@ -58,7 +58,7 @@ channels:
   wordpress: true
 published:
   blogger: true
-  wordpress: false
+  wordpress: true
 ---
 2026년 여름, **에너지바우처 잔액 조회와 7~8월 사용법**이 궁금하신 분들 많으시죠? 저도 작년에 뒤늦게 잔액이 남아있다는 걸 알고 부랴부랴 확인했던 기억이 나는데요. 이 글에서는 에너지바우처가 무엇인지부터 잔액 조회 방법, 여름 바우처 사용법, 주의사항까지 실제로 써본 경험 바탕으로 꼼꼼히 정리해드립니다. 제도·금액은 변경 가능성이 있으니 반드시 [에너지바우처 공식 누리집](https://www.energyvoucher.or.kr)을 최종 확인하세요.
 

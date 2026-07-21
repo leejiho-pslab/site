@@ -58,7 +58,7 @@ channels:
   wordpress: true
 published:
   blogger: true
-  wordpress: false
+  wordpress: true
 ---
 2026년 여름 캠핑 쿨러·아이스박스 추천을 찾고 있다면, 이 글 하나로 보냉력 비교부터 가격대별 구매 포인트까지 모두 해결할 수 있습니다. 직접 여러 제품을 써보면서 느낀 점과 실측 후기를 바탕으로 정리했으니, 구매 전에 꼭 끝까지 읽어보세요.
 
