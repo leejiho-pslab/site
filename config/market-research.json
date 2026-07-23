@@ -1,252 +1,252 @@
 {
   "_설명": "시장조사 수집 데이터(신호). 네이버 오픈API(뉴스·데이터랩)로 매일 자동 수집. 기사 본문 미저장, 제목·출처·키워드·점수만 보관. researchOnly=true 이면 이 범위 안에서만 발행 주제가 뽑힌다.",
-  "collectedAt": "2026-07-23",
+  "collectedAt": "2026-07-24",
   "items": [
     {
       "scope": "news-kr",
-      "title": "[아주증시포커스] 중국 반도체기업들 IPO 러시…'반도체굴기 시즌2' 시작...",
+      "title": "7월 24일 굿모닝 MBN 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://www.ajunews.com/view/20260723072715154",
-      "capturedAt": "2026-07-23"
+      "url": "http://www.mbn.co.kr/pages/news/newsView.php?news_seq_no=5207866",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "news-kr",
-      "title": "7월 23일 굿모닝 MBN 이 시각 주요뉴스",
+      "title": "3부 오늘의 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "http://www.mbn.co.kr/pages/news/newsView.php?news_seq_no=5207605",
-      "capturedAt": "2026-07-23"
+      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6839736_37012.html",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "news-kr",
       "title": "[모닝와이드] 오늘의 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008670350&plink=ORI&cooper=NAVER",
-      "capturedAt": "2026-07-23"
+      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008672449&plink=ORI&cooper=NAVER",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "news-kr",
       "title": "1부 오늘의 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6839419_37012.html",
-      "capturedAt": "2026-07-23"
+      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6839704_37012.html",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "news-global",
-      "title": "마약 1톤 밀수 적발‥해외 여행자 통한 반입 급증",
+      "title": "한국 원화가 약할 수밖에 없는 이유, 이 나라와 비교해 보니",
       "source": "네이버 뉴스",
-      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6839462_37012.html",
-      "capturedAt": "2026-07-23"
+      "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003253346&CMPT_CD=P0010&utm_source=naver&utm_medium=newsearch&utm_campaign=naver_news",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "news-global",
-      "title": "페로타임즈 손바닥뉴스 7월 23일(목)",
+      "title": "이재명 대통령의 '미국·남미 3국 순방' 실용외교",
       "source": "네이버 뉴스",
-      "url": "http://www.ferrotimes.com/news/articleView.html?idxno=49294",
-      "capturedAt": "2026-07-23"
+      "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003253823&CMPT_CD=P0010&utm_source=naver&utm_medium=newsearch&utm_campaign=naver_news",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "news-global",
-      "title": "SK하이닉스, '사업적 자해행위' 하면 안 된다 [반도체 특별과외]",
+      "title": "李대통령, 취임 후 최장 7박11일 순방…美 'AI 동맹'·남미 '공급망 확장...",
       "source": "네이버 뉴스",
-      "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003253267&CMPT_CD=P0010&utm_source=naver&utm_medium=newsearch&utm_campaign=naver_news",
-      "capturedAt": "2026-07-23"
+      "url": "https://news.einfomax.co.kr/news/articleView.html?idxno=4426572",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "news-global",
-      "title": "[비바100] 챗GPT가 바꾸는 재테크…AI 자산관리 시장 2035년 200조 시대",
+      "title": "식품영양정보 32.7만건 '한눈에'…세계 최고 수준 선보인 식약처",
       "source": "네이버 뉴스",
-      "url": "https://www.viva100.com/article/20260717500006",
-      "capturedAt": "2026-07-23"
+      "url": "https://www.news1.kr/bio/healthcare/6237199",
+      "capturedAt": "2026-07-24"
+    },
+    {
+      "scope": "media-buzz",
+      "title": "컬쳐히어로, 강레오 요리 파우더 '저스트레오' 2차 생산 돌입",
+      "source": "네이버 뉴스",
+      "url": "https://www.newspim.com/news/view/20260723000208",
+      "capturedAt": "2026-07-24"
+    },
+    {
+      "scope": "media-buzz",
+      "title": "[가전 트렌드] 삼성전자서비스, '한국산업의 서비스품질지수' 가전, 모바...",
+      "source": "네이버 뉴스",
+      "url": "https://www.ibabynews.com/news/articleView.html?idxno=153095",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "media-buzz",
       "title": "개그맨 출신 권영찬 교수, 루페 '알이에프 관절면역365' 광고모델 발탁",
       "source": "네이버 뉴스",
       "url": "https://www.mt.co.kr/industry/2026/07/22/2026072215284555055",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "media-buzz",
       "title": "제주 창업기업 제품 'AFPRO 2026' 현장서 완판",
       "source": "네이버 뉴스",
       "url": "https://www.jejumaeil.net/news/articleView.html?idxno=402980",
-      "capturedAt": "2026-07-23"
-    },
-    {
-      "scope": "media-buzz",
-      "title": "‘3만장 완판’ 구혜선·‘대기업 납품’ 장동민, 특허로 대박 친 스타...",
-      "source": "네이버 뉴스",
-      "url": "https://www.segye.com/newsView/20260720518828?OutUrl=naver",
-      "capturedAt": "2026-07-23"
-    },
-    {
-      "scope": "media-buzz",
-      "title": "피에브, CJ온스타일 '강주은의 굿라이프' 방송 목표치 초과 달성…3연속...",
-      "source": "네이버 뉴스",
-      "url": "http://www.newsroad.co.kr/news/articleView.html?idxno=61843",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "platform-event",
-      "title": "할인 끝나면 모르쇠…패션 플랫폼, '충성 고객' 잡아라",
+      "title": "하나로마트 “수익+공익”… 계열사 경영개선 나선다",
       "source": "네이버 뉴스",
-      "url": "https://news.bizwatch.co.kr/article/consumer/2026/07/21/0033",
-      "capturedAt": "2026-07-23"
+      "url": "https://www.donga.com/news/Economy/article/all/20260723/134353743/2",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "platform-event",
-      "title": "놀유니버스 NOL, 프리미엄 숙소·해외여행 할인 행사 확대",
+      "title": "농협, 하나로마트 배송 확대·PB 육성 등 경영 혁신 나서",
       "source": "네이버 뉴스",
-      "url": "http://www.lawissue.co.kr/view.php?ud=202607201656356363204ead0791_12",
-      "capturedAt": "2026-07-23"
+      "url": "https://www.donga.com/news/Economy/article/all/20260723/134352172/1",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "platform-event",
-      "title": "[유통레이더] CJ올리브영, 컬리, 세라젬, 삼성물산 패션부문, 요기요, 청...",
+      "title": "[Weekly New키즈] 중복 몸보신, 우리 가족은 집에서 편하게",
       "source": "네이버 뉴스",
-      "url": "https://daily.hankooki.com/news/articleView.html?idxno=1387035",
-      "capturedAt": "2026-07-23"
+      "url": "https://biz.newdaily.co.kr/site/data/html/2026/07/23/2026072300025.html",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "platform-event",
-      "title": "[유통소식] 롯데홈쇼핑  LA 수출 플랫폼 '이설' LA 팝업 인기",
+      "title": "[유통레이더] 쿠팡, 애경산업, 11번가, 제주삼다수, 코웨이, 설빙, 시몬...",
       "source": "네이버 뉴스",
-      "url": "http://www.4th.kr/news/articleView.html?idxno=2114952",
-      "capturedAt": "2026-07-23"
+      "url": "https://daily.hankooki.com/news/articleView.html?idxno=1385273",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "vertical-event",
       "title": "할인 끝나면 모르쇠…패션 플랫폼, '충성 고객' 잡아라",
       "source": "네이버 뉴스",
       "url": "https://news.bizwatch.co.kr/article/consumer/2026/07/21/0033",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "vertical-event",
       "title": "[리빙 트렌드] SGC솔루션 글라스락, '스포티 핸들 텀블러' 52만 개 판매 ...",
       "source": "네이버 뉴스",
       "url": "https://www.ibabynews.com/news/articleView.html?idxno=153064",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "vertical-event",
       "title": "바캉스 필수템 총집합…경방 타임스퀘어, 'NICE TO SEA YOU' 기획전 개최",
       "source": "네이버 뉴스",
       "url": "https://www.cstimes.com/news/articleView.html?idxno=714084",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "vertical-event",
       "title": "[아카데믹 인사이트] '패션 플랫폼'의 진화...AI 추천부터 브랜드 큐레이...",
       "source": "네이버 뉴스",
       "url": "https://www.banronbodo.com/news/articleView.html?idxno=32424",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "ent-media",
-      "title": "[SW인터뷰] ‘사랑 처방’ 김형묵 “알아보는 분 많아져 감사…책임·긴...",
+      "title": "2화 만에 심상찮은 기세…시청률 5.3%→8개국 1위로 '우뚝' 전 세계 취향...",
       "source": "네이버 뉴스",
-      "url": "https://www.sportsworldi.com/newsView/20260722524035",
-      "capturedAt": "2026-07-23"
+      "url": "https://www.tvreport.co.kr/breaking/article/1063364/",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "ent-media",
-      "title": "“한 번 웃겼다가 배우 인생 꼬였다”…이세창, 리마리오 닮은꼴에 ‘전...",
+      "title": "시청률 17% 주연 출동…방송 전부터 캐스팅으로 반응 제대로 터진 '드라...",
       "source": "네이버 뉴스",
-      "url": "https://www.sportsseoul.com/news/read/1624167?ref=naver",
-      "capturedAt": "2026-07-23"
+      "url": "https://www.wikitree.co.kr/articles/1147930",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "ent-media",
-      "title": "'오싹한 연애', TV 드라마 화제성 순위 2위…OTT 다시보기 방법?",
+      "title": "첫방부터 터졌다…단숨에 글로벌 2위 찍은 넷플릭스 '한국 드라마'",
       "source": "네이버 뉴스",
-      "url": "https://www.topstarnews.net/news/articleView.html?idxno=16143397",
-      "capturedAt": "2026-07-23"
+      "url": "https://www.wikitree.co.kr/articles/1147954",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "ent-media",
-      "title": "[주간 윤준필] '산골총각 영웅', 2026년 임영웅표 '힐링캠프'",
+      "title": "장르가 된 소지섭, 파급력으로 ‘흥행 공식’ 증명 [‘김부장’ 종영①...",
       "source": "네이버 뉴스",
-      "url": "https://enter.etoday.co.kr/news/view/299992",
-      "capturedAt": "2026-07-23"
+      "url": "https://isplus.com/article/view/isp202607230095",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "trend",
-      "title": "🔥 JYP — 검색지수 추세 2.78 (상승)",
+      "title": "🔥 JYP — 검색지수 추세 2.97 (상승)",
       "keywords": [
         "JYP"
       ],
-      "score": 2.78,
+      "score": 2.97,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "trend",
-      "title": "🔥 정부지원금 — 검색지수 추세 1.26 (상승)",
-      "keywords": [
-        "정부지원금"
-      ],
-      "score": 1.26,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-23"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 여름휴가 — 검색지수 추세 1.17 (상승)",
-      "keywords": [
-        "여름휴가"
-      ],
-      "score": 1.17,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-23"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 쿠팡 — 검색지수 추세 1.16 (상승)",
-      "keywords": [
-        "쿠팡"
-      ],
-      "score": 1.16,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-23"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 무신사 — 검색지수 추세 1.11 (상승)",
-      "keywords": [
-        "무신사"
-      ],
-      "score": 1.11,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-23"
-    },
-    {
-      "scope": "trend",
-      "title": "제습기 — 검색지수 추세 1.08",
+      "title": "🔥 제습기 — 검색지수 추세 1.31 (상승)",
       "keywords": [
         "제습기"
       ],
-      "score": 1.08,
+      "score": 1.31,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 정부지원금 — 검색지수 추세 1.31 (상승)",
+      "keywords": [
+        "정부지원금"
+      ],
+      "score": 1.31,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-07-24"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 여름휴가 — 검색지수 추세 1.29 (상승)",
+      "keywords": [
+        "여름휴가"
+      ],
+      "score": 1.29,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-07-24"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 무신사 — 검색지수 추세 1.25 (상승)",
+      "keywords": [
+        "무신사"
+      ],
+      "score": 1.25,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-07-24"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 쿠팡 — 검색지수 추세 1.21 (상승)",
+      "keywords": [
+        "쿠팡"
+      ],
+      "score": 1.21,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "season",
       "title": "7월 제철: 복숭아·자두·옥수수·갑오징어",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "season",
       "title": "장마·폭염 대비(제습·전기요금)",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
     },
     {
       "scope": "season",
       "title": "초복·중복 보양식",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-07-23"
+      "capturedAt": "2026-07-24"
     }
   ]
 }
