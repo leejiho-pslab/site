@@ -73,6 +73,10 @@
   · 연예 콘텐츠는 starship-ent(default)·jype 2개 사이트에서만(kkultip 카테고리에 ent 없음) — 확인
   · 네이버 '추천 콘텐츠' 인기 블로그 공통 패턴을 생성 프롬프트(ko/en)에 반영(호기심·이득 훅 제목/공감
     도입+결론 선제시/경험담 톤/실용가치/시의성 앵글) — automation/generate.mjs feedPatterns()
+- 진행(2026-07-24): 채널별 콘텐츠 변형(중복 콘텐츠 방지) ✅ — 오늘부터 같은 글이라도 채널마다
+  도입부·요약 스타일·마무리 CTA·FAQ 순서를 다르게 발행(automation/variation.mjs, 무료 결정적 변형).
+  사이트=원본(canonical) 유지, 워드프레스·블로거·네이버는 각기 다른 도입/요약/마무리로 발행 →
+  어떤 두 채널도 동일 본문으로 나가지 않음. (본문 핵심은 공유하되 canonical+syndication 푸터로 원본 보호)
 - 대시보드(발행 현황·SEO/GEO 진척도·채널): default https://starship-ent.ai.kr/dashboard/ ·
   kkultip https://todayskkultip.co.kr/dashboard/ · jype https://jype.ai.kr/dashboard/
 - 남은 일: 쿠팡 파트너스 카테고리별 추적 링크 6개 등록(coupang-links.json) ·
