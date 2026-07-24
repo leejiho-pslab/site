@@ -63,6 +63,18 @@
   카테고리별 추적 링크는 config/coupang-links.json(운영자가 파트너스 링크 한 번 붙여넣기 → 해당 카테고리
   전 글 자동 적용, 미등록 시 쿠팡 검색으로 대체). "최저가"는 강조하되 단정 회피(확인 유도형 CTA).
   대시보드 광고탭에 링크 등록 상태·편집 링크 추가. 영문(jype) 프로필은 제외.
+- 진행(2026-07-24): 프로필 이모티콘 아바타 + 연예 채널 정책 + 추천피드 패턴 반영 ✅ (배포 run #160)
+  · 프로필 위젯 아바타를 힉스필드 생성 이모티콘 이미지로 교체(default 전구/kkultip 코인/jype 박스) —
+    src/assets/avatar.png + brand/<프로필>/avatar.png · build.mjs sidebar 의 site.brandmark 객체
+    문자열화 "[object Object]" 버그 수정(이미지 있으면 <img>, 없으면 brandmark.emoji 폴백) · main.css img.pf-avatar
+  · 연예(ent/entertainment) 콘텐츠는 네이버·구글 블로그에 발행하지 않음 — lib.mjs isEntertainment(),
+    generate.mjs channels.blogger=false, naver-drafts.mjs 제외 · 기존 연예 7편 channels.blogger=false 정리
+    (이미 블로거에 발행된 7편은 운영자 지시로 **삭제하지 않고 그대로 유지** — 신규분만 제외)
+  · 연예 콘텐츠는 starship-ent(default)·jype 2개 사이트에서만(kkultip 카테고리에 ent 없음) — 확인
+  · 네이버 '추천 콘텐츠' 인기 블로그 공통 패턴을 생성 프롬프트(ko/en)에 반영(호기심·이득 훅 제목/공감
+    도입+결론 선제시/경험담 톤/실용가치/시의성 앵글) — automation/generate.mjs feedPatterns()
+- 대시보드(발행 현황·SEO/GEO 진척도·채널): default https://starship-ent.ai.kr/dashboard/ ·
+  kkultip https://todayskkultip.co.kr/dashboard/ · jype https://jype.ai.kr/dashboard/
 - 남은 일: 쿠팡 파트너스 카테고리별 추적 링크 6개 등록(coupang-links.json) ·
   애드센스 승인 후 슬롯 ID 4종 등록 · 네이버 블로그 복붙 발행 루틴 시작 ·
   WP 애드센스 코드 테마 부착(승인 후) · (선택) jype 네이버 등록 · www CNAME 레코드 ·
