@@ -52,7 +52,7 @@ profile: default
 affiliate: []
 channels:
   site: true
-  blogger: true
+  blogger: false
   wordpress: true
 published:
   blogger: true
