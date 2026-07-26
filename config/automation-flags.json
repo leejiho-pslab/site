@@ -1,5 +1,6 @@
 {
-  "_설명": "발행 자동화 스위치. paused=true 이면 새 글 생성과 채널 발행(블로거·워드프레스)을 멈추고, 기존 콘텐츠의 빌드·배포만 계속합니다. researchOnly=true 이면 새 글 주제를 config/market-research.json 의 시장조사 범위 안에서만(검색량 높은 순) 뽑습니다.",
+  "_설명": "발행 자동화 스위치. paused=true 이면 새 글 생성과 채널 발행(블로거·워드프레스)을 멈추고, 기존 콘텐츠의 빌드·배포만 계속합니다. researchOnly=true 이면 새 글 주제를 config/market-research.json 의 시장조사 범위 안에서만(검색량 높은 순) 뽑습니다. adsenseReview=true 이면 애드센스 '가치 낮은 콘텐츠' 심사 통과를 위해 자체 사이트 빌드에서 쿠팡 상품 블록과 제휴 고지를 잠시 숨겨 콘텐츠 우선 사이트로 보이게 합니다(블로거·워드프레스 채널은 영향 없음). 승인되면 false 로 되돌리세요.",
   "paused": false,
-  "researchOnly": true
+  "researchOnly": true,
+  "adsenseReview": true
 }
