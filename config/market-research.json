@@ -1,252 +1,252 @@
 {
   "_설명": "시장조사 수집 데이터(신호). 네이버 오픈API(뉴스·데이터랩)로 매일 자동 수집. 기사 본문 미저장, 제목·출처·키워드·점수만 보관. researchOnly=true 이면 이 범위 안에서만 발행 주제가 뽑힌다.",
-  "collectedAt": "2026-07-28",
+  "collectedAt": "2026-07-29",
   "items": [
     {
       "scope": "news-kr",
-      "title": "[아주증시포커스]  급락장에 데인 개미 …미수금 한달새 절반으로 '뚝' ...",
+      "title": "[아주증시포커스] 10% '털썩' 또 무너진 코스피…이달만 6번째 급락 外",
       "source": "네이버 뉴스",
-      "url": "https://www.ajunews.com/view/20260728065935237",
-      "capturedAt": "2026-07-28"
+      "url": "https://www.ajunews.com/view/20260729073532054",
+      "capturedAt": "2026-07-29"
+    },
+    {
+      "scope": "news-kr",
+      "title": "7월 29일 굿모닝 MBN 이 시각 주요뉴스",
+      "source": "네이버 뉴스",
+      "url": "http://www.mbn.co.kr/pages/news/newsView.php?news_seq_no=5208852",
+      "capturedAt": "2026-07-29"
+    },
+    {
+      "scope": "news-kr",
+      "title": "[모닝와이드] 오늘의 주요뉴스",
+      "source": "네이버 뉴스",
+      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008679527&plink=ORI&cooper=NAVER",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "news-kr",
       "title": "1부 오늘의 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6840488_37012.html",
-      "capturedAt": "2026-07-28"
-    },
-    {
-      "scope": "news-kr",
-      "title": "폭염 위기경보 ‘심각’ 격상…밀양 37.5도",
-      "source": "네이버 뉴스",
-      "url": "https://www.ichannela.com/news/main/news_detailPage.do?publishId=000000541958",
-      "capturedAt": "2026-07-28"
-    },
-    {
-      "scope": "news-kr",
-      "title": "AI와 우주로 확장되는 통신시장, 정부의 역할도 달라져야 한다 [율촌 TM...",
-      "source": "네이버 뉴스",
-      "url": "https://www.mk.co.kr/article/12108129",
-      "capturedAt": "2026-07-28"
+      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6840783_37012.html",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "news-global",
-      "title": "테슬라식 매립형 손잡이, 사고 땐 문 못연다...안전 기준 강화, 한국은?",
+      "title": "'러·우, 美·이란전' 장기화…韓 정유사, 기회 잡나",
       "source": "네이버 뉴스",
-      "url": "https://www.news2day.co.kr/article/20260727500272",
-      "capturedAt": "2026-07-28"
+      "url": "https://weekly.hankooki.com/news/articleView.html?idxno=7175702",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "news-global",
-      "title": "[연합뉴스 이 시각 헤드라인] - 07:30",
+      "title": "[AI로 읽는 경제ㅣ숨은 규제 ② ] PC는 왜 조금만 바뀌어도 인증을 다시...",
       "source": "네이버 뉴스",
-      "url": "https://www.yna.co.kr/view/AKR20260728013200011?input=1195m",
-      "capturedAt": "2026-07-28"
+      "url": "https://www.newspim.com/news/view/20260728001019",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "news-global",
-      "title": "[中 하드테크 IPO 빅뱅] ⑪YMTC. 국유자본이 키워낸 낸드플래시 리더",
+      "title": "[금/유가] 미·이란 공격 중단에 유가 5% '뚝'…금값도 1주래 최저",
       "source": "네이버 뉴스",
-      "url": "https://www.newspim.com/news/view/20260727001086",
-      "capturedAt": "2026-07-28"
+      "url": "https://www.newspim.com/news/view/20260729000032",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "news-global",
-      "title": "[中 하드테크 IPO 빅뱅] ⑫우한 YMTC vs 허페이 CXMT '메모리 투스타'",
+      "title": "여권 없이 떠나는 세계 여행… 이국적 감성 채워줄 국내 명소 5선",
       "source": "네이버 뉴스",
-      "url": "https://www.newspim.com/news/view/20260727001087",
-      "capturedAt": "2026-07-28"
+      "url": "https://www.gukjenews.com/news/articleView.html?idxno=3649129",
+      "capturedAt": "2026-07-29"
+    },
+    {
+      "scope": "media-buzz",
+      "title": "에스와이솔루션, 기능성 곡물소재·대체식품 사업 확대 박차",
+      "source": "네이버 뉴스",
+      "url": "https://idsn.co.kr/news/view/1065596712868534",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "media-buzz",
       "title": "롯데홈쇼핑 벨리곰, 유니클로 UTme! 입점…커스터마이징 굿즈 선보여",
       "source": "네이버 뉴스",
       "url": "http://www.thefirstmedia.net/news/articleView.html?idxno=204727",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "media-buzz",
       "title": "롯데홈쇼핑 ‘굿즈 효자’ 벨리곰, 유니클로도 장악...IP 사업 확장 무섭...",
       "source": "네이버 뉴스",
       "url": "https://www.etoday.co.kr/news/view/2607914",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "media-buzz",
       "title": "유니클로 티셔츠에 벨리곰 찍는다…롯데홈쇼핑, 디자인 35종 공개",
       "source": "네이버 뉴스",
       "url": "https://www.thepowernews.co.kr/view.php?ud=202607271612556981de3f0aa1be_7",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
-      "scope": "media-buzz",
-      "title": "에스와이솔루션, 독자 푸드테크로 '대체식품' 밸류체인 확장",
+      "scope": "platform-event",
+      "title": "쿠팡, 오픈마켓 브랜드평판 1위…11번가·G마켓 順",
       "source": "네이버 뉴스",
-      "url": "https://www.kdpress.co.kr/news/articleView.html?idxno=207255",
-      "capturedAt": "2026-07-28"
+      "url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=472363",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "platform-event",
       "title": "[상주, 시간을 품고 미래를 잇다⑨] 온라인쇼핑몰 ‘명실상주몰’",
       "source": "네이버 뉴스",
       "url": "https://www.yeongnam.com/web/view.php?key=20260727020256617",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "platform-event",
       "title": "[역직구 기획 4] 내수 한계 부딪힌 패션 플랫폼...O4O 전략으로 글로벌 ...",
       "source": "네이버 뉴스",
       "url": "https://byline.network/?p=9004111222612154",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "platform-event",
       "title": "[리테일 인사이드] SSG닷컴·우아한형제들·G마켓·GS25·롯데백화점... ...",
       "source": "네이버 뉴스",
       "url": "http://www.kdfnews.com/news/articleView.html?idxno=185733",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
-      "scope": "platform-event",
-      "title": "[SV 유통 단신] GS25, 고단백 김밥 2종 판매량 150만개 돌파 外",
+      "scope": "vertical-event",
+      "title": "연구 데이터부터 휴가 파우치까지, 뷰티·패션 재편",
       "source": "네이버 뉴스",
-      "url": "https://www.socialvalue.kr/news/view/1065585920795453",
-      "capturedAt": "2026-07-28"
+      "url": "https://www.pressman.kr/news/articleView.html?idxno=102917",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "vertical-event",
       "title": "[유통갤러리] 신세계百, 레드닷 디자인 어워드 3관왕 쾌거 外",
       "source": "네이버 뉴스",
       "url": "https://theviewers.co.kr/View.aspx?No=4162874",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "vertical-event",
       "title": "'광란의 세일' 3600억 터졌다…반지하 고등학생의 '인생역전'",
       "source": "네이버 뉴스",
       "url": "https://www.hankyung.com/article/2026072450261",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "vertical-event",
       "title": "신발에 미친 그들은 어떻게 6조 패션왕국 일궜나",
       "source": "네이버 뉴스",
       "url": "https://www.hankyung.com/article/2026072449461",
-      "capturedAt": "2026-07-28"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "무신사, 日 젠지 공략 통했다…조조타운과 협업 월간 최대 실적",
-      "source": "네이버 뉴스",
-      "url": "https://www.newsis.com/view/NISX20260724_0003721985",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "ent-media",
-      "title": "인기 웹툰도 못 살린 '내일도 출근!', 4%대 벽 넘을까",
+      "title": "32기 영자, 영철에 '돌직구 고백'→막판 뒤집기… 오빠 진짜 좋아했어 ...",
       "source": "네이버 뉴스",
-      "url": "https://www.mediafine.co.kr/news/articleView.html?idxno=84786",
-      "capturedAt": "2026-07-28"
+      "url": "https://www.tvreport.co.kr/entertainment/article/1064567/",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "ent-media",
-      "title": "도파민에 지친 안방극장, ‘힐링 예능’이 뜬다",
+      "title": "[TF인터뷰] 주상욱, 평생 잊지 못할 '김부장'",
       "source": "네이버 뉴스",
-      "url": "https://www.sportsworldi.com/newsView/20260727515145",
-      "capturedAt": "2026-07-28"
+      "url": "https://news.tf.co.kr/read/entertain/2348062.htm",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "ent-media",
-      "title": "'김부장' 윤경호  13시간 20분 묵언수행, 팬 편지에 울컥…남은 건 감사...",
+      "title": "tvN '오싹한 연애' 4회 만에 시청률 2배-넷플릭스 글로벌 2위",
       "source": "네이버 뉴스",
-      "url": "http://www.stoo.com/article.php?aid=107953484851",
-      "capturedAt": "2026-07-28"
+      "url": "https://www.mediafine.co.kr/news/articleView.html?idxno=84875",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "ent-media",
-      "title": "'김부장' 윤경호  시청률 13% 돌파=13시간 묵언수행..25% 넘으면 어쩌나...",
+      "title": "공효진·김혜수·신민아, 전작 아쉬움 씻을까…장르 바꾼 '드라마 퀸' 3...",
       "source": "네이버 뉴스",
-      "url": "https://www.starnewskorea.com/star/2026/07/28/2026072708162454757",
-      "capturedAt": "2026-07-28"
+      "url": "https://www.tenasia.co.kr/article/2026072804794",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "trend",
-      "title": "🔥 폭염 — 검색지수 추세 2.88 (상승)",
+      "title": "🔥 폭염 — 검색지수 추세 2.95 (상승)",
       "keywords": [
         "폭염"
       ],
-      "score": 2.88,
+      "score": 2.95,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "trend",
-      "title": "🔥 삼계탕 — 검색지수 추세 2.71 (상승)",
+      "title": "🔥 삼계탕 — 검색지수 추세 2.43 (상승)",
       "keywords": [
         "삼계탕"
       ],
-      "score": 2.71,
+      "score": 2.43,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "trend",
-      "title": "🔥 전기요금 — 검색지수 추세 1.42 (상승)",
+      "title": "🔥 전기요금 — 검색지수 추세 1.53 (상승)",
       "keywords": [
         "전기요금"
       ],
-      "score": 1.42,
+      "score": 1.53,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "trend",
-      "title": "🔥 스타쉽엔터테인먼트 — 검색지수 추세 1.25 (상승)",
-      "keywords": [
-        "스타쉽엔터테인먼트"
-      ],
-      "score": 1.25,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-28"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 여름휴가 — 검색지수 추세 1.22 (상승)",
-      "keywords": [
-        "여름휴가"
-      ],
-      "score": 1.22,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-28"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 JYP — 검색지수 추세 1.18 (상승)",
+      "title": "🔥 JYP — 검색지수 추세 1.45 (상승)",
       "keywords": [
         "JYP"
       ],
-      "score": 1.18,
+      "score": 1.45,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 스타쉽엔터테인먼트 — 검색지수 추세 1.44 (상승)",
+      "keywords": [
+        "스타쉽엔터테인먼트"
+      ],
+      "score": 1.44,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-07-29"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 여름휴가 — 검색지수 추세 1.28 (상승)",
+      "keywords": [
+        "여름휴가"
+      ],
+      "score": 1.28,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "season",
       "title": "7월 제철: 복숭아·자두·옥수수·갑오징어",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "season",
       "title": "장마·폭염 대비(제습·전기요금)",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     },
     {
       "scope": "season",
       "title": "초복·중복 보양식",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-07-28"
+      "capturedAt": "2026-07-29"
     }
   ]
 }
