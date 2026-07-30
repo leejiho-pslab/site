@@ -83,3 +83,13 @@
   애드센스 승인 후 슬롯 ID 4종 등록 · 네이버 블로그 복붙 발행 루틴 시작 ·
   WP 애드센스 코드 테마 부착(승인 후) · (선택) jype 네이버 등록 · www CNAME 레코드 ·
   수익 발생 시 revenue.json 기록
+
+## 🔀 별도 프로젝트 안내 (이 브랜치 관련)
+
+이 브랜치(`claude/pslab-website-project-guide-2x1c3u`)는 세션 지정 브랜치이지만,
+**P.S.LAB 홈페이지 프로젝트는 완전히 별도의 GitHub 저장소로 독립 진행**되었습니다.
+이 저장소(생활정보 블로그 자동발행 프로젝트)와는 커밋 히스토리·브랜치가 전혀 겹치지 않습니다.
+
+- 실제 코드: https://github.com/leejiho-pslab/pslab-homepage (branch: `main`)
+- 배포 사이트: https://pslab.ai.kr
+- 이 브랜치에는 P.S.LAB 관련 커밋이 없으며, 블로그 프로젝트 히스토리만 담고 있습니다.
