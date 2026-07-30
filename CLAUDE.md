@@ -77,11 +77,13 @@
   도입부·요약 스타일·마무리 CTA·FAQ 순서를 다르게 발행(automation/variation.mjs, 무료 결정적 변형).
   사이트=원본(canonical) 유지, 워드프레스·블로거·네이버는 각기 다른 도입/요약/마무리로 발행 →
   어떤 두 채널도 동일 본문으로 나가지 않음. (본문 핵심은 공유하되 canonical+syndication 푸터로 원본 보호)
-- 진행(2026-07-30): 레포 독립화(동기화 차단) ✅ — 이 레포(starship/default)가 위성 레포로
-  코드·콘텐츠를 밀어내던 허브 동기화 제거(sync-sites.yml + automation/sync-sites.sh 삭제).
-  이제 이 레포는 다른 사이트와 섞이지 않는 단독 프로젝트로 동작. (kkultip·jype 프로필/콘텐츠
-  파일은 일단 잔존하되 빌드엔 미포함·미전파 / 운영자가 원하면 완전 제거 가능)
-  · 운영자 선택 대기: SYNC_TARGETS 변수·SYNC_TOKEN 시크릿 삭제(선택), 완전 분리(타 프로필 제거) 여부
+- 스코프 확정(2026-07-30): 이 브랜치 = **5개 destination 통합 자동화 프로젝트**.
+  ① starship-ent.ai.kr(default 빌드+대시보드) ② todays-kkultip.blogspot.com(Blogger 채널)
+  ③ ljhnimwithit.mycafe24.com(WordPress 채널) — 이상 3곳은 이 레포가 직접 구동.
+  ④ todayskkultip.co.kr(kkultip) ⑤ jype.ai.kr(jype) — 별도 레포이며 이 레포가 sync-sites 로
+  코드·콘텐츠를 공급. → 5개 모두 이 브랜치에서 통합 운영하는 게 확정 스코프.
+  · 경위: 잠시 sync 제거(독립화)했다가, 위 통합 스코프 확인 후 **sync 복원**
+    (sync-sites.yml + automation/sync-sites.sh 되살림). SYNC_TARGETS 변수·SYNC_TOKEN 시크릿 유지 필요.
 - 대시보드(발행 현황·SEO/GEO 진척도·채널): default https://starship-ent.ai.kr/dashboard/ ·
   kkultip https://todayskkultip.co.kr/dashboard/ · jype https://jype.ai.kr/dashboard/
 - 남은 일: 쿠팡 파트너스 카테고리별 추적 링크 6개 등록(coupang-links.json) ·
