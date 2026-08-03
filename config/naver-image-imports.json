@@ -1,0 +1,17 @@
+{
+  "_설명": "네이버 전용 외부 제작 이미지(힉스필드 AI 실사/일러스트) 가져오기 목록. naver-images.mjs 가 CI에서 다운로드해 src/assets/naver/ 에 저장 후 커밋한다. 이미 파일이 있으면 건너뜀. n0=실사 히어로, n1=일러스트, n5=보조 일러스트 (n2~n4는 렌더 카드).",
+  "images": [
+    { "file": "flu-vaccine-free-target-schedule-2026-n0.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073920_2d7439d4-6edd-4697-8072-d2fbd3f185f6.png" },
+    { "file": "flu-vaccine-free-target-schedule-2026-n1.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073600_aa032652-50d3-4782-af66-a00a008d94ec.png" },
+    { "file": "flu-vaccine-free-target-schedule-2026-n5.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073602_90d25dc8-46c7-4fb8-a30a-9f82f81f96ed.png" },
+    { "file": "chuseok-train-ticket-reservation-toll-free-2026-n0.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073923_df5490e9-3194-430e-8a15-1879747094e3.png" },
+    { "file": "chuseok-train-ticket-reservation-toll-free-2026-n1.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073605_999e5c33-b09b-43d2-bfc6-29e300c19d46.png" },
+    { "file": "chuseok-train-ticket-reservation-toll-free-2026-n5.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073607_4ee41fa1-b7c1-4798-a43d-5d09f94ba941.png" },
+    { "file": "chuseok-charye-cost-simplification-tips-n0.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073925_5f19ffa2-b4bf-4c7a-9b60-18e42a95e9a6.png" },
+    { "file": "chuseok-charye-cost-simplification-tips-n1.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073615_69d0909d-208d-4d52-8ea7-34a433351b60.png" },
+    { "file": "chuseok-charye-cost-simplification-tips-n5.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073617_3c0f5382-6271-45b8-9c8a-d95bbf33d239.png" },
+    { "file": "august-typhoon-flood-prevention-home-products-guide-n0.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073926_7dca0034-5345-4aac-9363-5c8a3151bb36.png" },
+    { "file": "august-typhoon-flood-prevention-home-products-guide-n1.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073621_149675e7-bb32-48c5-982e-b83d0569e53b.png" },
+    { "file": "august-typhoon-flood-prevention-home-products-guide-n5.png", "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EsYKei5ji5vSBZVwsAwggxd0R9/hf_20260803_073621_7ff6b9b6-5da7-4cf8-b723-e0c9fa934db9.png" }
+  ]
+}
