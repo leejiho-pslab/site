@@ -84,6 +84,12 @@
   코드·콘텐츠를 공급. → 5개 모두 이 브랜치에서 통합 운영하는 게 확정 스코프.
   · 경위: 잠시 sync 제거(독립화)했다가, 위 통합 스코프 확인 후 **sync 복원**
     (sync-sites.yml + automation/sync-sites.sh 되살림). SYNC_TARGETS 변수·SYNC_TOKEN 시크릿 유지 필요.
+- 진행(2026-07-30): 채널별 "완전 고유" 콘텐츠 체제 ✅ — 기존 결정적 변형(도입/마무리만 상이)으로는
+  중복 문서 위험 → automation/rewrite.mjs 신설: 채널(blogger/wordpress/naver)마다 제목·소제목 구성·
+  모든 문장·FAQ를 LLM(haiku)으로 전면 재작성, 채널별 타깃 롱테일 키워드도 다르게(서로 검색 경쟁 방지).
+  사이트=원본(canonical) 유지·슬러그 보존. 캐시 content/variants/<slug>.<channel>.json (CI 커밋, 1회 생성).
+  run-all 1.7단계 사전 생성(발행 임박분+네이버 최신 3편/런) · 실패 시 기존 결정적 변형 폴백.
+  네이버 대시보드 원고·제목도 재작성본 기준. REWRITE_MODEL/REWRITE_NAVER_LIMIT 로 조정 가능.
 - 대시보드(발행 현황·SEO/GEO 진척도·채널): default https://starship-ent.ai.kr/dashboard/ ·
   kkultip https://todayskkultip.co.kr/dashboard/ · jype https://jype.ai.kr/dashboard/
 - 남은 일: 쿠팡 파트너스 카테고리별 추적 링크 6개 등록(coupang-links.json) ·
