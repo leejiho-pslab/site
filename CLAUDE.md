@@ -95,6 +95,17 @@
   (publish.yml GENERATE 게이트) ③재작성 네이버 백필 3→2/런 ④완전 0원 스위치: Variables 에
   GENERATE=false(생성 중단)·REWRITE=false(재작성 중단, 결정적 변형 폴백) — 발행·빌드·이미지는 무료로 계속.
   예상: 월 ~5만원 → ~5천원 수준. 수익 발생 시 원복 권장.
+- 진행(2026-08-05): 네이버 추가 포스팅 10건 구성 ✅ — naver-batch.yml(수동 디스패치) 신설:
+  generate 입력으로 신규 글 생성→네이버 고유 원고 재작성→이미지 렌더→커밋까지 일괄.
+  · 운영자가 기존 원고를 "모두 업로드"한 상태였으므로 **완전 신규 글 10편**(요청 큐 4건 포함,
+    시즌·구매전환형: 제철음식/가습기/개학준비물/추석선물세트/차량침수예방/간절기침구 등)을 생성해
+    네이버 원고+이미지3장+글맞춤 상품을 부여 — 새 슬러그라 대시보드 할 일에 자동 노출.
+  · 교훈: ①대시보드 할 일은 localStorage 발행완료 체크 기반 — 이미 발행된 슬러그에 원고를 만들면 안 뜸
+    ②봇(GITHUB_TOKEN) 푸시는 publish.yml 을 트리거하지 않음 — 배치 후 별도 푸시/디스패치로 빌드 필요
+    ③rewrite.mjs 네이버 선정은 "최신 N편"이라 기존 원고 보유 글이 끼면 신규 생성 수가 줄어듦
+    ④topic 풀에서 ent 주제가 뽑히면 네이버 제외로 수가 모자람 → requests.json pending 으로 보충
+  · 워크플로 안정화: requests.json 커밋 포함(pending→done 유실 방지)+pull --rebase --autostash
+  · 힉스필드 실사 히어로 10장(잔여 크레딧 ~7.65) — 신규 10편은 렌더 카드 3장 구성(실사는 크레딧 충전 후)
 - 대시보드(발행 현황·SEO/GEO 진척도·채널): default https://starship-ent.ai.kr/dashboard/ ·
   kkultip https://todayskkultip.co.kr/dashboard/ · jype https://jype.ai.kr/dashboard/
 - 남은 일: 쿠팡 파트너스 카테고리별 추적 링크 6개 등록(coupang-links.json) ·
