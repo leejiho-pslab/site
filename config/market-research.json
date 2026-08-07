@@ -1,252 +1,252 @@
 {
   "_설명": "시장조사 수집 데이터(신호). 네이버 오픈API(뉴스·데이터랩)로 매일 자동 수집. 기사 본문 미저장, 제목·출처·키워드·점수만 보관. researchOnly=true 이면 이 범위 안에서만 발행 주제가 뽑힌다.",
-  "collectedAt": "2026-08-06",
+  "collectedAt": "2026-08-07",
   "items": [
     {
       "scope": "news-kr",
-      "title": "8월 6일 굿모닝 MBN 이 시각 주요뉴스",
+      "title": "[디지털포스트 모닝픽] D램 딸려서...  아이폰18 프로, 초기 물량 제한 ...",
       "source": "네이버 뉴스",
-      "url": "http://www.mbn.co.kr/pages/news/newsView.php?news_seq_no=5210606",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.ilovepc.co.kr/news/articleView.html?idxno=60250",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "news-kr",
-      "title": "[모닝와이드] 오늘의 주요뉴스",
+      "title": "[오늘의 신문] 폭염은 농업 흔들고, 증시는 급락…미중 갈등도 다시 격...",
       "source": "네이버 뉴스",
-      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008692399&plink=ORI&cooper=NAVER",
-      "capturedAt": "2026-08-06"
+      "url": "http://kor.theasian.asia/archives/412408",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "news-kr",
-      "title": "1부 오늘의 주요뉴스",
+      "title": "[AP 미디어동향 8월 1주] 네이버TV, 14년만에 역사 속으로",
       "source": "네이버 뉴스",
-      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6842751_37012.html",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.apnews.kr/news/articleView.html?idxno=3050325",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "news-kr",
-      "title": "[뉴스 동서남북] 북한도 ‘40도 불가마’ 폭염…에어컨은 ‘그림의 떡’",
+      "title": "8월 7일 굿모닝 MBN 이 시각 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://www.voakorea.com/a/nkor-across-nation-080426/8183023.html",
-      "capturedAt": "2026-08-06"
+      "url": "http://www.mbn.co.kr/pages/news/newsView.php?news_seq_no=5210839",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "news-global",
-      "title": "[금/유가] 국채금리 하락·이란 협상 기대에 금값 4% 급등…유가 혼조",
+      "title": "‘도광양회’ 中메모리…칩 품귀 틈타 글로벌 PC 공급망 침투",
       "source": "네이버 뉴스",
-      "url": "https://www.newspim.com/news/view/20260806000037",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.sedaily.com/article/20076803?ref=naver",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "news-global",
-      "title": "[Who Is ?] 조현상 HS효성 대표이사 부회장",
+      "title": "SK하이닉스 시총 1100조인데…11주 거래에 하한가",
       "source": "네이버 뉴스",
-      "url": "https://www.businesspost.co.kr/BP?command=article_view&num=442439",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.sedaily.com/article/20076795?ref=naver",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "news-global",
-      "title": "[전문] 안철수  고려장 정권…문재인 시즌2만도 못한 세제 개편안  [정국...",
+      "title": "원·달러 환율 10개월 만에 최저…원화 강세 이어지나",
       "source": "네이버 뉴스",
-      "url": "https://www.dailian.co.kr/news/view/1674928/?sc=Naver",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.sedaily.com/article/20076792?ref=naver",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "news-global",
-      "title": "줄기세포 치료, 한국은 왜 안돼? …정부가 그리는 '한국형 재생의료'",
+      "title": "킨텍스, 잠실 시대 '연다'…'잠실 스포츠·MICE 복합단지' 실시협약",
       "source": "네이버 뉴스",
-      "url": "https://www.news1.kr/bio/general/6250236",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.joongangenews.com/news/articleView.html?idxno=538454",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "media-buzz",
-      "title": "탈모 완화 샴푸 내놓기가 무섭게 나가 …MZ 겨냥 유통가, 브랜드 확보전...",
+      "title": "리꼼, 홈쇼핑 매진 열기 잇는다… 현대백화점 판교점 팝업 진행",
       "source": "네이버 뉴스",
-      "url": "https://www.edaily.co.kr/news/newspath.asp?newsid=02027046645544368",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.fashionbiz.co.kr/article/228427",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "media-buzz",
-      "title": "[유통소식] 신세계百 '비욘드신세계' 오픈 1주년..고객 감사 프로모션",
+      "title": "넥서스파마(주) 글루타넥스, 홈쇼핑 3사 공략…김호영과 흥행 확장",
       "source": "네이버 뉴스",
-      "url": "http://www.4th.kr/news/articleView.html?idxno=2115722",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.seoul.co.kr/news/economy/2026/08/06/20260806500148?wlog_tag3=naver",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "media-buzz",
-      "title": "토마토 '야호~' ...화천토마토축제, 농산물 판로·상권 활성화 견인",
+      "title": "글루타넥스, CJ·롯데 찍고 현대홈쇼핑까지… 김호영과 함께한다",
       "source": "네이버 뉴스",
-      "url": "https://news.mtn.co.kr/news-detail/2026080314184261962",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.dt.co.kr/article/12076979?ref=naver",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "media-buzz",
-      "title": "[유통소식] 현대H몰에 '경동시장' 온라인몰 입점",
+      "title": "글루타넥스, 현대홈쇼핑서 '하이드로글로우 마스크50' 출시 방송",
       "source": "네이버 뉴스",
-      "url": "http://www.4th.kr/news/articleView.html?idxno=2115701",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.dailian.co.kr/news/view/1675402/?sc=Naver",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "platform-event",
-      "title": "[사설] 화장품 로드숍 줄폐업 막을 법제도 마련 시급하다",
+      "title": "세븐일레븐, 쿠팡이츠 배달 시작…첫 주문 최대 6000원 할인",
       "source": "네이버 뉴스",
-      "url": "https://www.kyeongin.com/article/1768554",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.kizmom.com/news/articleView.html?idxno=111953",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "platform-event",
-      "title": "LG생활건강 '피지' 플랫폼 판매 1위",
+      "title": "세븐일레븐, 쿠팡이츠 입점 확대… 연내 24시간 배달 체계 구축",
       "source": "네이버 뉴스",
-      "url": "https://www.kfenews.co.kr/news/articleView.html?idxno=661929",
-      "capturedAt": "2026-08-06"
+      "url": "https://biz.chosun.com/distribution/channel/2026/08/07/TKACMKFYIBBEHKXOE4LM7XBKKA/?utm_source=naver&utm_medium=original&utm_campaign=biz",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "platform-event",
-      "title": "'탈팡' 잊은 소비자들…쿠팡, 활성고객 2470만 '돌팡'",
+      "title": "맛피아·장나라·김정난 스타 집사들도…'세계고양이의날'에 '후끈'",
       "source": "네이버 뉴스",
-      "url": "http://www.inews24.com/view/1992169",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.hankyung.com/article/202608079711g",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "platform-event",
-      "title": "[유통소식] SSG닷컴, 추석 선물세트 사전 예약",
+      "title": "쿠폰 뿌리고, 적립률 올리고, 바로 배달하고…BBQ·bhc·교촌치킨, 배달...",
       "source": "네이버 뉴스",
-      "url": "http://www.4th.kr/news/articleView.html?idxno=2115843",
-      "capturedAt": "2026-08-06"
+      "url": "http://www.consumernews.co.kr/news/articleView.html?idxno=760960",
+      "capturedAt": "2026-08-07"
+    },
+    {
+      "scope": "vertical-event",
+      "title": "유이크, 코엑스 팝업 4천 명 방문… 일본·무신사로 체험 마케팅 확대",
+      "source": "네이버 뉴스",
+      "url": "https://www.gokorea.kr/news/articleView.html?idxno=874345",
+      "capturedAt": "2026-08-07"
+    },
+    {
+      "scope": "vertical-event",
+      "title": "[유통가 NOW] 루이비통, 미스토홀딩스, 아르켓, 무신사 킥스, 신세계사이...",
+      "source": "네이버 뉴스",
+      "url": "https://www.ekn.kr/web/view.php?key=20260806029250116",
+      "capturedAt": "2026-08-07"
+    },
+    {
+      "scope": "vertical-event",
+      "title": "[유통레이더] GS샵 전문관 통했다…패션·뷰티·푸드 거래액 50% 증가",
+      "source": "네이버 뉴스",
+      "url": "https://www.mydaily.co.kr/page/view/2026080610082573837",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "vertical-event",
       "title": "[똑똑한소비] 무신사, 세븐일레븐, 컬리, 현대홈쇼핑",
       "source": "네이버 뉴스",
       "url": "https://www.ekn.kr/web/view.php?key=20260805026149914",
-      "capturedAt": "2026-08-06"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "[유통딜리버리] SSG닷컴ㆍ세븐일레븐ㆍ무신사ㆍGS25ㆍ이마트24ㆍ다나와...",
-      "source": "네이버 뉴스",
-      "url": "https://www.dnews.co.kr/uhtml/view.jsp?idxno=202608050914484580810",
-      "capturedAt": "2026-08-06"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "[유통24시] 컬리, 8월 원더컬리 진행…최대 60% 할인 外",
-      "source": "네이버 뉴스",
-      "url": "https://news.dealsitetv.com/articles/174273",
-      "capturedAt": "2026-08-06"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "개학 준비도 '무신사 세일'··· 신학기 필수 잡화 최대 80% 할인",
-      "source": "네이버 뉴스",
-      "url": "http://www.enewstoday.co.kr/news/articleView.html?idxno=2455978",
-      "capturedAt": "2026-08-06"
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "ent-media",
-      "title": "이태란, 악역 후폭풍…식당서 아는 척도 안 해 “사이코패스 기질 있나...",
+      "title": "'김부장' 떠나도 여름 안방극장은 '킬러들의 놀이터' [IZE 진단]",
       "source": "네이버 뉴스",
-      "url": "https://www.mk.co.kr/article/12118715",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.ize.co.kr/news/articleView.html?idxno=79628",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "ent-media",
-      "title": "‘로코 장인’ 서인국의 안목 “관계성이 중요…깐깐하게 봐야죠” [IS인...",
+      "title": "오늘 첫방 '재벌X형사 2', '유부녀 킬러' 잡고 금토극 왕좌 차지할까",
       "source": "네이버 뉴스",
-      "url": "https://isplus.com/article/view/isp202608050038",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.raonnews.com/news/article.html?no=60122",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "ent-media",
-      "title": "김재록, SBS '재벌X형사2' 합류…안보현·정은채와 호흡",
+      "title": "이거 안 보면 진짜 손해… 시청률 6% 돌파하고 '42개국' 홀린 한국 드라...",
       "source": "네이버 뉴스",
-      "url": "https://mhnse.com/news/articleView.html?idxno=1479365",
-      "capturedAt": "2026-08-06"
+      "url": "https://www.wikitree.co.kr/articles/1150959",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "ent-media",
-      "title": "고영욱, 8% 대박 친 공효진에  진부하다  찬물... 소환 어그로도 정도껏...",
+      "title": "유승호가 왜 여기에…’재벌X형사2' 오늘(7일) 첫방송",
       "source": "네이버 뉴스",
-      "url": "https://www.sportschosun.com/entertainment/2026-08-05/202608050100031600001938",
-      "capturedAt": "2026-08-06"
+      "url": "https://isplus.com/article/view/isp202608070009",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "trend",
-      "title": "🔥 태풍 — 검색지수 추세 1.92 (상승)",
-      "keywords": [
-        "태풍"
-      ],
-      "score": 1.92,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-06"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 콘서트 티켓팅 — 검색지수 추세 1.45 (상승)",
-      "keywords": [
-        "콘서트 티켓팅"
-      ],
-      "score": 1.45,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-06"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 말복 — 검색지수 추세 1.38 (상승)",
-      "keywords": [
-        "말복"
-      ],
-      "score": 1.38,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-06"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 에어컨 전기요금 — 검색지수 추세 1.37 (상승)",
-      "keywords": [
-        "에어컨 전기요금"
-      ],
-      "score": 1.37,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-06"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 영화 예매 — 검색지수 추세 1.19 (상승)",
-      "keywords": [
-        "영화 예매"
-      ],
-      "score": 1.19,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-06"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 정부지원금 — 검색지수 추세 1.11 (상승)",
+      "title": "🔥 정부지원금 — 검색지수 추세 1.91 (상승)",
       "keywords": [
         "정부지원금"
       ],
-      "score": 1.11,
+      "score": 1.91,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-06"
+      "capturedAt": "2026-08-07"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 말복 — 검색지수 추세 1.51 (상승)",
+      "keywords": [
+        "말복"
+      ],
+      "score": 1.51,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-07"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 태풍 — 검색지수 추세 1.39 (상승)",
+      "keywords": [
+        "태풍"
+      ],
+      "score": 1.39,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-07"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 에어컨 전기요금 — 검색지수 추세 1.27 (상승)",
+      "keywords": [
+        "에어컨 전기요금"
+      ],
+      "score": 1.27,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-07"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 콘서트 티켓팅 — 검색지수 추세 1.19 (상승)",
+      "keywords": [
+        "콘서트 티켓팅"
+      ],
+      "score": 1.19,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-07"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 쿠팡 — 검색지수 추세 1.16 (상승)",
+      "keywords": [
+        "쿠팡"
+      ],
+      "score": 1.16,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "season",
       "title": "8월 제철: 전복·포도·복숭아",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-06"
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "season",
       "title": "말복·휴가철 여행",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-06"
+      "capturedAt": "2026-08-07"
     },
     {
       "scope": "season",
       "title": "냉방비·열대야 대비",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-06"
+      "capturedAt": "2026-08-07"
     }
   ]
 }
