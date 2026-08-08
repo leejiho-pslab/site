@@ -1,252 +1,252 @@
 {
   "_설명": "시장조사 수집 데이터(신호). 네이버 오픈API(뉴스·데이터랩)로 매일 자동 수집. 기사 본문 미저장, 제목·출처·키워드·점수만 보관. researchOnly=true 이면 이 범위 안에서만 발행 주제가 뽑힌다.",
-  "collectedAt": "2026-08-08",
+  "collectedAt": "2026-08-09",
   "items": [
     {
       "scope": "news-kr",
-      "title": "1부 오늘의 주요뉴스",
+      "title": "리터당 21km ‘美친 연비’…AI럭셔리로 무장한 ‘그랜저 하이브리드’...",
       "source": "네이버 뉴스",
-      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6843279_37012.html",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.dt.co.kr/article/12077149?ref=naver",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "news-kr",
-      "title": "[모닝와이드] 오늘의 주요뉴스",
+      "title": "솔라나, 역대 최대 트랜잭션 기록 속 시가총액 444억 달러 돌파",
       "source": "네이버 뉴스",
-      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008695763&plink=ORI&cooper=NAVER",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.tokenpost.kr/news/cryptocurrency/387043",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "news-kr",
-      "title": "[한국은 지금] 단일종목 레버리지 ETF 규제 후폭풍...극한폭염 비상",
+      "title": "전국 역대 최장 열대야…서울 17일째",
       "source": "네이버 뉴스",
-      "url": "https://www.voakorea.com/a/korea-now-08-07-26/8183815.html",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.ichannela.com/news/main/news_detailPage.do?publishId=000000544107",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "news-kr",
-      "title": "2026.8.7.오늘의 주요뉴스",
+      "title": "이 시각 주요뉴스 (26. 08. 08. 12시)",
       "source": "네이버 뉴스",
-      "url": "https://kjmbc.co.kr/NewsArticle/1531238",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.ktv.go.kr/content/view?content_id=759125",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "news-global",
-      "title": "축구협회, 15년 전 심판 성 접대 사실까지 파묘…깊어지는 불신",
+      "title": "외국인이 한국서 쓴 돈이 더 많았다…관광수지 16년 만에 최고 수준",
       "source": "네이버 뉴스",
-      "url": "https://news.kbs.co.kr/news/pc/view/view.do?ncd=8631894&ref=A",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=475594",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "news-global",
-      "title": "‘마감’이 없어 더 매력적인 달러 투자",
+      "title": "'아시아는 좁다'…K-라이프, 세계 최대 미국 시장으로 영토 확장",
       "source": "네이버 뉴스",
-      "url": "https://shindonga.donga.com/3/all/13/6335629/1",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.yna.co.kr/view/AKR20260808038700030?input=1195m",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "news-global",
-      "title": "서정호 첫 반기 영업익 98%↑…롯데웰푸드, '수익·성장' 해법 찾았다",
+      "title": "25년간 3만명에게 빛 찾아준 안과의사… 병원보다 사람 키워야",
       "source": "네이버 뉴스",
-      "url": "https://www.apnews.kr/news/articleView.html?idxno=3050371",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.yna.co.kr/view/AKR20260809000600099?input=1195m",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "news-global",
-      "title": "'일본인' 심판 등 10여 명에‥'성접대' 일파만파",
+      "title": "글로벌 전기차 기업 중국과 협업 피하기 어렵다, 수출 길 열어주는 '독...",
       "source": "네이버 뉴스",
-      "url": "https://imnews.imbc.com/replay/2026/nw2500/article/6843267_36989.html",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.businesspost.co.kr/BP?command=article_view&num=444005",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "media-buzz",
       "title": "월 2억 버는 워킹맘 김지선, 죽음의 문턱에서 깨달은 멈춤의 미학",
       "source": "네이버 뉴스",
       "url": "https://www.segye.com/newsView/20260624517548?OutUrl=naver",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "media-buzz",
       "title": "화천 물들인 붉은 토마토 군단... 방문객들로 '인산인해'",
       "source": "네이버 뉴스",
       "url": "http://www.newsroad.co.kr/news/articleView.html?idxno=62554",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "media-buzz",
       "title": "넥서스파마(주) 글루타넥스, 홈쇼핑 3사 공략…김호영과 흥행 확장",
       "source": "네이버 뉴스",
       "url": "https://www.seoul.co.kr/news/economy/2026/08/06/20260806500148?wlog_tag3=naver",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "media-buzz",
       "title": "글루타넥스, CJ·롯데 찍고 현대홈쇼핑까지… 김호영과 함께한다",
       "source": "네이버 뉴스",
       "url": "https://www.dt.co.kr/article/12076979?ref=naver",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "platform-event",
-      "title": "[이번주뭘살까] 폭염 피하는 '몰캉스' 어때요?…알뜰 쇼핑·이색 팝업 풍...",
+      "title": "리센느 원이 “샐러드 오이쉬”…‘전참시’서 한입샐러드 젤리 나눔",
       "source": "네이버 뉴스",
-      "url": "https://www.yna.co.kr/view/AKR20260807092100030?input=1195m",
-      "capturedAt": "2026-08-08"
+      "url": "https://economist.co.kr/article/view/ecn202608070021",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "platform-event",
       "title": "여름 상품 시즌 오프…말복 할인 행사도[주말e커머스]",
       "source": "네이버 뉴스",
       "url": "https://www.newsis.com/view/NISX20260807_0003740914",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "platform-event",
       "title": "자담치킨, 8월 배달 플랫폼 할인 행사 운영…고객 혜택 확대",
       "source": "네이버 뉴스",
       "url": "https://www.shinailbo.co.kr/news/articleView.html?idxno=5048983",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "platform-event",
-      "title": "유통업계, 상생 넓혔지만 ESG 성과관리는 '온도차' [ESG 성적표]",
+      "title": "[오늘의 e커머스는] G마켓 무료반품 지원·SSG닷컴 수산대전 진행 外",
       "source": "네이버 뉴스",
-      "url": "https://www.newscj.com/news/articleView.html?idxno=3423227",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.wolyo.co.kr/news/articleView.html?idxno=316003",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "vertical-event",
-      "title": "유이크, ‘피부 쿨링 충전소’ 한국 팝업 마무리…일본 시장 공략 박차",
+      "title": "유이크 국내 팝업 '피부 쿨링 충전소' 성료… 이제 일본 간다",
       "source": "네이버 뉴스",
-      "url": "http://www.segyebiz.com/newsView/20260807514449?OutUrl=naver",
-      "capturedAt": "2026-08-08"
+      "url": "http://www.bokuennews.com/news/article.html?no=282247",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "vertical-event",
       "title": "라이즈 효과 제대로…유이크 팝업 4천 명 돌파→도쿄 진출",
       "source": "네이버 뉴스",
       "url": "http://www.atstar1.com/news/articleView.html?idxno=6037385",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "vertical-event",
       "title": "[유통24시] 교촌치킨, ‘KIA타이거즈 관람권’ 증정 이벤트 진행 外",
       "source": "네이버 뉴스",
       "url": "https://news.dealsitetv.com/articles/174435",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "vertical-event",
       "title": "[유통가 NOW] 루이비통, 미스토홀딩스, 아르켓, 무신사 킥스, 신세계사이...",
       "source": "네이버 뉴스",
       "url": "https://www.ekn.kr/web/view.php?key=20260806029250116",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "ent-media",
-      "title": "'김부장' 이동하  중심 잡아준 소지섭, 진정한 배우 [★FULL인터뷰]",
+      "title": "박은빈, '오싹한 연애' 천여리로 장르 확장…로맨스·오컬트 넘나든 변...",
       "source": "네이버 뉴스",
-      "url": "https://www.starnewskorea.com/broadcast-drama/2026/08/08/2026080618261178102",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.topstarnews.net/news/articleView.html?idxno=16158594",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "ent-media",
-      "title": "진짜 일 냈네…종영 1년 만에 '시즌4'로 돌아오는 화제의 한국 드라마",
+      "title": "시청률 2배 뛰었다…화제성 싹쓸이한 로코물, 약혼 선언→오락실 데이트...",
       "source": "네이버 뉴스",
-      "url": "https://www.wikitree.co.kr/articles/1150794",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.tenasia.co.kr/article/2026080818804",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "ent-media",
-      "title": "로운, 군 복무 중 맞은 서른…셀카로 전한 담담한 생일",
+      "title": "‘응팔커플’ 류혜영-고경표, 힐링과 심쿵 사이…‘나혼산’ 최고 7.8%",
       "source": "네이버 뉴스",
-      "url": "https://www.topstarnews.net/news/articleView.html?idxno=16157839",
-      "capturedAt": "2026-08-08"
+      "url": "http://enews.imbc.com/News/RetrieveNewsInfo/514101",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "ent-media",
-      "title": "하루 5천 원 벌었는데 …박보경→음문석까지 오랜 무명 견디고 기적처...",
+      "title": "'오디세이', CGV·메가박스·롯데시네마에서 다른 맛으로 즐긴다 : 심야...",
       "source": "네이버 뉴스",
-      "url": "https://www.tvreport.co.kr/star/article/1067176/",
-      "capturedAt": "2026-08-08"
+      "url": "https://www.huffingtonpost.kr/article/259389",
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "trend",
-      "title": "🔥 정부지원금 — 검색지수 추세 1.91 (상승)",
+      "title": "🔥 정부지원금 — 검색지수 추세 1.9 (상승)",
       "keywords": [
         "정부지원금"
       ],
-      "score": 1.91,
+      "score": 1.9,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "trend",
-      "title": "🔥 말복 — 검색지수 추세 1.51 (상승)",
+      "title": "🔥 말복 — 검색지수 추세 1.48 (상승)",
       "keywords": [
         "말복"
       ],
-      "score": 1.51,
+      "score": 1.48,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "trend",
-      "title": "🔥 태풍 — 검색지수 추세 1.39 (상승)",
+      "title": "🔥 영화 예매 — 검색지수 추세 1.2 (상승)",
       "keywords": [
-        "태풍"
+        "영화 예매"
       ],
-      "score": 1.39,
+      "score": 1.2,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "trend",
-      "title": "🔥 에어컨 전기요금 — 검색지수 추세 1.27 (상승)",
+      "title": "🔥 스타쉽엔터테인먼트 — 검색지수 추세 1.19 (상승)",
       "keywords": [
-        "에어컨 전기요금"
-      ],
-      "score": 1.27,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-08"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 콘서트 티켓팅 — 검색지수 추세 1.19 (상승)",
-      "keywords": [
-        "콘서트 티켓팅"
+        "스타쉽엔터테인먼트"
       ],
       "score": 1.19,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "trend",
-      "title": "🔥 쿠팡 — 검색지수 추세 1.16 (상승)",
+      "title": "🔥 에어컨 전기요금 — 검색지수 추세 1.18 (상승)",
+      "keywords": [
+        "에어컨 전기요금"
+      ],
+      "score": 1.18,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-09"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 쿠팡 — 검색지수 추세 1.13 (상승)",
       "keywords": [
         "쿠팡"
       ],
-      "score": 1.16,
+      "score": 1.13,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "season",
       "title": "8월 제철: 전복·포도·복숭아",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "season",
       "title": "말복·휴가철 여행",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     },
     {
       "scope": "season",
       "title": "냉방비·열대야 대비",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-08"
+      "capturedAt": "2026-08-09"
     }
   ]
 }
