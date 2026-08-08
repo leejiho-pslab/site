@@ -57,7 +57,7 @@ channels:
   blogger: true
   wordpress: false
 published:
-  blogger: false
+  blogger: true
   wordpress: false
 ---
 환절기 침구 교체 시기를 고민하다가 결국 감기 한 번 앓고 나서야 이불을 바꿔본 경험, 저만 있는 게 아니겠죠? 이 글에서는 **간절기 이불 교체 시기 기준**, 차렵·구스·극세사 소재 비교, 여름 이불 세탁법과 보관 꿀팁까지 한 번에 정리해 드립니다. 막상 찾아보면 정보가 너무 흩어져 있어서 직접 다 모아봤습니다.
