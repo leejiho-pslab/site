@@ -106,6 +106,15 @@
     ④topic 풀에서 ent 주제가 뽑히면 네이버 제외로 수가 모자람 → requests.json pending 으로 보충
   · 워크플로 안정화: requests.json 커밋 포함(pending→done 유실 방지)+pull --rebase --autostash
   · 힉스필드 실사 히어로 10장(잔여 크레딧 ~7.65) — 신규 10편은 렌더 카드 3장 구성(실사는 크레딧 충전 후)
+- 사고·복구(2026-08-08): 블로거 중복 발행 사고 ✅ 복구 — publish.yml 커밋 스텝의 git add 가
+  gitignore 된 config/coupang-links-cache.json(CI 체크아웃에 없음) 때문에 fatal → **전체 스테이징 실패**,
+  8/3 이후 published 플래그 미커밋 → 같은 글이 매 크론마다 재발행(면역음식 13개·침구 9개 등 중복 23개).
+  · 조치: ①캐시 파일 gitignore 해제+추적 ②git add 경로별 개별 실행(+autostash) ③blogger-dedupe.mjs/.yml
+    신설(원문 링크 슬러그 기준 최초본만 유지·삭제, 플래그 복구) — 중복 23개 삭제, 블로거 83개 정상화
+  · 부수 발견: naver-batch 생성 스텝에 WORDPRESS_URL/APP_PASSWORD env 누락 → 8/5 배치 글 14편이
+    wordpress:false 로 구워짐 → 채널 복구+env 추가(WP 백필 2편/런 자동 소화)
+  · 교훈: 커밋 스텝 git add 는 한 경로만 없어도 통째로 실패한다 — 반드시 경로별 개별 add.
+    또한 봇 커밋 성공 여부는 "chore: 자동 발행 글 추가" 커밋이 주기적으로 찍히는지로 감시 가능.
 - 대시보드(발행 현황·SEO/GEO 진척도·채널): default https://starship-ent.ai.kr/dashboard/ ·
   kkultip https://todayskkultip.co.kr/dashboard/ · jype https://jype.ai.kr/dashboard/
 - 남은 일: 쿠팡 파트너스 카테고리별 추적 링크 6개 등록(coupang-links.json) ·
