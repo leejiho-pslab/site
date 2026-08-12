@@ -1,252 +1,252 @@
 {
   "_설명": "시장조사 수집 데이터(신호). 네이버 오픈API(뉴스·데이터랩)로 매일 자동 수집. 기사 본문 미저장, 제목·출처·키워드·점수만 보관. researchOnly=true 이면 이 범위 안에서만 발행 주제가 뽑힌다.",
-  "collectedAt": "2026-08-12",
+  "collectedAt": "2026-08-13",
   "items": [
     {
       "scope": "news-kr",
-      "title": "[인공지능 줌인] 스스로 실험실 밖으로 탈출한 AI…진짜 위협은 인간",
+      "title": "8월 13일 굿모닝 MBN 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "http://www.wikileaks-kr.org/news/articleView.html?idxno=190758",
-      "capturedAt": "2026-08-12"
+      "url": "http://www.mbn.co.kr/pages/news/newsView.php?news_seq_no=5212081",
+      "capturedAt": "2026-08-13"
+    },
+    {
+      "scope": "news-kr",
+      "title": "[영상] 오늘 울산은 (8월 13일 목 울산신문)",
+      "source": "네이버 뉴스",
+      "url": "https://www.ulsanpress.net/news/articleView.html?idxno=580974",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "news-kr",
       "title": "[모닝와이드] 오늘의 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008700968&plink=ORI&cooper=NAVER",
-      "capturedAt": "2026-08-12"
+      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008702854&plink=ORI&cooper=NAVER",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "news-kr",
       "title": "1부 오늘의 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6844089_37012.html",
-      "capturedAt": "2026-08-12"
-    },
-    {
-      "scope": "news-kr",
-      "title": "[뉴스 동서남북]  북한, 황해도 수해로 주택 380채 파괴",
-      "source": "네이버 뉴스",
-      "url": "https://www.voakorea.com/a/nkor-across-nation-081126/8185135.html",
-      "capturedAt": "2026-08-12"
+      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6844370_37012.html",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "news-global",
-      "title": "[중국 거인의 공급망] ②하모닉감속기 특화 '녹적해파' 없으면 '유니트...",
+      "title": "[중국 거인의 공급망] ①모터 담당 '와룡전기' 없으면 '유니트리'도 없...",
       "source": "네이버 뉴스",
-      "url": "https://www.newspim.com/news/view/20260811000863",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.newspim.com/news/view/20260812000944",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "news-global",
-      "title": "상승세 탄 리센느, 2연속 1위…대세 등극 [스타1픽]",
+      "title": "[우분투칼럼] 한-아프리카 협력 2.0…구체적 '실행 플랫폼' 마련",
       "source": "네이버 뉴스",
-      "url": "https://www.news1.kr/entertain/music/6255619",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.yna.co.kr/view/AKR20260806093300898?input=1195m",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "news-global",
-      "title": "포스코 브라질 법인 파산 공방…쟁점은 '2000억원 채권' 성격 [팩트 체크...",
+      "title": "[투데이 Pick] '나는 LCC가 아니다'…항공사들이 새 '부캐' 만드는 이유",
       "source": "네이버 뉴스",
-      "url": "https://www.ngetnews.com/news/articleView.html?idxno=552332",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.news2day.co.kr/article/20260812500279",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "news-global",
-      "title": "AI 기술투자 열풍에… 글로벌 출장비 사상 최대",
+      "title": "'최장 11일 휴가'…9·10월 황금연휴 달력 봤더니",
       "source": "네이버 뉴스",
-      "url": "https://www.edaily.co.kr/news/newspath.asp?newsid=02463286645546664",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.edaily.co.kr/news/newspath.asp?newsid=02942166645546992",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "media-buzz",
-      "title": "[오늘의 유통가] CJ제일제당, 브랜드 IP 활용 제품 확대…신규 카테고리...",
+      "title": "CJ제일제당, 80년 전통 스페인 명품 캔참치 ‘칼보’ 국내 론칭",
       "source": "네이버 뉴스",
-      "url": "https://dealsite.co.kr/articles/166873",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.khan.co.kr/article/202608122031015",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "media-buzz",
-      "title": "월 2억 버는 워킹맘 김지선, 죽음의 문턱에서 깨달은 멈춤의 미학",
+      "title": "스페인 1등 레알 참치 ... CJ제일제당, 프리미엄 참치 브랜드 'Calvo' 론...",
       "source": "네이버 뉴스",
-      "url": "https://www.segye.com/newsView/20260624517548?OutUrl=naver",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.financialpost.co.kr/news/articleView.html?idxno=270116",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "media-buzz",
-      "title": "화천 물들인 붉은 토마토 군단... 방문객들로 '인산인해'",
+      "title": "CJ제일제당, 스페인 1위 참치 '칼보' 국내 출시… 1시간 만에 2500세트 완...",
       "source": "네이버 뉴스",
-      "url": "http://www.newsroad.co.kr/news/articleView.html?idxno=62554",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.newscj.com/news/articleView.html?idxno=3424624",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "media-buzz",
-      "title": "넥서스파마(주) 글루타넥스, 홈쇼핑 3사 공략…김호영과 흥행 확장",
+      "title": "'한 번 사고 끝'은 옛말… 식음료업계, 고객 머무는 시간 늘린다",
       "source": "네이버 뉴스",
-      "url": "https://www.seoul.co.kr/news/economy/2026/08/06/20260806500148?wlog_tag3=naver",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.pressman.kr/news/articleView.html?idxno=103142",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "platform-event",
-      "title": "“폭염 끝? 우리는 아직”…배송 기사들 연일 구슬땀",
+      "title": "'말복+불금' 역대급 조합... 치킨 싸게 먹는 방법은?",
       "source": "네이버 뉴스",
-      "url": "https://news.kbs.co.kr/news/pc/view/view.do?ncd=8634458&ref=A",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.ggilbo.com/news/articleView.html?idxno=1174435",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "platform-event",
-      "title": "[똑똑한소비] 롯데마트, G마켓, 이브자리, 쿠팡, 크림, 우아한형제들",
+      "title": "스페인 1등 레알 참치 ... CJ제일제당, 프리미엄 참치 브랜드 'Calvo' 론...",
       "source": "네이버 뉴스",
-      "url": "https://www.ekn.kr/web/view.php?key=20260811021551542",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.financialpost.co.kr/news/articleView.html?idxno=270116",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "platform-event",
-      "title": "'한국인 밥상'이 과자로...서울시, 라이스칩 2탄 '김볶·간장버터' 출시",
+      "title": "CJ제일제당, 스페인 1위 참치 '칼보' 국내 출시… 1시간 만에 2500세트 완...",
       "source": "네이버 뉴스",
-      "url": "https://www.ajunews.com/view/20260811155323010",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.newscj.com/news/articleView.html?idxno=3424624",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "platform-event",
-      "title": "여름 마감하고 새출발 준비하고…이커머스, 8월 수요 잡는다",
+      "title": "참치캔도 '원재료·프리미엄' 시대…CJ제일제당, 스페인 1위 '칼보' 국내...",
       "source": "네이버 뉴스",
-      "url": "http://www.kdfnews.com/news/articleView.html?idxno=186371",
-      "capturedAt": "2026-08-12"
+      "url": "http://www.thefirstmedia.net/news/articleView.html?idxno=205890",
+      "capturedAt": "2026-08-13"
+    },
+    {
+      "scope": "vertical-event",
+      "title": "컬리·무신사  인기 뷰티상품 최대 90% 저렴하게",
+      "source": "네이버 뉴스",
+      "url": "https://www.idaegu.co.kr/news/articleView.html?idxno=556597",
+      "capturedAt": "2026-08-13"
+    },
+    {
+      "scope": "vertical-event",
+      "title": "무신사·컬리·에이블리, '뷰티 전쟁' 불붙었다",
+      "source": "네이버 뉴스",
+      "url": "http://www.the-biz.co.kr/news/articleView.html?idxno=726020",
+      "capturedAt": "2026-08-13"
+    },
+    {
+      "scope": "vertical-event",
+      "title": "아웃도어 '역시즌' 조용하다 했더니? 무신사·GS샵 등 플랫폼서 활발",
+      "source": "네이버 뉴스",
+      "url": "https://www.fashionbiz.co.kr/article/228532",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "vertical-event",
       "title": "무신사 스탠다드, 글로벌 브랜드 도약 가속…'로컬라이징+ B2B 확장' 투트...",
       "source": "네이버 뉴스",
       "url": "https://www.etnews.com/20260811000177",
-      "capturedAt": "2026-08-12"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "올리브영 아성 위협하는 후발주자들…뷰티 플랫폼 경쟁 격화",
-      "source": "네이버 뉴스",
-      "url": "http://www.segyebiz.com/newsView/20260811516336?OutUrl=naver",
-      "capturedAt": "2026-08-12"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "[유통갤러리] 기업 사칭·스미싱 막는다…롯데백화점, 'RCS' 도입 外",
-      "source": "네이버 뉴스",
-      "url": "https://theviewers.co.kr/View.aspx?No=4181553",
-      "capturedAt": "2026-08-12"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "티켓 48초만 완판 …무신사·에이블리·지그재그 여름 뷰티 대전",
-      "source": "네이버 뉴스",
-      "url": "https://www.newscj.com/news/articleView.html?idxno=3423771",
-      "capturedAt": "2026-08-12"
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "ent-media",
-      "title": "'별들에게' 굴욕 제대로 씻었다…공효진, 화제성 1위 찍고 15년 만에 'MB...",
+      "title": "‘김부장’ 종영해도 드라마 평판 1위…시청률 23% 여운",
       "source": "네이버 뉴스",
-      "url": "https://www.tenasia.co.kr/article/2026081034954",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.bntnews.co.kr/article/view/bnt202608130005",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "ent-media",
-      "title": "‘주부 9단’ 벗고 배우로...이민정, 6년 만의 KBS 복귀 승부수 [줌인]",
+      "title": "SBS 일냈다...시청률 23% '김부장' 후속, 첫방부터 반응 터진 한국 드라...",
       "source": "네이버 뉴스",
-      "url": "https://isplus.com/article/view/isp202608110066",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.wikitree.co.kr/articles/1152078",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "ent-media",
-      "title": "'아는 맛이 무섭다'는 로코 클리셰… 득 될까, 독 될까?",
+      "title": "‘밀회’‘하얀거탑’…안판석 감독 별세",
       "source": "네이버 뉴스",
-      "url": "https://www.hankookilbo.com/news/article/A2026081110410000064?did=NA",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.joongang.co.kr/article/25452894",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "ent-media",
-      "title": "SBS 또 일냈다…친일파 청산 '사이다 엔딩'→2회 만에 최고 시청률 9% 치...",
+      "title": "새 드라마 가을에 공개되는데...안판석 PD 별세, 안타까운 '사망 원인'",
       "source": "네이버 뉴스",
-      "url": "https://mhnse.com/news/articleView.html?idxno=1485854",
-      "capturedAt": "2026-08-12"
+      "url": "https://www.wikitree.co.kr/articles/1152084",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "trend",
-      "title": "🔥 영화 예매 — 검색지수 추세 1.37 (상승)",
-      "keywords": [
-        "영화 예매"
-      ],
-      "score": 1.37,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-12"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 태풍 — 검색지수 추세 1.17 (상승)",
-      "keywords": [
-        "태풍"
-      ],
-      "score": 1.17,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-12"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 콘서트 티켓팅 — 검색지수 추세 1.13 (상승)",
+      "title": "🔥 콘서트 티켓팅 — 검색지수 추세 1.15 (상승)",
       "keywords": [
         "콘서트 티켓팅"
       ],
-      "score": 1.13,
+      "score": 1.15,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-12"
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "trend",
-      "title": "스타쉽엔터테인먼트 — 검색지수 추세 1.08",
+      "title": "🔥 태풍 — 검색지수 추세 1.11 (상승)",
       "keywords": [
-        "스타쉽엔터테인먼트"
+        "태풍"
       ],
-      "score": 1.08,
+      "score": 1.11,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-12"
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "trend",
-      "title": "포도 — 검색지수 추세 1.02",
+      "title": "말복 — 검색지수 추세 1.06",
+      "keywords": [
+        "말복"
+      ],
+      "score": 1.06,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-13"
+    },
+    {
+      "scope": "trend",
+      "title": "포도 — 검색지수 추세 1.06",
       "keywords": [
         "포도"
       ],
-      "score": 1.02,
+      "score": 1.06,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-12"
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "trend",
-      "title": "드라마 다시보기 — 검색지수 추세 1.01",
+      "title": "스타쉽엔터테인먼트 — 검색지수 추세 1.05",
       "keywords": [
-        "드라마 다시보기"
+        "스타쉽엔터테인먼트"
       ],
-      "score": 1.01,
+      "score": 1.05,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-12"
+      "capturedAt": "2026-08-13"
+    },
+    {
+      "scope": "trend",
+      "title": "영화 예매 — 검색지수 추세 1.03",
+      "keywords": [
+        "영화 예매"
+      ],
+      "score": 1.03,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "season",
       "title": "8월 제철: 전복·포도·복숭아",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-12"
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "season",
       "title": "말복·휴가철 여행",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-12"
+      "capturedAt": "2026-08-13"
     },
     {
       "scope": "season",
       "title": "냉방비·열대야 대비",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-12"
+      "capturedAt": "2026-08-13"
     }
   ]
 }
