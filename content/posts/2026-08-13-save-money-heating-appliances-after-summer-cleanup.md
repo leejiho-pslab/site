@@ -55,7 +55,7 @@ channels:
   blogger: true
   wordpress: true
 published:
-  blogger: false
+  blogger: true
   wordpress: true
 ---
 ## 여름 끝자락, 지금이 난방용품 구매의 최적기다
