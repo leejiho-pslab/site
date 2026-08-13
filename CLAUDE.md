@@ -117,6 +117,11 @@
     또한 봇 커밋 성공 여부는 "chore: 자동 발행 글 추가" 커밋이 주기적으로 찍히는지로 감시 가능.
 - 대시보드(발행 현황·SEO/GEO 진척도·채널): default https://starship-ent.ai.kr/dashboard/ ·
   kkultip https://todayskkultip.co.kr/dashboard/ · jype https://jype.ai.kr/dashboard/
+- 진행(2026-08-13): 애드센스 4개 도메인 전부 심사 대기 상태 ✅ — 위성 30편 도달 후 운영자가
+  todayskkultip 검토 요청 완료(8/13). starship(7/26 재요청)·jype·cafe24 는 "준비 중" 심사 진행.
+  ads.txt "찾을 수 없음" 표시는 스테일(두 도메인 라이브 정상 확인, jype 는 승인됨) — 조치 불필요.
+  starship 8/16까지 무소식 시 커뮤니티 문의 가이드 예정. 8/11 발견·수리: 봇 푸시가 sync-sites 를
+  못 깨워 위성 글 4편/프로필 미전달 → 수동 sync + 부스트/배치에 디스패치 스텝 추가.
 - 남은 일: 쿠팡 파트너스 카테고리별 추적 링크 6개 등록(coupang-links.json) ·
   애드센스 승인 후 슬롯 ID 4종 등록 · 네이버 블로그 복붙 발행 루틴 시작 ·
   WP 애드센스 코드 테마 부착(승인 후) · (선택) jype 네이버 등록 · www CNAME 레코드 ·
