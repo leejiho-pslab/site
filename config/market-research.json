@@ -1,252 +1,252 @@
 {
   "_설명": "시장조사 수집 데이터(신호). 네이버 오픈API(뉴스·데이터랩)로 매일 자동 수집. 기사 본문 미저장, 제목·출처·키워드·점수만 보관. researchOnly=true 이면 이 범위 안에서만 발행 주제가 뽑힌다.",
-  "collectedAt": "2026-08-19",
+  "collectedAt": "2026-08-20",
   "items": [
-    {
-      "scope": "news-kr",
-      "title": "[영상] 오늘 울산은 (8월 19일 수 울산신문)",
-      "source": "네이버 뉴스",
-      "url": "https://www.ulsanpress.net/news/articleView.html?idxno=581250",
-      "capturedAt": "2026-08-19"
-    },
     {
       "scope": "news-kr",
       "title": "[모닝와이드] 오늘의 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008710739&plink=ORI&cooper=NAVER",
-      "capturedAt": "2026-08-19"
+      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008712688&plink=ORI&cooper=NAVER",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "news-kr",
       "title": "1부 오늘의 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6845638_37012.html",
-      "capturedAt": "2026-08-19"
+      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6845930_37012.html",
+      "capturedAt": "2026-08-20"
+    },
+    {
+      "scope": "news-kr",
+      "title": "[영상] 오늘 울산은 (8월 20일 목 울산신문)",
+      "source": "네이버 뉴스",
+      "url": "https://www.ulsanpress.net/news/articleView.html?idxno=581349",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "news-kr",
       "title": "MBN 뉴스7 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "http://www.mbn.co.kr/pages/news/newsView.php?news_seq_no=5213213",
-      "capturedAt": "2026-08-19"
+      "url": "http://www.mbn.co.kr/pages/news/newsView.php?news_seq_no=5213475",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "news-global",
-      "title": "[팩트체크] 20만명 넘는 복수국적자…복수국적 포기 안해도 군 복무 가...",
+      "title": "[Who Is ?] 조좌진 하나투어 대표집행임원",
       "source": "네이버 뉴스",
-      "url": "https://www.yna.co.kr/view/AKR20260814163500518?input=1195m",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.businesspost.co.kr/BP?command=article_view&num=444915",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "news-global",
-      "title": "유가 한달 새 25% 급등… 유류할증료 7단계 ‘껑충’",
+      "title": "38대 총무원장 선거 종책비교②  AI부터 명상·불교문화까지‥후보별 ...",
       "source": "네이버 뉴스",
-      "url": "https://www.segye.com/newsView/20260818519258?OutUrl=naver",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.btnnews.tv/news/articleView.html?idxno=91292",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "news-global",
-      "title": "미국 국무부, ‘북한 인권 기록·대외 선전 대응’에 최대 296만 달러 지...",
+      "title": "코엑스에서 성북동까지...키아프·프리즈, 서울을 거대한 미술 무대로 ...",
       "source": "네이버 뉴스",
-      "url": "https://www.voakorea.com/a/state-dept-dprk-propaganda-funding-081826/8187745.html",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.nc.press/news/articleView.html?idxno=624165",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "news-global",
-      "title": "한국에 맡겨놨나? 젤렌스키도 트럼프도 “더 해달라”…UFS는 반토막 날...",
+      "title": "풀무원 '턴어라운드' 비결은 미국 매출·국내 B2B [이슈 더보기]",
       "source": "네이버 뉴스",
-      "url": "https://www.seoul.co.kr/news/international/2026/08/19/20260819500001?wlog_tag3=naver",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.ngetnews.com/news/articleView.html?idxno=552532",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "media-buzz",
       "title": "'고가 논란' 구혜선, 1만5000원 헤어롤 이어 '45만원 만년필' 완판[스타...",
       "source": "네이버 뉴스",
       "url": "https://www.starnewskorea.com/star/2026/08/18/2026081818573448153",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "media-buzz",
       "title": "[N-제약Bio] 셀트리온, 프랑스 ‘지프레’ 인수 후 정비 완료",
       "source": "네이버 뉴스",
       "url": "https://theviewers.co.kr/View.aspx?No=4190089",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "media-buzz",
       "title": "구혜선, ‘고가 논란’에도 45만원 만년필 내놨다…“가격대 높은 편”...",
       "source": "네이버 뉴스",
       "url": "https://isplus.com/article/view/isp202608180186",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "media-buzz",
       "title": "린클 프라임S, 롯데홈쇼핑 '최유라쇼' 성료…스페이스 블랙 매진",
       "source": "네이버 뉴스",
       "url": "https://www.gukjenews.com/news/articleView.html?idxno=3667271",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "platform-event",
-      "title": "SSG닷컴, 이마트 아픈 손가락 벗어나나… 반등 기틀 다졌다",
+      "title": "퍼뜩 갖다주이소 …롯데마트VS이마트, 부산서 장보기 배송 격돌",
       "source": "네이버 뉴스",
-      "url": "https://www.dnews.co.kr/uhtml/view.jsp?idxno=202608181105526620300",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.mt.co.kr/living/2026/08/20/2026081915425766001",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "platform-event",
-      "title": "쿠팡, 와우회원 대상 '건강식품페어'…5000여개 상품 최대 30% 할인",
+      "title": "[똑똑한소비] 알리익스프레스, CJ올리브영, 컬리, KT알파, G마켓, 쿠팡",
       "source": "네이버 뉴스",
-      "url": "https://www.thepublic.kr/news/articleView.html?idxno=315247",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.ekn.kr/web/view.php?key=20260819025394195",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "platform-event",
-      "title": "[유통 브리핑] 쿠팡·우아한형제들·롯데온",
+      "title": "유통업계, 뷰티를 미래 먹거리로…GS샵·쿠팡, 시장 공략 고도화",
       "source": "네이버 뉴스",
-      "url": "http://www.niceeconomy.co.kr/news/articleView.html?idxno=90584",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.thebk.co.kr/news/articleView.html?idxno=311183",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "platform-event",
-      "title": "쿠팡, 최대 30% 할인 ‘건강식품페어’ 개최",
+      "title": "소득 0.4% 오를 때 먹거리 최대 20%↑…장바구니도 유통사도 ‘부담’",
       "source": "네이버 뉴스",
-      "url": "http://www.breaknews.com/1229546",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.ddaily.co.kr/page/view/2026081915063664319",
+      "capturedAt": "2026-08-20"
+    },
+    {
+      "scope": "vertical-event",
+      "title": "입추 지나니 가을옷 생각… 트렌치코트 검색 465% 늘고 경량패딩 조기 ...",
+      "source": "네이버 뉴스",
+      "url": "https://www.kmib.co.kr/article/view.asp?arcid=9000004533&cp=nv",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "vertical-event",
       "title": "가을 성큼, 분위기 바꿔 볼까…집꾸족 취향 공략하는 유통업계",
       "source": "네이버 뉴스",
       "url": "https://www.newsis.com/view/NISX20260818_0003752518",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "vertical-event",
       "title": "올다무, 2분기도 '나홀로' 질주...하반기 더 거세진다",
       "source": "네이버 뉴스",
       "url": "https://www.koreareport.co.kr/news/articleView.html?idxno=52207",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "vertical-event",
       "title": "올해 상반기 전년 대비 100% 성장한 앤더슨벨··· 무슨 일이 있었던 걸...",
       "source": "네이버 뉴스",
       "url": "https://www.fashionbiz.co.kr/article/228634",
-      "capturedAt": "2026-08-19"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "[패션·잡화 트렌드] 올리비아로렌, 'OVLR 자사몰' 고객 데이터 기반 '인...",
-      "source": "네이버 뉴스",
-      "url": "https://www.ibabynews.com/news/articleView.html?idxno=153686",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "ent-media",
-      "title": "'오싹한 연애', 자체 최고 시청률 7.3%→TV 화제성 순위 1위",
+      "title": "공효진 3주 연속 1위·옹성우 8계단 상승…33주차 드라마 출연자 화제성...",
       "source": "네이버 뉴스",
-      "url": "https://www.topstarnews.net/news/articleView.html?idxno=16166838",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.topstarnews.net/news/articleView.html?idxno=16167814",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "ent-media",
-      "title": "하지원, 부산에서 다정한 저녁…'비광' 개봉 앞두고 활발 행보",
+      "title": "소녀시대 윤아, 김영옥과 다정한 투샷…'월간 할머니집' 손녀 융 변신",
       "source": "네이버 뉴스",
-      "url": "https://www.topstarnews.net/news/articleView.html?idxno=16166485",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.topstarnews.net/news/articleView.html?idxno=16167747",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "ent-media",
-      "title": "'야구여왕2' 3차 직관에 3200명 몰렸다…'까망이' 화력 입증",
+      "title": "역대급 시즌제 드라마 온다…화제성 1위→확장된 서사  예측불허  ('신병...",
       "source": "네이버 뉴스",
-      "url": "https://www.stardailynews.co.kr/news/articleView.html?idxno=546325",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.tenasia.co.kr/article/2026081992694",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "ent-media",
-      "title": "“응답하라 10년 전 명작” 드라마, 예능으로 귀환",
+      "title": "MBC 제대로 일냈다…시청률 두자릿수 돌파→'대군부인' 턱밑까지 추격 ...",
       "source": "네이버 뉴스",
-      "url": "https://www.segye.com/newsView/20260818517863?OutUrl=naver",
-      "capturedAt": "2026-08-19"
+      "url": "https://www.tenasia.co.kr/article/2026081985814",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "trend",
-      "title": "🔥 영화 예매 — 검색지수 추세 1.39 (상승)",
-      "keywords": [
-        "영화 예매"
-      ],
-      "score": 1.39,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-19"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 스타쉽엔터테인먼트 — 검색지수 추세 1.19 (상승)",
+      "title": "🔥 스타쉽엔터테인먼트 — 검색지수 추세 1.11 (상승)",
       "keywords": [
         "스타쉽엔터테인먼트"
       ],
-      "score": 1.19,
+      "score": 1.11,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "trend",
-      "title": "드라마 다시보기 — 검색지수 추세 1.08",
+      "title": "영화 예매 — 검색지수 추세 1.09",
+      "keywords": [
+        "영화 예매"
+      ],
+      "score": 1.09,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-20"
+    },
+    {
+      "scope": "trend",
+      "title": "드라마 다시보기 — 검색지수 추세 1.06",
       "keywords": [
         "드라마 다시보기"
       ],
-      "score": 1.08,
+      "score": 1.06,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "trend",
-      "title": "포도 — 검색지수 추세 0.98",
-      "keywords": [
-        "포도"
-      ],
-      "score": 0.98,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-19"
-    },
-    {
-      "scope": "trend",
-      "title": "콘서트 티켓팅 — 검색지수 추세 0.88",
+      "title": "콘서트 티켓팅 — 검색지수 추세 0.99",
       "keywords": [
         "콘서트 티켓팅"
       ],
-      "score": 0.88,
+      "score": 0.99,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "trend",
-      "title": "올리브영 — 검색지수 추세 0.85",
+      "title": "포도 — 검색지수 추세 0.97",
       "keywords": [
-        "올리브영"
+        "포도"
       ],
-      "score": 0.85,
+      "score": 0.97,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
+    },
+    {
+      "scope": "trend",
+      "title": "무신사 — 검색지수 추세 0.92",
+      "keywords": [
+        "무신사"
+      ],
+      "score": 0.92,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "season",
       "title": "8월 제철: 전복·포도·복숭아",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "season",
       "title": "말복·휴가철 여행",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     },
     {
       "scope": "season",
       "title": "냉방비·열대야 대비",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-19"
+      "capturedAt": "2026-08-20"
     }
   ]
 }
