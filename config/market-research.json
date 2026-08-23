@@ -1,204 +1,204 @@
 {
   "_설명": "시장조사 수집 데이터(신호). 네이버 오픈API(뉴스·데이터랩)로 매일 자동 수집. 기사 본문 미저장, 제목·출처·키워드·점수만 보관. researchOnly=true 이면 이 범위 안에서만 발행 주제가 뽑힌다.",
-  "collectedAt": "2026-08-23",
+  "collectedAt": "2026-08-24",
   "items": [
     {
       "scope": "news-kr",
-      "title": "이란 대통령 “지금 전쟁 끝낼 때”…경제 압박 통했나?",
+      "title": "[영상] 오늘 울산은 (8월 24일 월 울산신문)",
       "source": "네이버 뉴스",
-      "url": "https://www.ichannela.com/news/main/news_detailPage.do?publishId=000000546473",
-      "capturedAt": "2026-08-23"
+      "url": "https://www.ulsanpress.net/news/articleView.html?idxno=581538",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "news-kr",
-      "title": "이 시각 주요뉴스 (26. 08. 22. 12시)",
+      "title": "2부 오늘의 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://www.ktv.go.kr/content/view?content_id=759802",
-      "capturedAt": "2026-08-23"
+      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6846749_37012.html",
+      "capturedAt": "2026-08-24"
+    },
+    {
+      "scope": "news-kr",
+      "title": "[모닝와이드] 오늘의 주요뉴스",
+      "source": "네이버 뉴스",
+      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008717850&plink=ORI&cooper=NAVER",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "news-kr",
       "title": "1부 오늘의 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6846491_37012.html",
-      "capturedAt": "2026-08-23"
-    },
-    {
-      "scope": "news-kr",
-      "title": "[한국은 지금] 한국 100조 규모 ‘미래대응기금’ 신설",
-      "source": "네이버 뉴스",
-      "url": "https://www.voakorea.com/a/korea-now-082126/8188959.html",
-      "capturedAt": "2026-08-23"
+      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6846740_37012.html",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "news-global",
-      "title": "원유 수입 막히자 수출량도 감소…정유업계, '거래선 사수' 비상",
+      "title": "'무사하다 던 남성, 시신으로 ...장미란씨 황색수배 요청",
       "source": "네이버 뉴스",
-      "url": "https://www.ziksir.com/news/articleView.html?idxno=143891",
-      "capturedAt": "2026-08-23"
+      "url": "https://www.edaily.co.kr/News/Read?newsId=01754806645550600&mediaCodeNo=257&utm_source=naver&utm_medium=referral&utm_campaign=news_syndication&utm_content=original_article",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "news-global",
-      "title": "진에어·에어부산·에어서울, 합병계약 체결…통합 AOC 확보 추진",
+      "title": "아이브, 홍콩 TIMA 출격…'BANG BANG' 음악 소비도 탄탄",
       "source": "네이버 뉴스",
-      "url": "http://www.thefirstmedia.net/news/articleView.html?idxno=206607",
-      "capturedAt": "2026-08-23"
+      "url": "https://www.topstarnews.net/news/articleView.html?idxno=16170929",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "news-global",
-      "title": "피지컬 AI 시대, 한국 제조업의 약한 고리는 로봇이다",
+      "title": "기보, 중소기업 M A 플랫폼 통해 화장품 자동화장비 진출 지원",
       "source": "네이버 뉴스",
-      "url": "https://www.newsverse.kr/news/articleView.html?idxno=11251",
-      "capturedAt": "2026-08-23"
+      "url": "https://www.gukjenews.com/news/articleView.html?idxno=3672032",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "news-global",
-      "title": "[뉴스 속 무기] 미국 시장 뚫은 최초의 국산 무기 ‘K9 차륜형 자주포(K...",
+      "title": "[이넷뉴스 브랜드평판] 두산에너빌리티, 풍력에너지 상장기업 8월 1위.....",
       "source": "네이버 뉴스",
-      "url": "https://www.news2day.co.kr/article/20260823500001",
-      "capturedAt": "2026-08-23"
+      "url": "https://www.enetnews.co.kr/news/articleView.html?idxno=53619",
+      "capturedAt": "2026-08-24"
+    },
+    {
+      "scope": "media-buzz",
+      "title": "탈모샴푸 강자 '그래비티', 유통망 확대로 500억 목표",
+      "source": "네이버 뉴스",
+      "url": "http://www.apparelnews.co.kr/news/news_view/?idx=227089",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "media-buzz",
       "title": "집에 모니터 12개 있다 ...유재석 루머의 진실 ('놀면 뭐하니')",
       "source": "네이버 뉴스",
       "url": "https://www.nc.press/news/articleView.html?idxno=624404",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "media-buzz",
       "title": "위프 고체탈취제, CJ온스타일 최화정쇼 30분 만에 완판",
       "source": "네이버 뉴스",
       "url": "https://www.consumuch.com/news/articleView.html?idxno=78837",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "media-buzz",
       "title": "30분 만에 4억 판매 …위프코리아 고체탈취제, 홈쇼핑서도 존재감 입증",
       "source": "네이버 뉴스",
       "url": "http://www.newsroad.co.kr/news/articleView.html?idxno=63203",
-      "capturedAt": "2026-08-23"
-    },
-    {
-      "scope": "media-buzz",
-      "title": "'고가 논란' 구혜선, 1만5000원 헤어롤 이어 '45만원 만년필' 완판[스타...",
-      "source": "네이버 뉴스",
-      "url": "https://www.starnewskorea.com/star/2026/08/18/2026081818573448153",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "platform-event",
-      "title": "대형마트 휴무일, 이마트·롯데마트·홈플러스·코스트코 ‘쉬는 날?’",
+      "title": "[우보세]홈플러스 살리기, '카트 정치'로는 안 된다",
       "source": "네이버 뉴스",
-      "url": "https://www.bntnews.co.kr/article/view/bnt202608210292",
-      "capturedAt": "2026-08-23"
+      "url": "https://www.mt.co.kr/opinion/2026/08/24/2026082313471964432",
+      "capturedAt": "2026-08-24"
+    },
+    {
+      "scope": "platform-event",
+      "title": "꽃게 어획 최대 31% 감소 전망…유통가는 ‘최저가 전쟁’",
+      "source": "네이버 뉴스",
+      "url": "https://www.kbmaeil.com/article/20260823500451",
+      "capturedAt": "2026-08-24"
+    },
+    {
+      "scope": "platform-event",
+      "title": "빨라진 추석 선물도 ‘극과극’…3100만원 로봇 vs 9900원 김",
+      "source": "네이버 뉴스",
+      "url": "https://www.edaily.co.kr/News/Read?newsId=02112326645550272&mediaCodeNo=257&utm_source=naver&utm_medium=referral&utm_campaign=news_syndication&utm_content=original_article",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "platform-event",
       "title": "꽃게 사러 마트 갈까  주말 장보기 할인 쏟아진다…100g 600원대",
       "source": "네이버 뉴스",
       "url": "https://www.kizmom.com/news/articleView.html?idxno=112264",
-      "capturedAt": "2026-08-23"
-    },
-    {
-      "scope": "platform-event",
-      "title": "“명품백은 20% 할인, 햇꽃게는 반값”…주말 유통가 ‘고객 쟁탈전’",
-      "source": "네이버 뉴스",
-      "url": "https://www.segye.com/newsView/20260822501794?OutUrl=naver",
-      "capturedAt": "2026-08-23"
-    },
-    {
-      "scope": "platform-event",
-      "title": "한유원, '온라인쇼핑몰 판매지원 사업'  참여 소상공인 24일까지 모집",
-      "source": "네이버 뉴스",
-      "url": "http://www.econonews.co.kr/news/articleView.html?idxno=442837",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "vertical-event",
-      "title": "하루빨리 일상 회복을 …유통업계, 경남 호우피해 지역에 구호 손길",
+      "title": "플랫폼업계, '폭우 피해' 거제·통영 지원에 팔 걷어",
       "source": "네이버 뉴스",
-      "url": "https://sports.hankooki.com/news/articleView.html?idxno=6938294",
-      "capturedAt": "2026-08-23"
+      "url": "https://zdnet.co.kr/view/?no=20260823141143",
+      "capturedAt": "2026-08-24"
+    },
+    {
+      "scope": "vertical-event",
+      "title": "[청년공감] “비밀번호도 안 친다”…‘화석’된 PC쇼핑, ‘대세’된 모...",
+      "source": "네이버 뉴스",
+      "url": "https://www.ekn.kr/web/view.php?key=20260823028414121",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "vertical-event",
       "title": "[유프로의 AI 픽]  벌써 가을옷 입고 뷰티 오픈런 뛴다! …패션·뷰티 T...",
       "source": "네이버 뉴스",
       "url": "https://www.mediapen.com/news/view/1118127",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "vertical-event",
       "title": "삼성전자·LG전자·한화그룹·G마켓·KT G 등 경남지역 거제·통영 수해...",
       "source": "네이버 뉴스",
       "url": "https://www.greened.kr/news/articleView.html?idxno=348114",
-      "capturedAt": "2026-08-23"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "29CM 멀어지고 퀸잇은 추격…한때 패션 플랫폼 1위 W컨셉의 고민",
-      "source": "네이버 뉴스",
-      "url": "https://biz.chosun.com/distribution/fashion-beauty/2026/08/20/BRYVWK4EC5BVTKZNUQB3EKF3HI/?utm_source=naver&utm_medium=original&utm_campaign=biz",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "ent-media",
-      "title": "이번주 종방인데 터졌다…시청률 7.2% → 넷플릭스 전세계 '3위' 오른 한...",
+      "title": "‘유부녀 킬러’ 8.8% 주춤, ‘재벌X형사2’ 7.5% 자체 최고…금토극 왕...",
       "source": "네이버 뉴스",
-      "url": "https://www.wikitree.co.kr/articles/1153357",
-      "capturedAt": "2026-08-23"
+      "url": "https://www.wikitree.co.kr/articles/1154327",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "ent-media",
-      "title": "라미란, 행복한 시간 전한 근황…판타지 영화로 또 한 번 변신",
+      "title": "“촬영 때 기저귀까지 착용…” 갑자기 백발로 등장해 모두를 놀라게 한...",
       "source": "네이버 뉴스",
-      "url": "https://www.topstarnews.net/news/articleView.html?idxno=16170553",
-      "capturedAt": "2026-08-23"
+      "url": "https://www.wikitree.co.kr/articles/1153690",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "ent-media",
-      "title": "“재벌X형사2” 안보현 전용기에 정은채 완벽 적응…하노이 원정 수사에...",
+      "title": "국민 여동생 잊어라 … 문근영이 9년 만에 작정하고 폭주한 파격 한국...",
       "source": "네이버 뉴스",
-      "url": "https://www.wikitree.co.kr/articles/1154169",
-      "capturedAt": "2026-08-23"
+      "url": "https://www.wikitree.co.kr/articles/1153831",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "ent-media",
-      "title": "“재벌X형사2” 안보현 전용기에 정은채까지 탑승…6회 하노이 원정 수...",
+      "title": "“유어 아너” 넷플릭스 공개 하루 만에 TOP10 진입…2년 만에 역주행 시...",
       "source": "네이버 뉴스",
-      "url": "https://www.wikitree.co.kr/articles/1154162",
-      "capturedAt": "2026-08-23"
+      "url": "https://www.wikitree.co.kr/articles/1154311",
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "trend",
-      "title": "🔥 태풍 — 검색지수 추세 1.3 (상승)",
+      "title": "🔥 태풍 — 검색지수 추세 1.84 (상승)",
       "keywords": [
         "태풍"
       ],
-      "score": 1.3,
+      "score": 1.84,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "trend",
-      "title": "🔥 쿠팡 — 검색지수 추세 1.19 (상승)",
+      "title": "🔥 스타쉽엔터테인먼트 — 검색지수 추세 1.35 (상승)",
       "keywords": [
-        "쿠팡"
+        "스타쉽엔터테인먼트"
+      ],
+      "score": 1.35,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-24"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 에어컨 전기요금 — 검색지수 추세 1.19 (상승)",
+      "keywords": [
+        "에어컨 전기요금"
       ],
       "score": 1.19,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-23"
-    },
-    {
-      "scope": "trend",
-      "title": "🔥 정부지원금 — 검색지수 추세 1.15 (상승)",
-      "keywords": [
-        "정부지원금"
-      ],
-      "score": 1.15,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "trend",
@@ -208,45 +208,45 @@
       ],
       "score": 1.14,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "trend",
-      "title": "🔥 전기요금 — 검색지수 추세 1.11 (상승)",
+      "title": "전기요금 — 검색지수 추세 1.07",
       "keywords": [
         "전기요금"
       ],
-      "score": 1.11,
+      "score": 1.07,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "trend",
-      "title": "🔥 무신사 — 검색지수 추세 1.1 (상승)",
+      "title": "쿠팡 — 검색지수 추세 1.04",
       "keywords": [
-        "무신사"
+        "쿠팡"
       ],
-      "score": 1.1,
+      "score": 1.04,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "season",
       "title": "8월 제철: 전복·포도·복숭아",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "season",
       "title": "말복·휴가철 여행",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     },
     {
       "scope": "season",
       "title": "냉방비·열대야 대비",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-23"
+      "capturedAt": "2026-08-24"
     }
   ]
 }
