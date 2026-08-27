@@ -28,6 +28,16 @@
 - **멀티 사이트**: SITE_PROFILE 프로필로 도메인별 사이트 운영 — docs/MULTISITE.md
   (default=starship-ent.ai.kr 생활꿀팁 · kkultip=todayskkultip.co.kr 머니꿀팁 · jype=jype.ai.kr 영어 K-culture)
 
+## ⏸️ 프로젝트 홀딩 중 (2026-08-23 운영자 지시)
+
+- **전체 자동화 크론 비활성** — publish(3회/일)·content-boost·research·daily-report 모두 중지.
+  플랜 재정리 후 재개 예정. 수동 실행(workflow_dispatch)은 가능.
+- 재개 방법: 각 워크플로 파일의 `# schedule:` 주석 해제 (publish.yml / content-boost.yml /
+  research.yml / daily-report.yml). 생성(GENERATE)은 publish.yml 디스패치 입력으로만 켜짐.
+- 홀딩 중에도 유지되는 것: 배포된 사이트 4곳 라이브 상태, 대시보드의 네이버 원고(수동 발행 가능),
+  코드 푸시 시 빌드·배포(push 트리거).
+- 배경: API 크레딧 월 한도 도달(9/1까지 정지)·자동충전 OFF 완료·잔액 $7.36.
+
 ## 진행 현황 (2026-07-17 기준)
 
 - ✅ 1번 네이버 블로그: 개설(blog.naver.com/astrape1) + 쇼핑커넥트 가입 (발행은 수동, 아직 0편)
