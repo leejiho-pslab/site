@@ -1,252 +1,252 @@
 {
   "_설명": "시장조사 수집 데이터(신호). 네이버 오픈API(뉴스·데이터랩)로 매일 자동 수집. 기사 본문 미저장, 제목·출처·키워드·점수만 보관. researchOnly=true 이면 이 범위 안에서만 발행 주제가 뽑힌다.",
-  "collectedAt": "2026-08-26",
+  "collectedAt": "2026-08-27",
   "items": [
     {
       "scope": "news-kr",
-      "title": "[영상] 오늘 울산은 (8월 26일 수 울산신문)",
+      "title": "[디지털포스트 모닝픽] 엔비디아, 13분기 연속 최대 매출… 삼전닉스도...",
       "source": "네이버 뉴스",
-      "url": "https://www.ulsanpress.net/news/articleView.html?idxno=581711",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.ilovepc.co.kr/news/articleView.html?idxno=60458",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "news-kr",
-      "title": "[모닝와이드] 오늘의 주요뉴스",
+      "title": "8월 27일 굿모닝 MBN 주요뉴스",
       "source": "네이버 뉴스",
-      "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008721740&plink=ORI&cooper=NAVER",
-      "capturedAt": "2026-08-26"
+      "url": "http://www.mbn.co.kr/pages/news/newsView.php?news_seq_no=5215123",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "news-kr",
-      "title": "1부 오늘의 주요뉴스",
+      "title": "[아주증시포커스] '부실유증' 심사 강화에…올 들어 금감원 정정요구만...",
       "source": "네이버 뉴스",
-      "url": "https://imnews.imbc.com/replay/2026/nwtoday/article/6847325_37012.html",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.ajunews.com/view/20260827070338765",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "news-kr",
-      "title": "[한국은 지금] 65살 이상 연금 수급자 절반 이상, 월 50만원 미만 수령",
+      "title": "[영상] 오늘 울산은 (8월 27일 목 울산신문)",
       "source": "네이버 뉴스",
-      "url": "https://www.voakorea.com/a/korea-now-082526/8190282.html",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.ulsanpress.net/news/articleView.html?idxno=581799",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "news-global",
-      "title": "[인터뷰] '23년차 문화전문기자' 양주승, LP카페서 이어가는 삶…  음악...",
+      "title": "경산 7개 대학 연합 봉사대, 몽골서 ‘글로벌 인재’로 성장",
       "source": "네이버 뉴스",
-      "url": "https://www.newscj.com/news/articleView.html?idxno=3427156",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.kukinews.com/article/view/kuk202608270083",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "news-global",
-      "title": "[Who Is ?] 김정각 한국증권금융 대표이사 사장",
+      "title": "국내 케타민 압수량 5년 새 50배 급증…국정원 “해외 공급망 집중 추적...",
       "source": "네이버 뉴스",
-      "url": "https://www.businesspost.co.kr/BP?command=article_view&num=445573",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.edaily.co.kr/News/Read?newsId=03345606645551584&mediaCodeNo=257&utm_source=naver&utm_medium=referral&utm_campaign=news_syndication&utm_content=original_article",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "news-global",
-      "title": "[K-관광, 서울 밖으로]③  인천만 찍고 떠나는 외국인 …지방공항 살려...",
+      "title": "골프존, 국제표준 정보보호 인증 'ISO/IEC 27001' 갱신",
       "source": "네이버 뉴스",
-      "url": "https://www.news1.kr/industry/hotel-tourism/6269270",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.newspost.kr/news/articleView.html?idxno=225245",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "news-global",
-      "title": "[N2 모닝 경제 브리핑-8월 26일] 美 증시, 엔비디아 실적 앞두고 3대 지...",
+      "title": "구윤철  CPTPP 가입 사회적 논의 본격 착수 … 국익·민생 살펴 판단",
       "source": "네이버 뉴스",
-      "url": "https://www.news2day.co.kr/article/20260825500036",
-      "capturedAt": "2026-08-26"
+      "url": "http://www.efnews.co.kr/news/articleView.html?idxno=131923",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "media-buzz",
-      "title": "[기고] K 소비재, 수출 4강 향한 새 성장동력으로",
+      "title": "휴메딕스, ‘엘라비에 코스메틱’ 키운다…화장품 B2C 경쟁력 강화",
       "source": "네이버 뉴스",
-      "url": "https://www.seoul.co.kr/news/editOpinion/opinion/contribution/2026/08/26/20260826025001?wlog_tag3=naver",
-      "capturedAt": "2026-08-26"
+      "url": "https://biz.heraldcorp.com/article/10853455?ref=naver",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "media-buzz",
-      "title": "[유통소식] NS홈쇼핑·홈플러스 익스프레스, 거창 농특산물 판로 확대",
+      "title": "K뷰티, 히트상품으로 내수시장도 잡는다",
       "source": "네이버 뉴스",
-      "url": "http://www.4th.kr/news/articleView.html?idxno=2116769",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.meconomynews.com/news/articleView.html?idxno=200915",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "media-buzz",
-      "title": "[잘먹잘살+]hy·컬리·하이트진로·11번가·NS홈쇼핑·풀무원·교촌·창고...",
+      "title": "글루텐프리 인증 쌀가공식품… 수출·프리미엄 '두 토끼' 잡는다",
       "source": "네이버 뉴스",
-      "url": "https://www.businessplus.kr/news/articleView.html?idxno=115812",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.asiatoday.co.kr/kn/view.php?key=20260827010009065",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "media-buzz",
-      "title": "[잘먹잘살+]여기어때·에잇세컨즈·29CM·한국콜마·코스맥스",
+      "title": "‘집객 효자’ 떠오른 IP…유통가, 콘텐츠 공간 키운다",
       "source": "네이버 뉴스",
-      "url": "https://www.businessplus.kr/news/articleView.html?idxno=115804",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.mediapen.com/news/view/1119028",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "platform-event",
-      "title": "“댕댕이 고객 모십니다”⋯ ‘세계 개의 날’ 유통가 펫심 잡기 경쟁",
+      "title": "[전문가 기고] 홈플러스로 본 대형마트 유통시장 퇴출 위기",
       "source": "네이버 뉴스",
-      "url": "https://www.viva100.com/article/20260825501073",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.ajunews.com/view/20260826083753434",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "platform-event",
       "title": "적자는 줄이고, 경쟁력은 높이고 …11번가, 올 하반기 실적개선  시동...",
       "source": "네이버 뉴스",
       "url": "https://www.youthdaily.co.kr/news/article.html?no=225571",
-      "capturedAt": "2026-08-26"
-    },
-    {
-      "scope": "platform-event",
-      "title": "풀무원헬스케어, 효소·식이섬유 담은 '리셋 효소' 2종 출시",
-      "source": "네이버 뉴스",
-      "url": "https://www.newsquest.co.kr/news/articleView.html?idxno=272243",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "platform-event",
       "title": "한유원, '온라인쇼핑몰 판매지원 사업'  참여 소상공인 24일까지 모집",
       "source": "네이버 뉴스",
       "url": "http://www.econonews.co.kr/news/articleView.html?idxno=442837",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
+    },
+    {
+      "scope": "platform-event",
+      "title": "한유원, 네이버·SSG 등 소상공인 온라인 쇼핑몰 진출 돕는다",
+      "source": "네이버 뉴스",
+      "url": "https://www.sedaily.com/article/20078717?ref=naver",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "vertical-event",
-      "title": "먹거리부터 생필품까지…유통업계, 수해 현장 '온정의 손길' 잇따라",
+      "title": "[유통딜리버리] 신세계百ㆍ롯데百ㆍ현대百ㆍ신세계免ㆍGS25ㆍ세븐일레븐...",
       "source": "네이버 뉴스",
-      "url": "http://digitalchosun.dizzo.com/site/data/html_dir/2026/08/24/2026082480044.html",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.dnews.co.kr/uhtml/view.jsp?idxno=202608270913135140502",
+      "capturedAt": "2026-08-27"
+    },
+    {
+      "scope": "vertical-event",
+      "title": "[오늘의 유통가] 스튜디오 톰보이, 에이티즈 우영 글로벌 앰버서더로 外",
+      "source": "네이버 뉴스",
+      "url": "https://dealsite.co.kr/articles/167908",
+      "capturedAt": "2026-08-27"
+    },
+    {
+      "scope": "vertical-event",
+      "title": "[유프로의 AI 픽]  팝업 성지 성수동부터 얼리 가을 패션! …패션·뷰티...",
+      "source": "네이버 뉴스",
+      "url": "https://www.mediapen.com/news/view/1119000",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "vertical-event",
       "title": "[유통레이더] 코스맥스, CJ올리브영, 컬리, 씰리침대, 경동나비엔, 29CM,...",
       "source": "네이버 뉴스",
       "url": "https://daily.hankooki.com/news/articleView.html?idxno=1398360",
-      "capturedAt": "2026-08-26"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "[유통레이더] “전주 비빔밥 먹는 헬로키티”…올리브영, ‘산리오’ K...",
-      "source": "네이버 뉴스",
-      "url": "https://www.mydaily.co.kr/page/view/2026082411024642621",
-      "capturedAt": "2026-08-26"
-    },
-    {
-      "scope": "vertical-event",
-      "title": "[유통딜리버리] CUㆍGS샵ㆍ이마트24ㆍSSG닷컴ㆍ무신사ㆍ롯데온ㆍKT알파...",
-      "source": "네이버 뉴스",
-      "url": "https://www.dnews.co.kr/uhtml/view.jsp?idxno=202608240853224240996",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "ent-media",
-      "title": "나온 지 몇 년 됐지만… TV로 돌아온 OTT 화제작들",
+      "title": "7%대 넘어설까…전혜원, 스토커 공격에 부상→병원서 '깜짝 입맞춤' ('욕...",
       "source": "네이버 뉴스",
-      "url": "https://www.kmib.co.kr/article/view.asp?arcid=9000006199&cp=nv",
-      "capturedAt": "2026-08-26"
+      "url": "https://mhnse.com/news/articleView.html?idxno=1503146",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "ent-media",
-      "title": "“김부장” 소지섭 복수극, 이 정도일 줄…자체 최고 23%대에 갤럽 두 달...",
+      "title": "'나는 솔로', 최고 4.5% 견인한 '고독정식' 먹방…2049 시청률 1위",
       "source": "네이버 뉴스",
-      "url": "https://www.wikitree.co.kr/articles/1154918",
-      "capturedAt": "2026-08-26"
+      "url": "http://www.stoo.com/article.php?aid=108532824319",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "ent-media",
-      "title": "“이상한 변호사 우영우” 일본판 결국 나왔다…아시다 마나 캐스팅 이...",
+      "title": "2년 전 작품인데…'유어 아너', 넷플 공개 6일 만에 1위 [N이슈]",
       "source": "네이버 뉴스",
-      "url": "https://www.wikitree.co.kr/articles/1154914",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.news1.kr/entertain/broadcast-tv/6270908",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "ent-media",
-      "title": "31세 첫 주연에 47.9% 초대박 시청률 찍었는데...10년간 '매년 삼천배' 올...",
+      "title": "'유퀴즈' 여전한 송강 얼굴에 시청률 1위  잘생겼지만 매력없다더라",
       "source": "네이버 뉴스",
-      "url": "https://www.wikitree.co.kr/articles/1154792",
-      "capturedAt": "2026-08-26"
+      "url": "https://www.spotvnews.co.kr/news/articleView.html?idxno=1004176",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "trend",
-      "title": "🔥 태풍 — 검색지수 추세 1.6 (상승)",
+      "title": "🔥 에어컨 전기요금 — 검색지수 추세 1.35 (상승)",
       "keywords": [
-        "태풍"
+        "에어컨 전기요금"
       ],
-      "score": 1.6,
+      "score": 1.35,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "trend",
-      "title": "🔥 스타쉽엔터테인먼트 — 검색지수 추세 1.56 (상승)",
+      "title": "🔥 전기요금 — 검색지수 추세 1.29 (상승)",
       "keywords": [
-        "스타쉽엔터테인먼트"
+        "전기요금"
       ],
-      "score": 1.56,
+      "score": 1.29,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "trend",
-      "title": "포도 — 검색지수 추세 1.08",
-      "keywords": [
-        "포도"
-      ],
-      "score": 1.08,
-      "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-26"
-    },
-    {
-      "scope": "trend",
-      "title": "올리브영 — 검색지수 추세 1",
+      "title": "🔥 올리브영 — 검색지수 추세 1.2 (상승)",
       "keywords": [
         "올리브영"
       ],
-      "score": 1,
+      "score": 1.2,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "trend",
-      "title": "드라마 다시보기 — 검색지수 추세 0.97",
+      "title": "🔥 JYP — 검색지수 추세 1.2 (상승)",
       "keywords": [
-        "드라마 다시보기"
+        "JYP"
       ],
-      "score": 0.97,
+      "score": 1.2,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "trend",
-      "title": "무신사 — 검색지수 추세 0.95",
+      "title": "🔥 쿠팡 — 검색지수 추세 1.18 (상승)",
       "keywords": [
-        "무신사"
+        "쿠팡"
       ],
-      "score": 0.95,
+      "score": 1.18,
       "source": "네이버 데이터랩(검색어트렌드)",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
+    },
+    {
+      "scope": "trend",
+      "title": "🔥 정부지원금 — 검색지수 추세 1.16 (상승)",
+      "keywords": [
+        "정부지원금"
+      ],
+      "score": 1.16,
+      "source": "네이버 데이터랩(검색어트렌드)",
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "season",
       "title": "8월 제철: 전복·포도·복숭아",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "season",
       "title": "말복·휴가철 여행",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
     },
     {
       "scope": "season",
       "title": "냉방비·열대야 대비",
       "source": "시즌 캘린더",
-      "capturedAt": "2026-08-26"
+      "capturedAt": "2026-08-27"
     }
   ]
 }
